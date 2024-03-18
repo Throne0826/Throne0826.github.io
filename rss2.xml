@@ -9,8 +9,29 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>abc</description>
-    <pubDate>Sun, 17 Mar 2024 11:49:30 GMT</pubDate>
+    <pubDate>Sun, 17 Mar 2024 13:40:15 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>cf</title>
+      <link>http://example.com/2024/03/17/cf/</link>
+      <guid>http://example.com/2024/03/17/cf/</guid>
+      <pubDate>Sun, 17 Mar 2024 13:40:00 GMT</pubDate>
+      
+      
+      
+      
+      <category domain="http://example.com/categories/cf/">cf</category>
+      
+      
+      <category domain="http://example.com/tags/cf/">cf</category>
+      
+      <category domain="http://example.com/tags/%E8%A1%A5%E9%A2%98/">补题</category>
+      
+      
+      <comments>http://example.com/2024/03/17/cf/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>Hello World</title>
