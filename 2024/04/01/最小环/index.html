@@ -20,30 +20,36 @@
     var CONFIG = {"hostname":"lifexoryoung.com.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="abc">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Throne">
-<meta property="og:url" content="https://lifexoryoung.com.cn/index.html">
+  <meta name="description" content="2021CCPC桂林 E Buy and Delete   题目： 爱丽丝和鲍勃正在有向图 $$G$$$ 上玩游戏。在 $$GGG$$ 中有 $$nnn$$ 个顶点，标记为 $$1,2,…,n1,2,\dots,n1,2,…,n$$ 。最初， $$GGG$$ 中没有边。爱丽丝会先从商店直接购买一些边，然后将它们添加到 $$GGG$$ 中。之后，鲍勃需要删除边，直到 $$GGG$$ 中没有边为止。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最小环&#x2F;Dijkstra&#x2F;Flyod">
+<meta property="og:url" content="https://lifexoryoung.com.cn/2024/04/01/%E6%9C%80%E5%B0%8F%E7%8E%AF/index.html">
 <meta property="og:site_name" content="Throne">
-<meta property="og:description" content="abc">
+<meta property="og:description" content="2021CCPC桂林 E Buy and Delete   题目： 爱丽丝和鲍勃正在有向图 $$G$$$ 上玩游戏。在 $$GGG$$ 中有 $$nnn$$ 个顶点，标记为 $$1,2,…,n1,2,\dots,n1,2,…,n$$ 。最初， $$GGG$$ 中没有边。爱丽丝会先从商店直接购买一些边，然后将它们添加到 $$GGG$$ 中。之后，鲍勃需要删除边，直到 $$GGG$$ 中没有边为止。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-01T07:56:00.000Z">
+<meta property="article:modified_time" content="2024-04-01T08:06:04.770Z">
 <meta property="article:author" content="lxy">
+<meta property="article:tag" content="图论">
+<meta property="article:tag" content="最小环">
+<meta property="article:tag" content="最短路">
+<meta property="article:tag" content="Dijkstra">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lifexoryoung.com.cn/">
+<link rel="canonical" href="https://lifexoryoung.com.cn/2024/04/01/%E6%9C%80%E5%B0%8F%E7%8E%AF/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Throne</title>
+  <title>最小环/Dijkstra/Flyod | Throne</title>
   
 
 
@@ -191,100 +197,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://lifexoryoung.com.cn/2024/03/20/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Head.jpg">
-      <meta itemprop="name" content="lxy">
-      <meta itemprop="description" content="abc">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Throne">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/20/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/" class="post-title-link" itemprop="url">牛客周赛37</a>
-        </h2>
-
-        <div class="post-meta">
-          <i class="fa fa-thumb-tack"></i>
-           <font color=7D26CD>置顶</font>
-           <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-20 23:13:00" itemprop="dateCreated datePublished" datetime="2024-03-20T23:13:00+08:00">2024-03-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-23 11:40:48" itemprop="dateModified" datetime="2024-03-23T11:40:48+08:00">2024-03-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">补题</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/%E7%89%9B%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">牛客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="题目e-魔法之森的蘑菇"><a class="markdownIt-Anchor" href="#题目e-魔法之森的蘑菇"></a> 题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/E">E-魔法之森的蘑菇</a></h3>
-<h4 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h4>
-<p>给你一张图，起点为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>终点为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>，起初任意选择前进方向，除非遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span>，否则不能更改方向，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> 可以选择朝向除返回刚刚位置的其他方向，<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;#&#039; at position 1: #̲'>#</span> 为障碍物，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 为普通路径，求 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">−</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">&gt;T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> 最短距离。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/20/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -300,10 +216,9 @@
       <meta itemprop="name" content="Throne">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/01/%E6%9C%80%E5%B0%8F%E7%8E%AF/" class="post-title-link" itemprop="url">最小环/Dijkstra/Flyod</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          最小环/Dijkstra/Flyod
+        </h1>
 
         <div class="post-meta">
           
@@ -331,6 +246,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -341,7 +263,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="2021ccpc桂林-e-buy-and-delete"><a class="markdownIt-Anchor" href="#2021ccpc桂林-e-buy-and-delete"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/103409/problem/E">2021CCPC桂林 E Buy and Delete </a></h3>
+        <h3 id="2021ccpc桂林-e-buy-and-delete"><a class="markdownIt-Anchor" href="#2021ccpc桂林-e-buy-and-delete"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/103409/problem/E">2021CCPC桂林 E Buy and Delete </a></h3>
 <h4 id="题目"><a class="markdownIt-Anchor" href="#题目"></a> 题目：</h4>
 <p>爱丽丝和鲍勃正在有向图 $$G$$$ 上玩游戏。在 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span>$$ 中有 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>$$ 个顶点，标记为 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1,2,\dots,n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span></span></span></span>$$ 。最初， $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span>$$ 中没有边。爱丽丝会先从商店直接购买一些边，然后将它们添加到 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span>$$ 中。之后，鲍勃需要删除边，直到 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span>$$ 中没有边为止。在一轮删除中，鲍勃可以从 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span>$$ 中删除一个边子集 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>$$ ，这样当只保留 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>$$ 中的边时，图就是非循环的。请注意，爱丽丝可以什么也不买，在这种情况下，删除回合数为 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>$ 。</p>
 <p>商店中有 $$m$$$ 条边。爱丽丝有 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span></span></span></span>$$ 美元，因此她要购买的边的总价不应超过 $$<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span></span></span></span>$ 。爱丽丝希望最大化删除回合数，而鲍勃希望最小化删除回合数。爱丽丝和鲍勃都将以最优方式下棋。请编写一个程序来预测删除回合数。</p>
@@ -357,199 +279,93 @@
 <h4 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码：</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;PII&gt;e[N];</span><br><span class="line"><span class="type">int</span> n,m,c,minn,dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="type">int</span> u)</span></span>&#123;</span><br><span class="line">	minn=<span class="number">1e18</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)dist[i]=<span class="number">1e18</span>,st[i]=<span class="number">0</span>;</span><br><span class="line">	priority_queue&lt;PII,vector&lt;PII&gt;,greater&lt;PII&gt; &gt;q;</span><br><span class="line">	dist[u]=<span class="number">0</span>;</span><br><span class="line">	q.<span class="built_in">push</span>(&#123;dist[u],u&#125;);</span><br><span class="line">	<span class="keyword">while</span>(q.<span class="built_in">size</span>())&#123;</span><br><span class="line">		<span class="keyword">auto</span> [dis,ver]=q.<span class="built_in">top</span>();</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(st[ver])<span class="keyword">continue</span>;</span><br><span class="line">		st[ver]=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">auto</span> [v,w]:e[ver])&#123;</span><br><span class="line">			<span class="keyword">if</span>(v==u)minn=<span class="built_in">min</span>(minn,dis+w);</span><br><span class="line">			<span class="keyword">if</span>(st[v])<span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">if</span>(dist[v]&gt;dis+w)&#123;</span><br><span class="line">				dist[v]=dis+w;</span><br><span class="line">				q.<span class="built_in">push</span>(&#123;dist[v],v&#125;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;n&gt;&gt;m&gt;&gt;c;</span><br><span class="line">	<span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="type">int</span> u,v,z;cin&gt;&gt;u&gt;&gt;v&gt;&gt;z;</span><br><span class="line">		e[u].<span class="built_in">pb</span>(&#123;v,z&#125;);</span><br><span class="line">		<span class="keyword">if</span>(z&lt;=c)ans=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="built_in">Dijkstra</span>(i);</span><br><span class="line">		<span class="keyword">if</span>(minn&lt;=c)&#123;ans=<span class="number">2</span>;<span class="keyword">break</span>;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://lifexoryoung.com.cn/2024/03/22/2016%20USP-ICMC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Head.jpg">
-      <meta itemprop="name" content="lxy">
-      <meta itemprop="description" content="abc">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Throne">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/22/2016%20USP-ICMC/" class="post-title-link" itemprop="url">2016 USP-ICMC</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-22 12:06:00" itemprop="dateCreated datePublished" datetime="2024-03-22T12:06:00+08:00">2024-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-23 11:41:07" itemprop="dateModified" datetime="2024-03-23T11:41:07+08:00">2024-03-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">补题</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/codeforce/" itemprop="url" rel="index"><span itemprop="name">codeforce</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="problem-b-martian-sunrise贪心"><a class="markdownIt-Anchor" href="#problem-b-martian-sunrise贪心"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/B">Problem - B - Martian Sunrise贪心</a></h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/22/2016%20USP-ICMC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lxy
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://lifexoryoung.com.cn/2024/04/01/%E6%9C%80%E5%B0%8F%E7%8E%AF/" title="最小环&#x2F;Dijkstra&#x2F;Flyod">https://lifexoryoung.com.cn/2024/04/01/最小环/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://lifexoryoung.com.cn/2024/03/22/409%E9%80%89%E6%8B%94%E8%B5%9B%E8%A1%A5%E9%A2%98%20/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Head.jpg">
-      <meta itemprop="name" content="lxy">
-      <meta itemprop="description" content="abc">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Throne">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/22/409%E9%80%89%E6%8B%94%E8%B5%9B%E8%A1%A5%E9%A2%98%20/" class="post-title-link" itemprop="url">409选拔赛补题</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-22 11:37:00" itemprop="dateCreated datePublished" datetime="2024-03-22T11:37:00+08:00">2024-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-23 11:42:38" itemprop="dateModified" datetime="2024-03-23T11:42:38+08:00">2024-03-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">补题</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%A1%A5%E9%A2%98/codeforce/" itemprop="url" rel="index"><span itemprop="name">codeforce</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="problem-a-find-a-number同余最短路建图"><a class="markdownIt-Anchor" href="#problem-a-find-a-number同余最短路建图"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1070/problem/A">Problem - A -  Find a Number同余最短路/建图</a></h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/22/409%E9%80%89%E6%8B%94%E8%B5%9B%E8%A1%A5%E9%A2%98%20/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" rel="tag"># 最小环</a>
+              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" rel="tag"># 最短路</a>
+              <a href="/tags/Dijkstra/" rel="tag"># Dijkstra</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/22/2016%20USP-ICMC/" rel="prev" title="2016 USP-ICMC">
+      <i class="fa fa-chevron-left"></i> 2016 USP-ICMC
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTY0NS8zNjEwNw=="></div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -596,6 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2021ccpc%E6%A1%82%E6%9E%97-e-buy-and-delete"><span class="nav-number">1.</span> <span class="nav-text"> 2021CCPC桂林 E Buy and Delete </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text"> 题目：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text"> 分析：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text"> 代码：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -773,6 +590,21 @@ $(document).ready(function() {
 
   
 
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 </body>
 </html>
