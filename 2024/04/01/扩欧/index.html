@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>最小环/Dijkstra/Flyod | Throne</title>
-    <meta name="author" content="lxy" />
-    <meta name="description" content="abc" />
+    <meta name="author" content="Lxy" />
+    <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
     <meta
         name="viewport"
@@ -35,6 +35,11 @@
 <script src="/js/lib/highlight.js"></script>
 
 
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
 
 <script src="/js/lib/preview.js"></script>
 
@@ -44,6 +49,8 @@
 
 
 
+<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
+
 
 
 <link rel="stylesheet" href="/css/main.css" />
@@ -51,6 +58,8 @@
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
 <body>
+    <script src="/js/<file>"></script>
+    <link rel="stylesheet" href="/css/<file>" />
     <div id="layout">
         <transition name="fade">
             <div id="loading" v-show="loading">
@@ -185,28 +194,28 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ff7d73">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #00a596">
+                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #ffa2c4">
                     最小环
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00bcd4">
+                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #03a9f4">
                     最短路
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Dijkstra/" style="color: #03a9f4">
+                <a href="/tags/Dijkstra/" style="color: #ff7d73">
                     Dijkstra
                 </a>
             </span>
@@ -216,7 +225,8 @@
     </div>
     
     <div class="content" v-pre>
-        <p>扩展欧几里得：</p>
+        <span id="more"></span>
+<p>扩展欧几里得：</p>
 <p>对于任意整数 a,b ，求解 ax+by=m</p>
 <p>由裴蜀定理可知 ax+by=m 一定有解的充要条件为 gcd(a,b)|m</p>
 <p>所以对于解一般的 ax+by=m 不定方程，我们可以先证明ax+by=gcd(a,b),在扩展到一般域</p>
@@ -236,6 +246,10 @@
     
     
     
+    <div id="comment">
+        <div id="twikoo-container"></div>
+    </div>
+    
     
 </div>
 
@@ -243,15 +257,22 @@
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 Throne
+            2024 - 2024 Throne
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
-            &commat;lxy
+            &commat;Lxy
         </div>
         <div>
             Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
             <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+        <div>
+            备案号：
+            
+            
+            
         </div>
         
     </div>
@@ -266,11 +287,33 @@
         </transition>
         
     </div>
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
+<canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
     
     
 
 
+
+<script>
+    twikoo.init({
+        el: "#twikoo-container",
+        envId: "",
+        region: "",
+        path: location.pathname,
+        lang: "",
+    })
+</script>
 
 
     

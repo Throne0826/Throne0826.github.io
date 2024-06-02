@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>2016 USP-ICMC | Throne</title>
-    <meta name="author" content="lxy" />
-    <meta name="description" content="abc" />
+    <meta name="author" content="Lxy" />
+    <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
     <meta
         name="viewport"
@@ -35,6 +35,11 @@
 <script src="/js/lib/highlight.js"></script>
 
 
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
 
 <script src="/js/lib/preview.js"></script>
 
@@ -44,6 +49,8 @@
 
 
 
+<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
+
 
 
 <link rel="stylesheet" href="/css/main.css" />
@@ -51,6 +58,8 @@
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
 <body>
+    <script src="/js/<file>"></script>
+    <link rel="stylesheet" href="/css/<file>" />
     <div id="layout">
         <transition name="fade">
             <div id="loading" v-show="loading">
@@ -185,28 +194,28 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #00bcd4">
+                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #ff7d73">
                     贪心
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/DFS/" style="color: #03a9f4">
+                <a href="/tags/DFS/" style="color: #ffa2c4">
                     DFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/BFS/" style="color: #ffa2c4">
+                <a href="/tags/BFS/" style="color: #ff7d73">
                     BFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/STL/" style="color: #00bcd4">
+                <a href="/tags/STL/" style="color: #00a596">
                     STL
                 </a>
             </span>
@@ -223,7 +232,78 @@
 <h4 id="题目分析"><a class="markdownIt-Anchor" href="#题目分析"></a> 题目分析：</h4>
 <p>所有选择的方案总共<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∗</mo><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">m*(m-1)/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">/</span><span class="mord">2</span></span></span></span>，乘上总元素大约<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3000</mn></mrow><annotation encoding="application/x-tex">3000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span>，然后直接从第一个目标音调的元素枚举到<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>，同时枚举所有现存的包含当前元素的集合，同时去除不包含的，如何此时没有任何一个集合满足，则重新枚举所有集合并且答案数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mo>+</mo></mrow><annotation encoding="application/x-tex">++</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span><span class="mord">+</span></span></span></span>。这里有个贪心正确性：取匹配目标元素最长的集合并不会让总集合数变多。时间复杂度大约<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>e</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">3e7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord mathnormal">e</span><span class="mord">7</span></span></span></span>左右。</p>
 <h4 id="题目代码"><a class="markdownIt-Anchor" href="#题目代码"></a> 题目代码：</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">map&lt;string, <span class="type">int</span>&gt; mp;</span><br><span class="line"><span class="type">int</span> cnt;</span><br><span class="line">set&lt;<span class="type">int</span>&gt; b[<span class="number">300</span>];</span><br><span class="line"><span class="type">bool</span> st[<span class="number">300</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m;</span><br><span class="line">    cin &gt;&gt; m;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; v[m];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">7</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            string s;</span><br><span class="line">            cin &gt;&gt; s;</span><br><span class="line">            <span class="keyword">if</span> (!mp[s])</span><br><span class="line">            mp[s] = ++cnt;</span><br><span class="line">            v[i].<span class="built_in">pb</span>(mp[s]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">a</span><span class="params">(n)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : a)</span><br><span class="line">    &#123;</span><br><span class="line">        string s;</span><br><span class="line">        cin &gt;&gt; s;</span><br><span class="line">        x = mp[s];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> idx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (m == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : v[<span class="number">0</span>])</span><br><span class="line">            b[idx].<span class="built_in">insert</span>(x);</span><br><span class="line">        idx++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : v[i])</span><br><span class="line">                b[idx].<span class="built_in">insert</span>(x);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : v[j])</span><br><span class="line">                b[idx].<span class="built_in">insert</span>(x);</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memset</span>(st, <span class="number">0</span>, <span class="keyword">sizeof</span> st);</span><br><span class="line">    <span class="type">int</span> num = idx, ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; idx; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!st[j] &amp;&amp; b[j].<span class="built_in">find</span>(a[i]) == b[j].<span class="built_in">end</span>())</span><br><span class="line">                num--, st[j] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (!num)</span><br><span class="line">            &#123;</span><br><span class="line">                i--;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!num)</span><br><span class="line">            num = idx, ans++, <span class="built_in">memset</span>(st, <span class="number">0</span>, <span class="keyword">sizeof</span> st);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="C++">map&lt;string, <span class="hljs-type">int</span>&gt; mp;
+<span class="hljs-type">int</span> cnt;
+set&lt;<span class="hljs-type">int</span>&gt; b[<span class="hljs-number">300</span>];
+<span class="hljs-type">bool</span> st[<span class="hljs-number">300</span>];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-type">int</span> m;
+    cin &gt;&gt; m;
+    vector&lt;<span class="hljs-type">int</span>&gt; v[m];
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">7</span>; j++)
+        &#123;
+            string s;
+            cin &gt;&gt; s;
+            <span class="hljs-keyword">if</span> (!mp[s])
+            mp[s] = ++cnt;
+            v[i].<span class="hljs-built_in">pb</span>(mp[s]);
+        &#125;
+    &#125;
+    
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">a</span><span class="hljs-params">(n)</span></span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : a)
+    &#123;
+        string s;
+        cin &gt;&gt; s;
+        x = mp[s];
+    &#125;
+    
+    <span class="hljs-type">int</span> idx = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (m == <span class="hljs-number">1</span>)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[<span class="hljs-number">0</span>])
+            b[idx].<span class="hljs-built_in">insert</span>(x);
+        idx++;
+    &#125;
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; m; j++)
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[i])
+                b[idx].<span class="hljs-built_in">insert</span>(x);
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[j])
+                b[idx].<span class="hljs-built_in">insert</span>(x);
+            idx++;
+        &#125;
+    &#125;
+    
+    <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> st);
+    <span class="hljs-type">int</span> num = idx, ans = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; idx; j++)
+        &#123;
+            <span class="hljs-keyword">if</span> (!st[j] &amp;&amp; b[j].<span class="hljs-built_in">find</span>(a[i]) == b[j].<span class="hljs-built_in">end</span>())
+                num--, st[j] = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">if</span> (!num)
+            &#123;
+                i--;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span> (!num)
+            num = idx, ans++, <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> st);
+    &#125;
+    
+    cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+&#125;
+</code></pre>
 <h3 id="problem-i-lazy-paintingdfssetstl"><a class="markdownIt-Anchor" href="#problem-i-lazy-paintingdfssetstl"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/I">Problem - I. Lazy Painting/DFS/SET(stl)</a></h3>
 <h4 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述：</h4>
 <p>实验室地板可以表示为一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 行、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 列的矩阵，总共有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">N \times M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 块瓷砖。指令是以矩形区域为单位进行涂漆，每个矩形的高度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>，宽度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span>，且这些矩形可以重叠。每次指令后，需要计算还有多少瓷砖未涂漆。</p>
@@ -235,7 +315,60 @@
 <h4 id="题目分析-2"><a class="markdownIt-Anchor" href="#题目分析-2"></a> 题目分析：</h4>
 <p>因为是检查左边界，用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>e</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">set</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span></span></span></span>记录每列还有哪些没有被覆盖。当执行命令的时候二分查找还存在的，加到队列中进行<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>F</mi><mi>S</mi><mi mathvariant="normal">/</mi><mi>B</mi><mi>F</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">DFS/BFS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>覆盖即可，同时维护答案–。因为整个询问 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 次的时候，矩阵只会被访问一次 ，每次访问的时候set删除 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span></span></span></span>，所以总复杂度约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>Q</mi><mo>+</mo><mi>N</mi><mo>×</mo><mi>M</mi><mo stretchy="false">)</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O((Q+N \times M) \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>.</p>
 <h4 id="题目代码-2"><a class="markdownIt-Anchor" href="#题目代码-2"></a> 题目代码：</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m, h, w, Q, ans, dx[] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>&#125;, dy[] = &#123;<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">set&lt;<span class="type">int</span>&gt; s[N];</span><br><span class="line">queue&lt;PII&gt; q;</span><br><span class="line">bitset&lt;M&gt; st;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="type">int</span> nn = u + h - <span class="number">1</span>, mm = v + w - <span class="number">1</span>;</span><br><span class="line">		set&lt;<span class="type">int</span>&gt;::iterator it = s[v].<span class="built_in">lower_bound</span>(u);</span><br><span class="line">		<span class="comment">// cout&lt;&lt;u&lt;&lt;&quot; &quot;&lt;&lt;*it&lt;&lt;&quot; &quot;&lt;&lt;nn&lt;&lt;&quot; &quot;&lt;&lt;mm&lt;&lt;&quot;\n&quot;;</span></span><br><span class="line">		<span class="keyword">while</span> (*it &lt;= nn)</span><br><span class="line">		&#123;</span><br><span class="line">			q.<span class="built_in">push</span>(&#123;*it, v&#125;);</span><br><span class="line">			<span class="comment">// cout&lt;&lt;*it&lt;&lt;&quot;\n&quot;;</span></span><br><span class="line">			st[(*it - <span class="number">1</span>) * m + v] = <span class="number">1</span>;</span><br><span class="line">			it++, ans--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// cout&lt;&lt;nn&lt;&lt;&quot;#&quot;&lt;&lt;mm&lt;&lt;&quot;#&quot;&lt;&lt;q.size()&lt;&lt;&quot;\n&quot;;</span></span><br><span class="line">		<span class="keyword">while</span> (q.<span class="built_in">size</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">auto</span> [xx, yy] = q.<span class="built_in">front</span>();</span><br><span class="line">			q.<span class="built_in">pop</span>();</span><br><span class="line">			s[yy].<span class="built_in">erase</span>(xx);</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">int</span> t = xx + dx[i];</span><br><span class="line">				<span class="type">int</span> z = yy + dy[i];</span><br><span class="line">				<span class="keyword">if</span> (t &gt;= u &amp;&amp; t &lt;= nn &amp;&amp; z &gt;= v &amp;&amp; z &lt;= mm &amp;&amp; st[(t - <span class="number">1</span>) * m + z] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					st[(t - <span class="number">1</span>) * m + z] = <span class="number">1</span>;</span><br><span class="line">					q.<span class="built_in">push</span>(&#123;t, z&#125;);</span><br><span class="line">					ans--;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;</span><br><span class="line">	ans = n * m;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n+<span class="number">1</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">			s[j].<span class="built_in">insert</span>(i);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (Q--)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> x, y;</span><br><span class="line">		cin &gt;&gt; x &gt;&gt; y;</span><br><span class="line">		<span class="built_in">bfs</span>(x, y);</span><br><span class="line">		cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n, m, h, w, Q, ans, dx[] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>&#125;, dy[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;
+set&lt;<span class="hljs-type">int</span>&gt; s[N];
+queue&lt;PII&gt; q;
+bitset&lt;M&gt; st;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> v)</span>
+	</span>&#123;
+		<span class="hljs-type">int</span> nn = u + h - <span class="hljs-number">1</span>, mm = v + w - <span class="hljs-number">1</span>;
+		set&lt;<span class="hljs-type">int</span>&gt;::iterator it = s[v].<span class="hljs-built_in">lower_bound</span>(u);
+		<span class="hljs-comment">// cout&lt;&lt;u&lt;&lt;&quot; &quot;&lt;&lt;*it&lt;&lt;&quot; &quot;&lt;&lt;nn&lt;&lt;&quot; &quot;&lt;&lt;mm&lt;&lt;&quot;\n&quot;;</span>
+		<span class="hljs-keyword">while</span> (*it &lt;= nn)
+		&#123;
+			q.<span class="hljs-built_in">push</span>(&#123;*it, v&#125;);
+			<span class="hljs-comment">// cout&lt;&lt;*it&lt;&lt;&quot;\n&quot;;</span>
+			st[(*it - <span class="hljs-number">1</span>) * m + v] = <span class="hljs-number">1</span>;
+			it++, ans--;
+		&#125;
+		<span class="hljs-comment">// cout&lt;&lt;nn&lt;&lt;&quot;#&quot;&lt;&lt;mm&lt;&lt;&quot;#&quot;&lt;&lt;q.size()&lt;&lt;&quot;\n&quot;;</span>
+		<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+		&#123;
+			<span class="hljs-keyword">auto</span> [xx, yy] = q.<span class="hljs-built_in">front</span>();
+			q.<span class="hljs-built_in">pop</span>();
+			s[yy].<span class="hljs-built_in">erase</span>(xx);
+			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+			&#123;
+				<span class="hljs-type">int</span> t = xx + dx[i];
+				<span class="hljs-type">int</span> z = yy + dy[i];
+				<span class="hljs-keyword">if</span> (t &gt;= u &amp;&amp; t &lt;= nn &amp;&amp; z &gt;= v &amp;&amp; z &lt;= mm &amp;&amp; st[(t - <span class="hljs-number">1</span>) * m + z] == <span class="hljs-number">0</span>)
+				&#123;
+					st[(t - <span class="hljs-number">1</span>) * m + z] = <span class="hljs-number">1</span>;
+					q.<span class="hljs-built_in">push</span>(&#123;t, z&#125;);
+					ans--;
+				&#125;
+			&#125;
+		&#125;
+&#125;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+	cin &gt;&gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;
+	ans = n * m;
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n+<span class="hljs-number">1</span>; i++)
+	&#123;
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
+			s[j].<span class="hljs-built_in">insert</span>(i);
+	&#125;
+	
+	<span class="hljs-keyword">while</span> (Q--)
+	&#123;
+		<span class="hljs-type">int</span> x, y;
+		cin &gt;&gt; x &gt;&gt; y;
+		<span class="hljs-built_in">bfs</span>(x, y);
+		cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+	&#125;
+&#125;
+</code></pre>
 
     </div>
     
@@ -244,6 +377,10 @@
     
     
     
+    <div id="comment">
+        <div id="twikoo-container"></div>
+    </div>
+    
     
 </div>
 
@@ -251,15 +388,22 @@
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 Throne
+            2024 - 2024 Throne
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
-            &commat;lxy
+            &commat;Lxy
         </div>
         <div>
             Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
             <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+        <div>
+            备案号：
+            
+            
+            
         </div>
         
     </div>
@@ -274,11 +418,33 @@
         </transition>
         
     </div>
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
+<canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
     
     
 
 
+
+<script>
+    twikoo.init({
+        el: "#twikoo-container",
+        envId: "",
+        region: "",
+        path: location.pathname,
+        lang: "",
+    })
+</script>
 
 
     

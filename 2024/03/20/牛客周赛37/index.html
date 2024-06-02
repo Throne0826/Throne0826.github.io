@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>牛客周赛37 | Throne</title>
-    <meta name="author" content="lxy" />
-    <meta name="description" content="abc" />
+    <meta name="author" content="Lxy" />
+    <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
     <meta
         name="viewport"
@@ -35,6 +35,11 @@
 <script src="/js/lib/highlight.js"></script>
 
 
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
 
 <script src="/js/lib/preview.js"></script>
 
@@ -44,6 +49,8 @@
 
 
 
+<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
+
 
 
 <link rel="stylesheet" href="/css/main.css" />
@@ -51,6 +58,8 @@
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
 <body>
+    <script src="/js/<file>"></script>
+    <link rel="stylesheet" href="/css/<file>" />
     <div id="layout">
         <transition name="fade">
             <div id="loading" v-show="loading">
@@ -192,21 +201,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%88%86%E5%B1%82%E5%9B%BE/" style="color: #ff7d73">
+                <a href="/tags/%E5%88%86%E5%B1%82%E5%9B%BE/" style="color: #ffa2c4">
                     分层图
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #ffa2c4">
+                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #00bcd4">
                     动态规划
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #00bcd4">
+                <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #ff7d73">
                     类背包dp
                 </a>
             </span>
@@ -223,7 +232,84 @@
 <h4 id="题目分析"><a class="markdownIt-Anchor" href="#题目分析"></a> 题目分析：</h4>
 <p>起初很容易考虑BFS，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> 就把三个方向全加进去，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 就按原来方向走，同时把走过的点打上标记，通过bfs最短路属性记录最小答案。这个思路是没错的，但是我们之所以把走过的点打上标记，是因为我们已经保证这个点的所有状态已经加到队列中去。但是这个题一个点的所有状态并不是单纯走到这个点，而是包含了从四种方向走来的四种状态，比如假设一开始走到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> 步，但是由于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span>  ,它的这个方向并不能对最短答案有贡献，所以可能有一个更长的但是方向不一样的路径经过这个点，并且能对最短答案造成贡献。所以上述思路只需要改成走到一个点被打上标记只能是带有特定方向的，再取每个点距离最小值，本质上其实就是一个以四个方向形成的分层图最短路。</p>
 <h4 id="题目代码"><a class="markdownIt-Anchor" href="#题目代码"></a> 题目代码：</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m, sx, sy, ex, ey, len[N][N][<span class="number">4</span>], dx[] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>&#125;, dy[] = &#123;<span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">bool</span> st[N][N][<span class="number">4</span>];</span><br><span class="line"><span class="type">char</span> g[N][N];</span><br><span class="line">queue&lt;array&lt;<span class="type">int</span>, 3&gt;&gt; q;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (q.<span class="built_in">size</span>())</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; k++)</span><br><span class="line">                st[i][j][k] = <span class="number">0</span>, len[i][j][k] = <span class="number">1e18</span>;</span><br><span class="line">            ;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            cin &gt;&gt; g[i][j];</span><br><span class="line">            <span class="keyword">if</span> (g[i][j] == <span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">                sx = i, sy = j, g[i][j] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span> (g[i][j] == <span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">                ex = i, ey = j, g[i][j] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">        st[sx][sy][i] = <span class="number">1</span>, len[sx][sy][i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = sx + dx[i];</span><br><span class="line">        <span class="type">int</span> z = sy + dy[i];</span><br><span class="line">        <span class="keyword">if</span> (t &gt;= <span class="number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="string">&#x27;*&#x27;</span> || g[t][z] == <span class="string">&#x27;.&#x27;</span>))</span><br><span class="line">            st[t][z][i] = <span class="number">1</span>, q.<span class="built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (q.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> [x, y, to] = q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> t, z;</span><br><span class="line">        <span class="comment">// cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;&quot; &quot;&lt;&lt;len[x][y]&lt;&lt;&quot;\n&quot;;</span></span><br><span class="line">        <span class="keyword">if</span> (x == ex &amp;&amp; y == ey)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span> (g[x][y] == <span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            t = x + dx[to], z = y + dy[to];</span><br><span class="line">            <span class="keyword">if</span> (t &gt;= <span class="number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="string">&#x27;*&#x27;</span> || g[t][z] == <span class="string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][to])</span><br><span class="line">                q.<span class="built_in">push</span>(&#123;t, z, to&#125;), len[t][z][to] = <span class="built_in">min</span>(len[t][z][to], len[x][y][to] + <span class="number">1</span>), st[t][z][to] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (g[x][y] == <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> tt;</span><br><span class="line">            <span class="keyword">if</span> (to == <span class="number">0</span>)</span><br><span class="line">                tt = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (to == <span class="number">1</span>)</span><br><span class="line">                tt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (to == <span class="number">2</span>)</span><br><span class="line">                tt = <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (to == <span class="number">3</span>)</span><br><span class="line">                tt = <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                t = x + dx[i], z = y + dy[i];</span><br><span class="line">                <span class="keyword">if</span> (i != tt &amp;&amp; t &gt;= <span class="number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="string">&#x27;*&#x27;</span> || g[t][z] == <span class="string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][i])</span><br><span class="line">                    q.<span class="built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="built_in">min</span>(len[t][z][i], len[x][y][to] + <span class="number">1</span>), st[t][z][i] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ans = <span class="number">1e18</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, len[ex][ey][i]);</span><br><span class="line">    <span class="keyword">if</span> (ans != <span class="number">1e18</span>)</span><br><span class="line">        cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        cout &lt;&lt; <span class="number">-1</span> &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n, m, sx, sy, ex, ey, len[N][N][<span class="hljs-number">4</span>], dx[] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>&#125;, dy[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;
+<span class="hljs-type">bool</span> st[N][N][<span class="hljs-number">4</span>];
+<span class="hljs-type">char</span> g[N][N];
+queue&lt;array&lt;<span class="hljs-type">int</span>, 3&gt;&gt; q;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+        q.<span class="hljs-built_in">pop</span>();
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
+        &#123;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">4</span>; k++)
+                st[i][j][k] = <span class="hljs-number">0</span>, len[i][j][k] = <span class="hljs-number">1e18</span>;
+            ;
+        &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
+        &#123;
+            cin &gt;&gt; g[i][j];
+            <span class="hljs-keyword">if</span> (g[i][j] == <span class="hljs-string">&#x27;S&#x27;</span>)
+                sx = i, sy = j, g[i][j] = <span class="hljs-string">&#x27;*&#x27;</span>;
+            <span class="hljs-keyword">if</span> (g[i][j] == <span class="hljs-string">&#x27;T&#x27;</span>)
+                ex = i, ey = j, g[i][j] = <span class="hljs-string">&#x27;*&#x27;</span>;
+        &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        st[sx][sy][i] = <span class="hljs-number">1</span>, len[sx][sy][i] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+    &#123;
+        <span class="hljs-type">int</span> t = sx + dx[i];
+        <span class="hljs-type">int</span> z = sy + dy[i];
+        <span class="hljs-keyword">if</span> (t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>))
+            st[t][z][i] = <span class="hljs-number">1</span>, q.<span class="hljs-built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-keyword">auto</span> [x, y, to] = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-type">int</span> t, z;
+        <span class="hljs-comment">// cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;&quot; &quot;&lt;&lt;len[x][y]&lt;&lt;&quot;\n&quot;;</span>
+        <span class="hljs-keyword">if</span> (x == ex &amp;&amp; y == ey)
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">if</span> (g[x][y] == <span class="hljs-string">&#x27;.&#x27;</span>)
+        &#123;
+            t = x + dx[to], z = y + dy[to];
+            <span class="hljs-keyword">if</span> (t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][to])
+                q.<span class="hljs-built_in">push</span>(&#123;t, z, to&#125;), len[t][z][to] = <span class="hljs-built_in">min</span>(len[t][z][to], len[x][y][to] + <span class="hljs-number">1</span>), st[t][z][to] = <span class="hljs-number">1</span>;
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (g[x][y] == <span class="hljs-string">&#x27;*&#x27;</span>)
+        &#123;
+            <span class="hljs-type">int</span> tt;
+            <span class="hljs-keyword">if</span> (to == <span class="hljs-number">0</span>)
+                tt = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">1</span>)
+                tt = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">2</span>)
+                tt = <span class="hljs-number">3</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">3</span>)
+                tt = <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+            &#123;
+                t = x + dx[i], z = y + dy[i];
+                <span class="hljs-keyword">if</span> (i != tt &amp;&amp; t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][i])
+                    q.<span class="hljs-built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="hljs-built_in">min</span>(len[t][z][i], len[x][y][to] + <span class="hljs-number">1</span>), st[t][z][i] = <span class="hljs-number">1</span>;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-type">int</span> ans = <span class="hljs-number">1e18</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        ans = <span class="hljs-built_in">min</span>(ans, len[ex][ey][i]);
+    <span class="hljs-keyword">if</span> (ans != <span class="hljs-number">1e18</span>)
+        cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">else</span>
+        cout &lt;&lt; <span class="hljs-number">-1</span> &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+&#125;
+</code></pre>
 <h3 id="题目f-三途川的摆渡人_"><a class="markdownIt-Anchor" href="#题目f-三途川的摆渡人_"></a> 题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/F">F-三途川的摆渡人_</a></h3>
 <h4 id="题目大意"><a class="markdownIt-Anchor" href="#题目大意"></a> 题目大意：</h4>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>个数，每个数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（</mtext><mn>0</mn><mo>&lt;</mo><mo>=</mo><msub><mi>a</mi><mi>i</mi></msub><mo>&lt;</mo><mo>=</mo><mn>127</mn><mtext>）</mtext></mrow><annotation encoding="application/x-tex">（0&lt;=a_i&lt;=127）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord cjk_fallback">（</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">7</span><span class="mord cjk_fallback">）</span></span></span></span>，求 <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 1: &amp;̲'>&amp;</span> 成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 的得最少个数，不能输出 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>。</p>
@@ -235,7 +321,30 @@
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>状态转移：</mtext><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">;</mo></mrow><annotation encoding="application/x-tex">状态转移：dp[1][i\&amp;j]=min(dp[1][i\&amp;j],dp[0][j]+1);
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord cjk_fallback">状</span><span class="mord cjk_fallback">态</span><span class="mord cjk_fallback">转</span><span class="mord cjk_fallback">移</span><span class="mord cjk_fallback">：</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">;</span></span></span></span></span></p>
 <h4 id="题目代码-2"><a class="markdownIt-Anchor" href="#题目代码-2"></a> 题目代码：</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> dp[<span class="number">2</span>][<span class="number">203</span>],p[<span class="number">220</span>];<span class="comment">//滚动数组和记录0~127数存在与否的p</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;cin&gt;&gt;n;</span><br><span class="line">    <span class="built_in">memset</span>(p,<span class="number">0</span>,<span class="keyword">sizeof</span> p);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> x;cin&gt;&gt;x;</span><br><span class="line">        p[x]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">200</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(p[i])&#123;</span><br><span class="line">            dp[<span class="number">1</span>][i]=<span class="number">1</span>;<span class="comment">//当前点选，并且没有比直接选当前点来组成当前点次数更小的了</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">200</span>;j++)&#123;</span><br><span class="line">                dp[<span class="number">1</span>][i&amp;j]=<span class="built_in">min</span>(dp[<span class="number">1</span>][i&amp;j],dp[<span class="number">0</span>][j]+<span class="number">1</span>);<span class="comment">//dp[1][i&amp;j]不选，后面为选的，取最小</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">200</span>;j++)&#123;</span><br><span class="line">            dp[<span class="number">0</span>][j]=dp[<span class="number">1</span>][j];<span class="comment">//滚动赋值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dp[<span class="number">0</span>][<span class="number">0</span>]&gt;n)cout&lt;&lt;<span class="number">-1</span>&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">else</span> cout&lt;&lt;n-dp[<span class="number">0</span>][<span class="number">0</span>]&lt;&lt;<span class="string">&quot;\n&quot;</span>;<span class="comment">//求得组成当前数最小个数，所以抛弃个数为n-dp[0][0]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> dp[<span class="hljs-number">2</span>][<span class="hljs-number">203</span>],p[<span class="hljs-number">220</span>];<span class="hljs-comment">//滚动数组和记录0~127数存在与否的p</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> n;cin&gt;&gt;n;
+    <span class="hljs-built_in">memset</span>(p,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> p);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
+        <span class="hljs-type">int</span> x;cin&gt;&gt;x;
+        p[x]++;
+    &#125;
+    <span class="hljs-built_in">memset</span>(dp,<span class="hljs-number">0x3f</span>,<span class="hljs-keyword">sizeof</span> dp);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=<span class="hljs-number">200</span>;i++)&#123;
+        <span class="hljs-keyword">if</span>(p[i])&#123;
+            dp[<span class="hljs-number">1</span>][i]=<span class="hljs-number">1</span>;<span class="hljs-comment">//当前点选，并且没有比直接选当前点来组成当前点次数更小的了</span>
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=<span class="hljs-number">200</span>;j++)&#123;
+                dp[<span class="hljs-number">1</span>][i&amp;j]=<span class="hljs-built_in">min</span>(dp[<span class="hljs-number">1</span>][i&amp;j],dp[<span class="hljs-number">0</span>][j]+<span class="hljs-number">1</span>);<span class="hljs-comment">//dp[1][i&amp;j]不选，后面为选的，取最小</span>
+            &#125;
+        &#125;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=<span class="hljs-number">200</span>;j++)&#123;
+            dp[<span class="hljs-number">0</span>][j]=dp[<span class="hljs-number">1</span>][j];<span class="hljs-comment">//滚动赋值</span>
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]&gt;n)cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">else</span> cout&lt;&lt;n-dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;<span class="hljs-comment">//求得组成当前数最小个数，所以抛弃个数为n-dp[0][0]</span>
+&#125;
+</code></pre>
 
     </div>
     
@@ -244,6 +353,10 @@
     
     
     
+    <div id="comment">
+        <div id="twikoo-container"></div>
+    </div>
+    
     
 </div>
 
@@ -251,15 +364,22 @@
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 Throne
+            2024 - 2024 Throne
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
-            &commat;lxy
+            &commat;Lxy
         </div>
         <div>
             Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
             <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+        <div>
+            备案号：
+            
+            
+            
         </div>
         
     </div>
@@ -274,11 +394,33 @@
         </transition>
         
     </div>
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
+<canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
     
     
 
 
+
+<script>
+    twikoo.init({
+        el: "#twikoo-container",
+        envId: "",
+        region: "",
+        path: location.pathname,
+        lang: "",
+    })
+</script>
 
 
     
