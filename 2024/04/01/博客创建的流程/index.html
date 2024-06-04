@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>分类 | Throne</title>
+    <title>博客创建的流程 | Throne</title>
     <meta name="author" content="Lxy" />
     <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
@@ -44,6 +44,12 @@
 <script src="/js/lib/preview.js"></script>
 
 
+
+
+
+
+
+<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
 
 
 
@@ -158,47 +164,20 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/categories/%E8%A1%A5%E9%A2%98/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                补题
-            </a>
+            <div class="article">
+    <div>
+        <h1>博客创建的流程</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/1
         </span>
         
-        
-        
-        <span>
-            <a href="/categories/%E8%A1%A5%E9%A2%98/codeforce/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                codeforce
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E8%A1%A5%E9%A2%98/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                每日一题
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%AC%94%E8%AE%B0/" style="background: #03a9f4">
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -207,40 +186,83 @@
         </span>
         
         
-        
-        <span>
-            <a href="/categories/%E8%A1%A5%E9%A2%98/%E7%89%9B%E5%AE%A2/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                牛客
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/hexo/" style="color: #ff7d73">
+                    hexo
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/next/" style="color: #03a9f4">
+                    next
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/vercal/" style="color: #ff7d73">
+                    vercal
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/cloudfare/" style="color: #00a596">
+                    cloudfare
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/cdn/" style="color: #ffa2c4">
+                    cdn
+                </a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%A1%A5%E9%A2%98/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                补题
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                学习
-            </a>
-        </span>
-        
         
     </div>
+    
+    <div class="content" v-pre>
+        <p>记录一下blog创建的大体过程：</p>
+<p>跟着枫叶用的hexo+next主题一步一步把第一代版本的博客建出来了</p>
+<p>1.<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102592286">从零开始搭建个人博客（超详细） - 知乎 (zhihu.com)</a></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20240604194350546.png" alt="image-20240604194350546" /></p>
+<p>其中有些步骤出问题或者因为他博客的小细节错误，在知乎下面的评论大部分都有提到。枫叶讲的都很详细我就不赘述了。</p>
+<p>2.然后可以在<a target="_blank" rel="noopener" href="https://hexo.io/themes/">Themes | Hexo</a>网站寻找自己想要的主题下载到blog的themes中替换即可。</p>
+<p><img src="D:%5Cmyblog%5Cblog%5Csource%5Cimages%5Cmyblog2.webp" alt="image-20240604195220970" /></p>
+<p>第一个是github中的下载地址：点进去如下图的download即可</p>
+<p><img src="D:%5Cmyblog%5Cblog%5Csource%5Cimages%5Cmyblog3.webp" alt="image-20240604195300083" /></p>
+<p>第二个是该主题的展示效果。</p>
+<p>一般展示效果的首页第一个博客推文都会讲怎么去配置该主题</p>
+<p>3.一些用的到的工具：</p>
+<p><a target="_blank" rel="noopener" href="https://try8.cn/tool/color/picker?eqid=f8d057810004bfbd0000000364759ea9">在线调色板  (try8.cn)</a>用于获取你想要的颜色，去修改主题</p>
+<p><a target="_blank" rel="noopener" href="https://www.likebizhi.com/tag/4k_page_1.html">高清4k图片_4k壁纸大全 - Like壁纸网 (likebizhi.com)</a>很多高清精品的壁纸，可以当背景等等</p>
+<p><a target="_blank" rel="noopener" href="https://fontawesome.com.cn/v5">图标库v5 - FontAwesome 字体图标中文Icon</a>用于博客的图标</p>
+<p><a target="_blank" rel="noopener" href="https://www.imhunk.com/cloudflare-tutorials/#title1">如何用CDN加速你的网站 - Cloudflare免费版详细使用教程 - Hunk (imhunk.com)</a>用cloudflare-CDN加速博客站点，cloudflare中在还有很多有用的优化，如下图的速度优化，读者可以自行探索</p>
+<p><img src="D:%5Cmyblog%5Cblog%5Csource%5Cimages%5Cmyblog4.webp" alt="image-20240604195926839" /></p>
+<p><a target="_blank" rel="noopener" href="https://www.erenship.com/posts/db37.html">Hexo 博客站点加速不完全指南 - Eren の 宇宙船 (erenship.com)</a>Vervel也可以加速，具体可以浏览这篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://pagespeed.web.dev/analysis/https-lifexoryoung-com-cn/os1aw9wyc4?form_factor=desktop">PageSpeed Insights (web.dev)</a>测试你的网站登录速度，会给出分析报告</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    <div id="comment">
+        <div id="twikoo-container"></div>
+    </div>
+    
     
 </div>
 
@@ -291,6 +313,22 @@
 <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+<script>
+    twikoo.init({
+        el: "#twikoo-container",
+        envId: "",
+        region: "",
+        path: location.pathname,
+        lang: "",
+    })
+</script>
+
+
     
 </body>
 </html>
