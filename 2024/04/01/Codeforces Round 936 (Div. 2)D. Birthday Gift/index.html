@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="icon" href="/images/avatar.webp" />
     <link rel="preconnect" href="https://s4.zstatic.net" />
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -194,7 +194,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="color: #ff7d73">
+                <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="color: #03a9f4">
                     位运算
                 </a>
             </span>
@@ -204,10 +204,11 @@
     </div>
     
     <div class="content" v-pre>
-        <h3 id="Problem-1946DBirthday-Gift"><a href="#Problem-1946DBirthday-Gift" class="headerlink" title="Problem - 1946DBirthday Gift"></a><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1946/D">Problem - 1946DBirthday Gift</a></h3><p>题面：</p>
+        <h3 id="problem-1946dbirthday-gift"><a class="markdownIt-Anchor" href="#problem-1946dbirthday-gift"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1946/D">Problem - 1946DBirthday Gift</a></h3>
+<p>题面：</p>
 <p>分析：</p>
 <p>对于区间位运算容易想到拆位，对x进行从高位到低位拆位分析：</p>
-<p>1.当$i$位为0时如果数组所有元素的第i位一共有奇数个1,那么无论怎么分配，总有一个段内有奇数个1，异或后结果为1，显然导致整体大于x。</p>
+<p>1.当<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>位为0时如果数组所有元素的第i位一共有奇数个1,那么无论怎么分配，总有一个段内有奇数个1，异或后结果为1，显然导致整体大于x。</p>
 <p>2.当i位为0时如果有偶数个1，此时只能就近两两一组去保证异或为0还有组数最多，同时。</p>
 <p>3.当i位为1时如果有奇数个1，此时不做任何处理，只能一段一个1.</p>
 <p>4.当i位为1时如果有偶数个1，那么两两一组既能保证异或为0，还能保证组数最多，并且此时分组个数可以直接作为答案的一种取max，当然如果每个单独一组不做处理那么数组间异或结果为1，虽然此时不能当作答案，但是之后的数组的分配可能有更多的答案个数，所以也要把不做处理的情况传递下取去。</p>
