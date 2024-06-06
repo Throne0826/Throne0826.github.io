@@ -47,6 +47,12 @@
 
 
 
+
+
+<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
+
+
+
 <link rel="stylesheet" href="/css/main.css" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
@@ -167,7 +173,7 @@
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2020/2/10
+            2024/6/6
         </span>
         
         
@@ -175,6 +181,15 @@
     
     <div class="content" v-pre>
         
+    </div>
+    
+    
+    
+    
+    
+    
+    <div id="comment">
+        <div id="twikoo-container"></div>
     </div>
     
     
@@ -227,6 +242,22 @@
 <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+<script>
+    twikoo.init({
+        el: "#twikoo-container",
+        envId: "",
+        region: "",
+        path: location.pathname,
+        lang: "",
+    })
+</script>
+
+
     
 </body>
 </html>
