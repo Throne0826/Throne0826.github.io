@@ -194,28 +194,28 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #ffa2c4">
+                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #00a596">
                     贪心
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/DFS/" style="color: #00a596">
+                <a href="/tags/DFS/" style="color: #00bcd4">
                     DFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/BFS/" style="color: #00bcd4">
+                <a href="/tags/BFS/" style="color: #03a9f4">
                     BFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/STL/" style="color: #ffa2c4">
+                <a href="/tags/STL/" style="color: #00a596">
                     STL
                 </a>
             </span>
@@ -225,148 +225,140 @@
     </div>
     
     <div class="content" v-pre>
-        <h3 id="problem-b-martian-sunrise贪心"><a class="markdownIt-Anchor" href="#problem-b-martian-sunrise贪心"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/B">Problem - B - Martian Sunrise贪心</a></h3>
-<span id="more"></span>
-<h4 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h4>
-<p>给你<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>行音调，每行音调有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span></span></span></span>个元素，给你一行目标音调<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> , 每次可以从<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>行任选两行,作为你的元素集合去匹配目标音调，求最少多少次完成匹配。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（</mtext><mn>1</mn><mo>≤</mo><mi>m</mi><mo>≤</mo><mn>16</mn><mtext>，</mtext><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1</mn><mi>e</mi><mn>4</mn><mtext>）</mtext></mrow><annotation encoding="application/x-tex">（1 \le m \le 16，1 \le n \le 1e4）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord cjk_fallback">（</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord">6</span><span class="mord cjk_fallback">，</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord mathnormal">e</span><span class="mord">4</span><span class="mord cjk_fallback">）</span></span></span></span></p>
-<h4 id="题目分析"><a class="markdownIt-Anchor" href="#题目分析"></a> 题目分析：</h4>
-<p>所有选择的方案总共<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∗</mo><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">m*(m-1)/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">/</span><span class="mord">2</span></span></span></span>，乘上总元素大约<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3000</mn></mrow><annotation encoding="application/x-tex">3000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span>，然后直接从第一个目标音调的元素枚举到<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>，同时枚举所有现存的包含当前元素的集合，同时去除不包含的，如何此时没有任何一个集合满足，则重新枚举所有集合并且答案数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mo>+</mo></mrow><annotation encoding="application/x-tex">++</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span><span class="mord">+</span></span></span></span>。这里有个贪心正确性：取匹配目标元素最长的集合并不会让总集合数变多。时间复杂度大约<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>e</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">3e7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord mathnormal">e</span><span class="mord">7</span></span></span></span>左右。</p>
-<h4 id="题目代码"><a class="markdownIt-Anchor" href="#题目代码"></a> 题目代码：</h4>
-<pre class="highlight"><code class="C++">map&lt;string, <span class="hljs-type">int</span>&gt; mp;
-<span class="hljs-type">int</span> cnt;
-set&lt;<span class="hljs-type">int</span>&gt; b[<span class="hljs-number">300</span>];
-<span class="hljs-type">bool</span> st[<span class="hljs-number">300</span>];
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
-</span>&#123;
-    <span class="hljs-type">int</span> m;
+        <h3 id="Problem-B-Martian-Sunrise贪心"><a href="#Problem-B-Martian-Sunrise贪心" class="headerlink" title="Problem - B - Martian Sunrise贪心"></a><a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/B">Problem - B - Martian Sunrise贪心</a></h3><span id="more"></span>
+<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你$m$行音调，每行音调有$7$个元素，给你一行目标音调$n$ , 每次可以从$m$行任选两行,作为你的元素集合去匹配目标音调，求最少多少次完成匹配。$（1 \le m \le 16，1 \le n \le 1e4）$</p>
+<h4 id="题目分析："><a href="#题目分析：" class="headerlink" title="题目分析："></a>题目分析：</h4><p>所有选择的方案总共$m*(m-1)/2$，乘上总元素大约$3000$，然后直接从第一个目标音调的元素枚举到$n$，同时枚举所有现存的包含当前元素的集合，同时去除不包含的，如何此时没有任何一个集合满足，则重新枚举所有集合并且答案数$++$。这里有个贪心正确性：取匹配目标元素最长的集合并不会让总集合数变多。时间复杂度大约$3e7$左右。</p>
+<h4 id="题目代码："><a href="#题目代码：" class="headerlink" title="题目代码："></a>题目代码：</h4><pre><code class="lang-C++">map&lt;string, int&gt; mp;
+int cnt;
+set&lt;int&gt; b[300];
+bool st[300];
+void solve()
+&#123;
+    int m;
     cin &gt;&gt; m;
-    vector&lt;<span class="hljs-type">int</span>&gt; v[m];
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+    vector&lt;int&gt; v[m];
+    for (int i = 0; i &lt; m; i++)
     &#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">7</span>; j++)
+        for (int j = 0; j &lt; 7; j++)
         &#123;
             string s;
             cin &gt;&gt; s;
-            <span class="hljs-keyword">if</span> (!mp[s])
+            if (!mp[s])
             mp[s] = ++cnt;
-            v[i].<span class="hljs-built_in">pb</span>(mp[s]);
+            v[i].pb(mp[s]);
         &#125;
     &#125;
-    
-    <span class="hljs-type">int</span> n;
+
+    int n;
     cin &gt;&gt; n;
-    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">a</span><span class="hljs-params">(n)</span></span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : a)
+    vector&lt;int&gt; a(n);
+    for (auto &amp;x : a)
     &#123;
         string s;
         cin &gt;&gt; s;
         x = mp[s];
     &#125;
-    
-    <span class="hljs-type">int</span> idx = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">if</span> (m == <span class="hljs-number">1</span>)
+
+    int idx = 0;
+    if (m == 1)
     &#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[<span class="hljs-number">0</span>])
-            b[idx].<span class="hljs-built_in">insert</span>(x);
+        for (auto &amp;x : v[0])
+            b[idx].insert(x);
         idx++;
     &#125;
-    
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+
+    for (int i = 0; i &lt; m; i++)
     &#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; m; j++)
+        for (int j = i + 1; j &lt; m; j++)
         &#123;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[i])
-                b[idx].<span class="hljs-built_in">insert</span>(x);
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[j])
-                b[idx].<span class="hljs-built_in">insert</span>(x);
+            for (auto &amp;x : v[i])
+                b[idx].insert(x);
+            for (auto &amp;x : v[j])
+                b[idx].insert(x);
             idx++;
         &#125;
     &#125;
-    
-    <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> st);
-    <span class="hljs-type">int</span> num = idx, ans = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+
+    memset(st, 0, sizeof st);
+    int num = idx, ans = 1;
+    for (int i = 0; i &lt; n; i++)
     &#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; idx; j++)
+        for (int j = 0; j &lt; idx; j++)
         &#123;
-            <span class="hljs-keyword">if</span> (!st[j] &amp;&amp; b[j].<span class="hljs-built_in">find</span>(a[i]) == b[j].<span class="hljs-built_in">end</span>())
-                num--, st[j] = <span class="hljs-number">1</span>;
-            <span class="hljs-keyword">if</span> (!num)
+            if (!st[j] &amp;&amp; b[j].find(a[i]) == b[j].end())
+                num--, st[j] = 1;
+            if (!num)
             &#123;
                 i--;
-                <span class="hljs-keyword">break</span>;
+                break;
             &#125;
         &#125;
-        <span class="hljs-keyword">if</span> (!num)
-            num = idx, ans++, <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> st);
+        if (!num)
+            num = idx, ans++, memset(st, 0, sizeof st);
     &#125;
-    
-    cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
 &#125;
 </code></pre>
-<h3 id="problem-i-lazy-paintingdfssetstl"><a class="markdownIt-Anchor" href="#problem-i-lazy-paintingdfssetstl"></a> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/I">Problem - I. Lazy Painting/DFS/SET(stl)</a></h3>
-<h4 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述：</h4>
-<p>实验室地板可以表示为一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 行、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 列的矩阵，总共有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">N \times M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 块瓷砖。指令是以矩形区域为单位进行涂漆，每个矩形的高度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>，宽度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span>，且这些矩形可以重叠。每次指令后，需要计算还有多少瓷砖未涂漆。</p>
+<h3 id="Problem-I-Lazy-Painting-DFS-SET-stl"><a href="#Problem-I-Lazy-Painting-DFS-SET-stl" class="headerlink" title="Problem - I. Lazy Painting/DFS/SET(stl)"></a><a target="_blank" rel="noopener" href="https://codeforces.com/gym/101063/problem/I">Problem - I. Lazy Painting/DFS/SET(stl)</a></h3><h4 id="题目描述：-1"><a href="#题目描述：-1" class="headerlink" title="题目描述："></a>题目描述：</h4><p>实验室地板可以表示为一个 $N$ 行、$M$ 列的矩阵，总共有 $N \times M$ 块瓷砖。指令是以矩形区域为单位进行涂漆，每个矩形的高度为 $H$，宽度为 $W$，且这些矩形可以重叠。每次指令后，需要计算还有多少瓷砖未涂漆。</p>
 <p>马加里达负责执行指令，她会检查矩形的左边界，如果左侧边框中的瓷砖都已经涂漆，她会跳过该矩形。如果有未涂漆的瓷砖，她会将从左侧边框可到达的所有未涂漆的瓷砖进行涂漆。如果只有矩形内的未涂漆瓷砖可以到达某个瓷砖，那么这个瓷砖也会被涂漆。</p>
 <p><strong>输入</strong></p>
-<p>第一行包含五个整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>N</mi><mo separator="true">,</mo><mtext> </mtext><mi>M</mi><mtext> </mtext><mo>≤</mo><mtext> </mtext><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">(1 ≤ N, M ≤ 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"> </span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>N</mi><mtext> </mtext><mo>∗</mo><mtext> </mtext><mi>M</mi><mtext> </mtext><mo>≤</mo><mtext> </mtext><mn>3</mn><mtext> </mtext><mo>∗</mo><mtext> </mtext><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1 ≤ N * M ≤ 3 * 10^6)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord"> </span><span class="mord">3</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"> </span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>H</mi><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>N</mi></mrow><annotation encoding="application/x-tex">(1 ≤ H ≤ N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>， <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>W</mi><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1 ≤ W ≤ M)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">Q</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>Q</mi><mtext> </mtext><mo>≤</mo><mtext> </mtext><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(1 ≤ Q ≤ 10^5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"> </span><span class="mord mathnormal">Q</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"> </span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>. 然后是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">Q</span></span></span></span> 行. 第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 行包含两个整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><msub><mi>r</mi><mi>i</mi></msub><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>N</mi><mtext> </mtext><mo>−</mo><mtext> </mtext><mi>H</mi><mtext> </mtext><mo>+</mo><mtext> </mtext><mn>1</mn></mrow><annotation encoding="application/x-tex">(1 ≤ r_i ≤ N - H + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"> </span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord"> </span><span class="mord">1</span></span></span></span>， <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mo>≤</mo><mtext> </mtext><msub><mi>c</mi><mi>i</mi></msub><mtext> </mtext><mo>≤</mo><mtext> </mtext><mi>M</mi><mtext> </mtext><mo>−</mo><mtext> </mtext><mi>W</mi><mtext> </mtext><mo>+</mo><mtext> </mtext><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1 ≤ c_i ≤ M - W + 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"> </span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"> </span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord"> </span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord"> </span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"> </span><span class="mord">1</span><span class="mclose">)</span></span></span></span>—要绘制的矩形区域的左上平铺. 研究实验室最左边最上面的瓦片是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mo separator="true">,</mo><mtext> </mtext><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(1, 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"> </span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
+<p>第一行包含五个整数 $N$、$M$ $(1 ≤ N, M ≤ 10^5$ 和 $1 ≤ N <em> M ≤ 3 </em> 10^6)$、$H$、$W$ $(1 ≤ H ≤ N$， $1 ≤ W ≤ M)$ 和 $Q$ $(1 ≤ Q ≤ 10^5)$. 然后是 $Q$ 行. 第 $i$ 行包含两个整数 $r_i$ 和 $c_i$ $(1 ≤ r_i ≤ N - H + 1$， $1 ≤ c_i ≤ M - W + 1)$—要绘制的矩形区域的左上平铺. 研究实验室最左边最上面的瓦片是 $(1, 1)$.</p>
 <p><strong>输出</strong></p>
 <p>每次指令过后有多少未覆盖的瓷片.</p>
-<h4 id="题目分析-2"><a class="markdownIt-Anchor" href="#题目分析-2"></a> 题目分析：</h4>
-<p>因为是检查左边界，用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>e</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">set</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span></span></span></span>记录每列还有哪些没有被覆盖。当执行命令的时候二分查找还存在的，加到队列中进行<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>F</mi><mi>S</mi><mi mathvariant="normal">/</mi><mi>B</mi><mi>F</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">DFS/BFS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>覆盖即可，同时维护答案–。因为整个询问 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 次的时候，矩阵只会被访问一次 ，每次访问的时候set删除 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span></span></span></span>，所以总复杂度约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>Q</mi><mo>+</mo><mi>N</mi><mo>×</mo><mi>M</mi><mo stretchy="false">)</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O((Q+N \times M) \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>.</p>
-<h4 id="题目代码-2"><a class="markdownIt-Anchor" href="#题目代码-2"></a> 题目代码：</h4>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n, m, h, w, Q, ans, dx[] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>&#125;, dy[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;
-set&lt;<span class="hljs-type">int</span>&gt; s[N];
+<h4 id="题目分析：-1"><a href="#题目分析：-1" class="headerlink" title="题目分析："></a>题目分析：</h4><p>因为是检查左边界，用$set$记录每列还有哪些没有被覆盖。当执行命令的时候二分查找还存在的，加到队列中进行$DFS/BFS$覆盖即可，同时维护答案—。因为整个询问 $q$ 次的时候，矩阵只会被访问一次 ，每次访问的时候set删除 $\log n$，所以总复杂度约为 $O((Q+N \times M) \log n)$.</p>
+<h4 id="题目代码：-1"><a href="#题目代码：-1" class="headerlink" title="题目代码："></a>题目代码：</h4><pre><code class="lang-c++">int n, m, h, w, Q, ans, dx[] = &#123;0, 0, 1, -1&#125;, dy[] = &#123;1, -1, 0, 0&#125;;
+set&lt;int&gt; s[N];
 queue&lt;PII&gt; q;
 bitset&lt;M&gt; st;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> v)</span>
-	</span>&#123;
-		<span class="hljs-type">int</span> nn = u + h - <span class="hljs-number">1</span>, mm = v + w - <span class="hljs-number">1</span>;
-		set&lt;<span class="hljs-type">int</span>&gt;::iterator it = s[v].<span class="hljs-built_in">lower_bound</span>(u);
-		<span class="hljs-comment">// cout&lt;&lt;u&lt;&lt;&quot; &quot;&lt;&lt;*it&lt;&lt;&quot; &quot;&lt;&lt;nn&lt;&lt;&quot; &quot;&lt;&lt;mm&lt;&lt;&quot;\n&quot;;</span>
-		<span class="hljs-keyword">while</span> (*it &lt;= nn)
-		&#123;
-			q.<span class="hljs-built_in">push</span>(&#123;*it, v&#125;);
-			<span class="hljs-comment">// cout&lt;&lt;*it&lt;&lt;&quot;\n&quot;;</span>
-			st[(*it - <span class="hljs-number">1</span>) * m + v] = <span class="hljs-number">1</span>;
-			it++, ans--;
-		&#125;
-		<span class="hljs-comment">// cout&lt;&lt;nn&lt;&lt;&quot;#&quot;&lt;&lt;mm&lt;&lt;&quot;#&quot;&lt;&lt;q.size()&lt;&lt;&quot;\n&quot;;</span>
-		<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
-		&#123;
-			<span class="hljs-keyword">auto</span> [xx, yy] = q.<span class="hljs-built_in">front</span>();
-			q.<span class="hljs-built_in">pop</span>();
-			s[yy].<span class="hljs-built_in">erase</span>(xx);
-			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
-			&#123;
-				<span class="hljs-type">int</span> t = xx + dx[i];
-				<span class="hljs-type">int</span> z = yy + dy[i];
-				<span class="hljs-keyword">if</span> (t &gt;= u &amp;&amp; t &lt;= nn &amp;&amp; z &gt;= v &amp;&amp; z &lt;= mm &amp;&amp; st[(t - <span class="hljs-number">1</span>) * m + z] == <span class="hljs-number">0</span>)
-				&#123;
-					st[(t - <span class="hljs-number">1</span>) * m + z] = <span class="hljs-number">1</span>;
-					q.<span class="hljs-built_in">push</span>(&#123;t, z&#125;);
-					ans--;
-				&#125;
-			&#125;
-		&#125;
+void bfs(int u, int v)
+    &#123;
+        int nn = u + h - 1, mm = v + w - 1;
+        set&lt;int&gt;::iterator it = s[v].lower_bound(u);
+        // cout&lt;&lt;u&lt;&lt;&quot; &quot;&lt;&lt;*it&lt;&lt;&quot; &quot;&lt;&lt;nn&lt;&lt;&quot; &quot;&lt;&lt;mm&lt;&lt;&quot;\n&quot;;
+        while (*it &lt;= nn)
+        &#123;
+            q.push(&#123;*it, v&#125;);
+            // cout&lt;&lt;*it&lt;&lt;&quot;\n&quot;;
+            st[(*it - 1) * m + v] = 1;
+            it++, ans--;
+        &#125;
+        // cout&lt;&lt;nn&lt;&lt;&quot;#&quot;&lt;&lt;mm&lt;&lt;&quot;#&quot;&lt;&lt;q.size()&lt;&lt;&quot;\n&quot;;
+        while (q.size())
+        &#123;
+            auto [xx, yy] = q.front();
+            q.pop();
+            s[yy].erase(xx);
+            for (int i = 0; i &lt; 4; i++)
+            &#123;
+                int t = xx + dx[i];
+                int z = yy + dy[i];
+                if (t &gt;= u &amp;&amp; t &lt;= nn &amp;&amp; z &gt;= v &amp;&amp; z &lt;= mm &amp;&amp; st[(t - 1) * m + z] == 0)
+                &#123;
+                    st[(t - 1) * m + z] = 1;
+                    q.push(&#123;t, z&#125;);
+                    ans--;
+                &#125;
+            &#125;
+        &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
-</span>&#123;
-	cin &gt;&gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;
-	ans = n * m;
-	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n+<span class="hljs-number">1</span>; i++)
-	&#123;
-		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
-			s[j].<span class="hljs-built_in">insert</span>(i);
-	&#125;
-	
-	<span class="hljs-keyword">while</span> (Q--)
-	&#123;
-		<span class="hljs-type">int</span> x, y;
-		cin &gt;&gt; x &gt;&gt; y;
-		<span class="hljs-built_in">bfs</span>(x, y);
-		cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-	&#125;
+void solve()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;
+    ans = n * m;
+    for (int i = 1; i &lt;= n+1; i++)
+    &#123;
+        for (int j = 1; j &lt;= m; j++)
+            s[j].insert(i);
+    &#125;
+
+    while (Q--)
+    &#123;
+        int x, y;
+        cin &gt;&gt; x &gt;&gt; y;
+        bfs(x, y);
+        cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+    &#125;
 &#125;
 </code></pre>
 

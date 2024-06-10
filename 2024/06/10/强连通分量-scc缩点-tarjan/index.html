@@ -194,7 +194,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/dfs/" style="color: #ffa2c4">
+                <a href="/tags/dfs/" style="color: #00a596">
                     dfs
                 </a>
             </span>
@@ -215,7 +215,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ffa2c4">
+                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #03a9f4">
                     拓扑
                 </a>
             </span>
@@ -228,237 +228,213 @@
         <p>学习了一下强连通分量，整理一下：</p>
 <span id="more"></span>
 <p>强连通分量的概念：任意两点之间能相互到达。</p>
-<p>缩点简单来讲就是缩环成点，把强连通分量用一个点来维护，形成<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>A</mi><mi>G</mi></mrow><annotation encoding="application/x-tex">DAG</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">A</span><span class="mord mathnormal">G</span></span></span></span>有向无环图。</p>
-<p>缩点方式有三种这里只说一下<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>a</mi><mi>r</mi><mi>j</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">tarjan</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mord mathnormal">a</span><span class="mord mathnormal">n</span></span></span></span>。</p>
-<h3 id="tarjan求scc缩点时间复杂度onm"><a class="markdownIt-Anchor" href="#tarjan求scc缩点时间复杂度onm"></a> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>a</mi><mi>r</mi><mi>j</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">tarjan</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mord mathnormal">a</span><span class="mord mathnormal">n</span></span></span></span>求<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>C</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">SCC</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>缩点：时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n+m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></h3>
-<p>单纯判断是否有环一般可以用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">s</span></span></span></span>，那么在搜索过程中我们对点只有三种情况：</p>
+<p>缩点简单来讲就是缩环成点，把强连通分量用一个点来维护，形成$DAG$有向无环图。</p>
+<p>缩点方式有三种这里只说一下$tarjan$。</p>
+<h3 id="tarjan-求-SCC-缩点：时间复杂度-O-n-m"><a href="#tarjan-求-SCC-缩点：时间复杂度-O-n-m" class="headerlink" title="$tarjan$求$SCC$缩点：时间复杂度$O(n+m)$"></a>$tarjan$求$SCC$缩点：时间复杂度$O(n+m)$</h3><p>单纯判断是否有环一般可以用$dfs$，那么在搜索过程中我们对点只有三种情况：</p>
 <p>1.该点没有搜索过。</p>
 <p>2.该点有搜索过，但是不是我们上一个遍历的点的祖宗节点。</p>
 <p>3.该点有搜索过，是我们上一个遍历节点的祖宗节点。</p>
-<p>下图描述了三种情况：黑色边为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>，绿色边为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>，蓝色边为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>。</p>
+<p>下图描述了三种情况：黑色边为$1$，绿色边为$2$，蓝色边为$3$。</p>
 <img src="/2024/06/10/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F-scc%E7%BC%A9%E7%82%B9-tarjan/image-20240610201027622.webp" class="" title="image-1">
 <p>显然，只有第三种边能成环，成环的这些为强连通分量，其他的单独一个点作为强连通分量（自己本身就能到达自己），所以上图的强连通分量为（{1}，{2，3}，{4}，{5}）四个。</p>
 <p>但是实际情况可能有很多个环嵌套，所以我们不能判断当前为环后，直接进行缩点，应该所有该子节点环判断完后，一块缩点。</p>
-<p>为了解决这种问题，我们引入一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>f</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">dfn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">n</span></span></span></span>（时间戳）来记录我们第一次到达每个节点的顺序，一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">low</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>（当前节点所接触到的最早的时间戳节点，初始为当前节点的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>f</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">dfn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">n</span></span></span></span> 值），在回溯的过程中对当前节点<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">low</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>与其子节点取<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">min</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span></span></span></span>值来实现维护最大强连通分量集合，一个栈存我们 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">s</span></span></span></span> 过程的节点。</p>
-<p>因为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>f</mi><mi>n</mi><mo>=</mo><mo>=</mo><mi>l</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">dfn==low</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span> 的时候说明此节点为一个强连通分量的最早结点，那么我们可以开始从栈头开始 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>o</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pop</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span></span></span></span>，直到栈头等于当前节点，那么取出的节点即为我们所维护的一个强连通分量集合。</p>
+<p>为了解决这种问题，我们引入一个 $dfn$（时间戳）来记录我们第一次到达每个节点的顺序，一个 $low$（当前节点所接触到的最早的时间戳节点，初始为当前节点的 $dfn$ 值），在回溯的过程中对当前节点$low$与其子节点取$min$值来实现维护最大强连通分量集合，一个栈存我们 $dfs$ 过程的节点。</p>
+<p>因为 $dfn==low$ 的时候说明此节点为一个强连通分量的最早结点，那么我们可以开始从栈头开始 $pop$，直到栈头等于当前节点，那么取出的节点即为我们所维护的一个强连通分量集合。</p>
 <p>具体细节可以看代码：</p>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> dfn[N],low[N],cnt,sz[N],scc[N],sc;
-stack&lt;<span class="hljs-type">int</span>&gt;st;
-vector&lt;<span class="hljs-type">int</span>&gt;e[N];
-<span class="hljs-type">bool</span> vis[N];
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
-	dfn[u]=low[u]=++cnt;
-	st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
-	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[u])&#123;
-		<span class="hljs-keyword">if</span>(!dfn[to])&#123;
-	        <span class="hljs-built_in">tarjan</span>(to);
-			low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
-		&#125;
-		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
-			low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
-		&#125;
-	&#125;
+<pre><code class="lang-c++">int dfn[N],low[N],cnt,sz[N],scc[N],sc;
+stack&lt;int&gt;st;
+vector&lt;int&gt;e[N];
+bool vis[N];
+void tarjan(int u)&#123;
+    dfn[u]=low[u]=++cnt;
+    st.push(u),vis[u]=true;
+    for(auto &amp;to:e[u])&#123;
+        if(!dfn[to])&#123;
+            tarjan(to);
+            low[u]=min(low[u],low[to]);
+        &#125;
+        else if(vis[to])&#123;
+            low[u]=min(low[u],dfn[to]);
+        &#125;
+    &#125;
 
-	<span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
-		sc++;
-		<span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
-			sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-			scc[st.<span class="hljs-built_in">top</span>()]=sc;
-			vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-			st.<span class="hljs-built_in">pop</span>();
-		&#125;
-		sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-		scc[st.<span class="hljs-built_in">top</span>()]=sc;
-		vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-		st.<span class="hljs-built_in">pop</span>();
-	&#125;
+    if(dfn[u]==low[u])&#123;
+        sc++;
+        while(st.top()!=u)&#123;
+            sz[sc]+=w[st.top()];
+            scc[st.top()]=sc;
+            vis[st.top()]=0;
+            st.pop();
+        &#125;
+        sz[sc]+=w[st.top()];
+        scc[st.top()]=sc;
+        vis[st.top()]=0;
+        st.pop();
+    &#125;
 &#125;
 </code></pre>
-<h3 id="例题p3387-模板缩点-洛谷-计算机科学教育新生态-luogucomcn"><a class="markdownIt-Anchor" href="#例题p3387-模板缩点-洛谷-计算机科学教育新生态-luogucomcn"></a> 例题：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3387">P3387 【模板】缩点 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h3>
-<h4 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h4>
-<p>给定一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 条边有向图，每个点有一个权值，求一条路径，使路径经过的点权值之和最大。你只需要求出这个权值和。</p>
+<h3 id="例题：P3387-【模板】缩点-洛谷-计算机科学教育新生态-luogu-com-cn"><a href="#例题：P3387-【模板】缩点-洛谷-计算机科学教育新生态-luogu-com-cn" class="headerlink" title="例题：P3387 【模板】缩点 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)"></a>例题：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3387">P3387 【模板】缩点 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给定一个 $n$ 个点 $m$ 条边有向图，每个点有一个权值，求一条路径，使路径经过的点权值之和最大。你只需要求出这个权值和。</p>
 <p>允许多次经过一条边或者一个点，但是，重复经过的点，权值只计算一次。</p>
-<h4 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h4>
-<p>第一行两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo separator="true">,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n,m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">m</span></span></span></span></p>
-<p>第二行 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个整数，其中第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 个数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 的点权。</p>
-<p>第三至 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">m+2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> 行，每行两个整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u,v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span>，表示一条 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>→</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u\rightarrow v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 的有向边。</p>
-<h4 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h4>
-<p>共一行，最大的点权之和。</p>
-<h4 id="样例-1"><a class="markdownIt-Anchor" href="#样例-1"></a> 样例 #1</h4>
-<h4 id="样例输入-1"><a class="markdownIt-Anchor" href="#样例输入-1"></a> 样例输入 #1</h4>
-<pre class="highlight"><code class="">2 2
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行两个正整数 $n,m$</p>
+<p>第二行 $n$ 个整数，其中第 $i$ 个数 $a_i$ 表示点 $i$ 的点权。</p>
+<p>第三至 $m+2$ 行，每行两个整数 $u,v$，表示一条 $u\rightarrow v$ 的有向边。</p>
+<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>共一行，最大的点权之和。</p>
+<h4 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h4><h4 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h4><pre><code>2 2
 1 1
 1 2
 2 1
-</code></pre>
-<h4 id="样例输出-1"><a class="markdownIt-Anchor" href="#样例输出-1"></a> 样例输出 #1</h4>
-<pre class="highlight"><code class="">2
-</code></pre>
-<h4 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h4>
-<p>对于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">100\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.80556em;vertical-align:-0.05556em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">%</span></span></span></span> 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">1\le n \le 10^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>m</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">1\le m \le 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><msub><mi>a</mi><mi>i</mi></msub><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">0\le a_i\le 10^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span>。</p>
+</code></pre><h4 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h4><pre><code>2
+</code></pre><h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><p>对于 $100\%$ 的数据，$1\le n \le 10^4$，$1\le m \le 10^5$，$0\le a_i\le 10^3$。</p>
 <p>思路：</p>
-<p>因为是有向图，所以可能存在有环的情况，因为每个点可以走多次，所以只要是路径上有环，我们全部取掉为最优。所以直接用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>c</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">scc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">c</span><span class="mord mathnormal">c</span></span></span></span>缩点，重新建图，把图变为有向无环图<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（</mtext><mi>D</mi><mi>A</mi><mi>G</mi><mtext>）</mtext></mrow><annotation encoding="application/x-tex">（DAG）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord cjk_fallback">（</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">A</span><span class="mord mathnormal">G</span><span class="mord cjk_fallback">）</span></span></span></span>，新缩成的点的权值为全部点的点权和。那么该题就变成了，给你一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>A</mi><mi>G</mi></mrow><annotation encoding="application/x-tex">DAG</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">A</span><span class="mord mathnormal">G</span></span></span></span>，和每个点的点权，求点权最长路径。直接在新图的拓扑序中dp维护权值<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">max</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span></span></span></span>即可。</p>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> dfn[N],low[N],cnt,sz[N],scc[N],sc,d[N],dp[N],ans,w[N];
-stack&lt;<span class="hljs-type">int</span>&gt;st;
-vector&lt;<span class="hljs-type">int</span>&gt;e[N],ex[N];
-<span class="hljs-type">bool</span> vis[N];
-queue&lt;<span class="hljs-type">int</span>&gt;q;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
-	dfn[u]=low[u]=++cnt;
-	st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
-	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[u])&#123;
-		<span class="hljs-keyword">if</span>(!dfn[to])&#123;
-	        <span class="hljs-built_in">tarjan</span>(to);
-			low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
-		&#125;
-		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
-			low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
-		&#125;
-	&#125;
-	<span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
-		sc++;
-		<span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
-			sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-			scc[st.<span class="hljs-built_in">top</span>()]=sc;
-			vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-			st.<span class="hljs-built_in">pop</span>();
-		&#125;
-		sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-		scc[st.<span class="hljs-built_in">top</span>()]=sc;
-		vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-		st.<span class="hljs-built_in">pop</span>();
-	&#125;
+<p>因为是有向图，所以可能存在有环的情况，因为每个点可以走多次，所以只要是路径上有环，我们全部取掉为最优。所以直接用$scc$缩点，重新建图，把图变为有向无环图$（DAG）$，新缩成的点的权值为全部点的点权和。那么该题就变成了，给你一个$DAG$，和每个点的点权，求点权最长路径。直接在新图的拓扑序中dp维护权值$max$即可。</p>
+<pre><code class="lang-c++">int dfn[N],low[N],cnt,sz[N],scc[N],sc,d[N],dp[N],ans,w[N];
+stack&lt;int&gt;st;
+vector&lt;int&gt;e[N],ex[N];
+bool vis[N];
+queue&lt;int&gt;q;
+void tarjan(int u)&#123;
+    dfn[u]=low[u]=++cnt;
+    st.push(u),vis[u]=true;
+    for(auto &amp;to:e[u])&#123;
+        if(!dfn[to])&#123;
+            tarjan(to);
+            low[u]=min(low[u],low[to]);
+        &#125;
+        else if(vis[to])&#123;
+            low[u]=min(low[u],dfn[to]);
+        &#125;
+    &#125;
+    if(dfn[u]==low[u])&#123;
+        sc++;
+        while(st.top()!=u)&#123;
+            sz[sc]+=w[st.top()];
+            scc[st.top()]=sc;
+            vis[st.top()]=0;
+            st.pop();
+        &#125;
+        sz[sc]+=w[st.top()];
+        scc[st.top()]=sc;
+        vis[st.top()]=0;
+        st.pop();
+    &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">topu</span><span class="hljs-params">()</span></span>&#123;
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=sc;i++)<span class="hljs-keyword">if</span>(!d[i])q.<span class="hljs-built_in">push</span>(i),ans=<span class="hljs-built_in">max</span>(ans,(dp[i]=sz[i]));
-	<span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())&#123;
-		<span class="hljs-type">int</span> ver=q.<span class="hljs-built_in">front</span>();
-		q.<span class="hljs-built_in">pop</span>();
-		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:ex[ver])&#123;
-			d[to]--;
-			dp[to]=<span class="hljs-built_in">max</span>(dp[to],dp[ver]+sz[to]);
-			ans=<span class="hljs-built_in">max</span>(ans,dp[to]);
-			<span class="hljs-keyword">if</span>(!d[to])q.<span class="hljs-built_in">push</span>(to);
-		&#125;
-	&#125;
+void topu()&#123;
+    for(int i=1;i&lt;=sc;i++)if(!d[i])q.push(i),ans=max(ans,(dp[i]=sz[i]));
+    while(q.size())&#123;
+        int ver=q.front();
+        q.pop();
+        for(auto &amp;to:ex[ver])&#123;
+            d[to]--;
+            dp[to]=max(dp[to],dp[ver]+sz[to]);
+            ans=max(ans,dp[to]);
+            if(!d[to])q.push(to);
+        &#125;
+    &#125;
 
 &#125;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span>&#123;
-	<span class="hljs-type">int</span> n,m;cin&gt;&gt;n&gt;&gt;m;
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)cin&gt;&gt;w[i];
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)&#123;
-		<span class="hljs-type">int</span> u,v;cin&gt;&gt;u&gt;&gt;v;
-		e[u].<span class="hljs-built_in">pb</span>(v);
-	&#125;
+void solve()&#123;
+    int n,m;cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;=n;i++)cin&gt;&gt;w[i];
+    for(int i=1;i&lt;=m;i++)&#123;
+        int u,v;cin&gt;&gt;u&gt;&gt;v;
+        e[u].pb(v);
+    &#125;
 
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-		<span class="hljs-keyword">if</span>(!dfn[i])<span class="hljs-built_in">tarjan</span>(i);
-	&#125;
-	
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-		<span class="hljs-type">int</span> u=scc[i];
-		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[i])&#123;
-			<span class="hljs-type">int</span> v=scc[to];
-			<span class="hljs-keyword">if</span>(u==v)<span class="hljs-keyword">continue</span>;
-			ex[u].<span class="hljs-built_in">pb</span>(v);
-			d[v]++;
-		&#125;
-	&#125;
+    for(int i=1;i&lt;=n;i++)&#123;
+        if(!dfn[i])tarjan(i);
+    &#125;
 
-	<span class="hljs-built_in">topu</span>();
+    for(int i=1;i&lt;=n;i++)&#123;
+        int u=scc[i];
+        for(auto &amp;to:e[i])&#123;
+            int v=scc[to];
+            if(u==v)continue;
+            ex[u].pb(v);
+            d[v]++;
+        &#125;
+    &#125;
 
-	cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    topu();
+
+    cout&lt;&lt;ans&lt;&lt;&quot;\n&quot;;
 &#125;
 </code></pre>
-<h3 id="p2812-校园网络usaconetwork-of-schools加强版-洛谷-计算机科学教育新生态-luogucomcn"><a class="markdownIt-Anchor" href="#p2812-校园网络usaconetwork-of-schools加强版-洛谷-计算机科学教育新生态-luogucomcn"></a> [P2812 校园网络【<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2812">USACO]Network of Schools加强版】 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h3>
-<h4 id="题目背景"><a class="markdownIt-Anchor" href="#题目背景"></a> 题目背景</h4>
-<p>浙江省的几所 OI 强校的神犇发明了一种人工智能，可以 AC 任何题目，所以他们决定建立一个网络来共享这个软件。但是由于他们脑力劳动过多导致全身无力身体被♂掏♂空，他们来找你帮助他们。</p>
-<h4 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述</h4>
-<p>共有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 所学校 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>10000</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(1 \leq n \leq 10000)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mclose">)</span></span></span></span> 已知他们实现设计好的网络共 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 条线路，为了保证高速，网络是单向的。现在请你告诉他们至少选几所学校作为共享软件的母机，能使每所学校都可以用上。再告诉他们至少要添加几条线路能使任意一所学校作为母机都可以使别的学校使用上软件。</p>
-<h4 id="输入格式-2"><a class="markdownIt-Anchor" href="#输入格式-2"></a> 输入格式</h4>
-<p>第一行一个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>。</p>
-<p>接下来 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 行每行有若干个整数，用空格隔开。</p>
-<p>第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">i+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 行，每行输入若干个非零整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>，表示从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 有一条线路。以 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 作为结束标志。</p>
-<h4 id="输出格式-2"><a class="markdownIt-Anchor" href="#输出格式-2"></a> 输出格式</h4>
-<p>第一行一个整数，表示至少选几所学校作为共享软件的母机，能使每所学校都可以用上。</p>
+<h3 id="P2812-校园网络【-USACO-Network-of-Schools加强版】-洛谷-计算机科学教育新生态-luogu-com-cn"><a href="#P2812-校园网络【-USACO-Network-of-Schools加强版】-洛谷-计算机科学教育新生态-luogu-com-cn" class="headerlink" title="P2812 校园网络【[USACO]Network of Schools加强版】 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2812">P2812 校园网络【[USACO]Network of Schools加强版】 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h3><h4 id="题目背景"><a href="#题目背景" class="headerlink" title="题目背景"></a>题目背景</h4><p>浙江省的几所 OI 强校的神犇发明了一种人工智能，可以 AC 任何题目，所以他们决定建立一个网络来共享这个软件。但是由于他们脑力劳动过多导致全身无力身体被♂掏♂空，他们来找你帮助他们。</p>
+<h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>共有 $n$ 所学校 $(1 \leq n \leq 10000)$ 已知他们实现设计好的网络共 $m$ 条线路，为了保证高速，网络是单向的。现在请你告诉他们至少选几所学校作为共享软件的母机，能使每所学校都可以用上。再告诉他们至少要添加几条线路能使任意一所学校作为母机都可以使别的学校使用上软件。</p>
+<h4 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行一个正整数 $n$。</p>
+<p>接下来 $n$ 行每行有若干个整数，用空格隔开。</p>
+<p>第 $i+1$ 行，每行输入若干个非零整数 $x$，表示从 $i$ 到 $x$ 有一条线路。以 $0$ 作为结束标志。</p>
+<h4 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h4><p>第一行一个整数，表示至少选几所学校作为共享软件的母机，能使每所学校都可以用上。</p>
 <p>第二行一个整数，表示至少要添加几条线路能使任意一所学校作为母机都可以使别的学校使用上软件。</p>
-<h4 id="样例-1-2"><a class="markdownIt-Anchor" href="#样例-1-2"></a> 样例 #1</h4>
-<h4 id="样例输入-1-2"><a class="markdownIt-Anchor" href="#样例输入-1-2"></a> 样例输入 #1</h4>
-<pre class="highlight"><code class="">5
+<h4 id="样例-1-1"><a href="#样例-1-1" class="headerlink" title="样例 #1"></a>样例 #1</h4><h4 id="样例输入-1-1"><a href="#样例输入-1-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h4><pre><code>5
 2 0
 4 0
 5 0
 1 0
 0
-</code></pre>
-<h4 id="样例输出-1-2"><a class="markdownIt-Anchor" href="#样例输出-1-2"></a> 样例输出 #1</h4>
-<pre class="highlight"><code class="">2
+</code></pre><h4 id="样例输出-1-1"><a href="#样例输出-1-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h4><pre><code>2
 2
-</code></pre>
-<h4 id="提示-2"><a class="markdownIt-Anchor" href="#提示-2"></a> 提示</h4>
-<p>实际上，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>10000</mn></mrow><annotation encoding="application/x-tex">1 \leq n \leq 10000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span>，$1\le $ 边数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>50000</mn></mrow><annotation encoding="application/x-tex">\le 50000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span>。</p>
-<h4 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路：</h4>
-<p>依旧是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>c</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">scc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">c</span><span class="mord mathnormal">c</span></span></span></span>缩点形成<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>A</mi><mi>G</mi></mrow><annotation encoding="application/x-tex">DAG</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">A</span><span class="mord mathnormal">G</span></span></span></span>，对于第一个问题：入度为零的点个数即为最少学校，因为入度为零的点为每一个联通图的初始节点。对于第二个问题：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">max</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span></span></span></span>(入度为零的点,出度为零的点）即为答案，因为要整体成强连通分量只能把所有把现有的边入度和出度都为零，因为连接一条边是入度出度都++，所以输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">max</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span></span></span></span>入度或者出度即可。</p>
-<h4 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码：</h4>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> dfn[N],low[N],cnt,sz[N],scc[N],sc,d[N],ud[N];
-stack&lt;<span class="hljs-type">int</span>&gt;st;
-vector&lt;<span class="hljs-type">int</span>&gt;e[N],ex[N];
-<span class="hljs-type">bool</span> vis[N];
-queue&lt;<span class="hljs-type">int</span>&gt;q;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
-	dfn[u]=low[u]=++cnt;
-	st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
-	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[u])&#123;
-		<span class="hljs-keyword">if</span>(!dfn[to])&#123;
-	        <span class="hljs-built_in">tarjan</span>(to);
-			low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
-		&#125;
-		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
-			low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
-		&#125;
-	&#125;
-	<span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
-		sc++;
-		<span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
-			scc[st.<span class="hljs-built_in">top</span>()]=sc;
-			vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-			st.<span class="hljs-built_in">pop</span>();
-		&#125;
-		scc[st.<span class="hljs-built_in">top</span>()]=sc;
-		vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-		st.<span class="hljs-built_in">pop</span>();
-	&#125;
+</code></pre><h4 id="提示-1"><a href="#提示-1" class="headerlink" title="提示"></a>提示</h4><p>实际上，$1 \leq n \leq 10000$，$1\le $ 边数 $\le 50000$。</p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>依旧是$scc$缩点形成$DAG$，对于第一个问题：入度为零的点个数即为最少学校，因为入度为零的点为每一个联通图的初始节点。对于第二个问题：$max$(入度为零的点,出度为零的点）即为答案，因为要整体成强连通分量只能把所有把现有的边入度和出度都为零，因为连接一条边是入度出度都++，所以输出$max$入度或者出度即可。</p>
+<h4 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h4><pre><code class="lang-c++">int dfn[N],low[N],cnt,sz[N],scc[N],sc,d[N],ud[N];
+stack&lt;int&gt;st;
+vector&lt;int&gt;e[N],ex[N];
+bool vis[N];
+queue&lt;int&gt;q;
+void tarjan(int u)&#123;
+    dfn[u]=low[u]=++cnt;
+    st.push(u),vis[u]=true;
+    for(auto &amp;to:e[u])&#123;
+        if(!dfn[to])&#123;
+            tarjan(to);
+            low[u]=min(low[u],low[to]);
+        &#125;
+        else if(vis[to])&#123;
+            low[u]=min(low[u],dfn[to]);
+        &#125;
+    &#125;
+    if(dfn[u]==low[u])&#123;
+        sc++;
+        while(st.top()!=u)&#123;
+            scc[st.top()]=sc;
+            vis[st.top()]=0;
+            st.pop();
+        &#125;
+        scc[st.top()]=sc;
+        vis[st.top()]=0;
+        st.pop();
+    &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span>&#123;
-	<span class="hljs-type">int</span> n;cin&gt;&gt;n;
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-		<span class="hljs-type">int</span> x;
-		<span class="hljs-keyword">while</span>(cin&gt;&gt;x,x)&#123;
-			e[i].<span class="hljs-built_in">pb</span>(x);
-		&#125;
-	&#125;
-	
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
-	<span class="hljs-keyword">if</span>(!dfn[i])<span class="hljs-built_in">tarjan</span>(i);
+void solve()&#123;
+    int n;cin&gt;&gt;n;
+    for(int i=1;i&lt;=n;i++)&#123;
+        int x;
+        while(cin&gt;&gt;x,x)&#123;
+            e[i].pb(x);
+        &#125;
+    &#125;
 
-	<span class="hljs-type">int</span> ans1=<span class="hljs-number">0</span>,ans2=<span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-		<span class="hljs-type">int</span> u=scc[i];
-		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[i])&#123;
-			<span class="hljs-type">int</span> v=scc[to];
-			<span class="hljs-keyword">if</span>(u==v)<span class="hljs-keyword">continue</span>;
-			d[v]++,ud[u]++;
-		&#125;
-	&#125;
-	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=sc;i++)
-	&#123;
-		<span class="hljs-keyword">if</span>(!d[i])ans1++;
-		<span class="hljs-keyword">if</span>(!ud[i])ans2++;
-	&#125;
-	cout&lt;&lt;ans1&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
-	<span class="hljs-keyword">if</span>(sc==<span class="hljs-number">1</span>)
-	cout&lt;&lt;<span class="hljs-number">0</span>&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
-	<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">max</span>(ans1,ans2)&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    for(int i=1;i&lt;=n;i++)
+    if(!dfn[i])tarjan(i);
+
+    int ans1=0,ans2=0;
+    for(int i=1;i&lt;=n;i++)&#123;
+        int u=scc[i];
+        for(auto &amp;to:e[i])&#123;
+            int v=scc[to];
+            if(u==v)continue;
+            d[v]++,ud[u]++;
+        &#125;
+    &#125;
+    for(int i=1;i&lt;=sc;i++)
+    &#123;
+        if(!d[i])ans1++;
+        if(!ud[i])ans2++;
+    &#125;
+    cout&lt;&lt;ans1&lt;&lt;&quot;\n&quot;;
+    if(sc==1)
+    cout&lt;&lt;0&lt;&lt;&quot;\n&quot;;
+    else cout&lt;&lt;max(ans1,ans2)&lt;&lt;&quot;\n&quot;;
 &#125;
 </code></pre>
 
