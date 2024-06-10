@@ -194,21 +194,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ff7d73">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #00a596">
+                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">
                     最小环
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">
+                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00bcd4">
                     最短路
                 </a>
             </span>
@@ -228,11 +228,11 @@
         <span id="more"></span>
 <p>扩展欧几里得：</p>
 <p>对于任意整数 a,b ，求解 ax+by=m</p>
-<p>由裴蜀定理可知 ax+by=m 一定有解的充要条件为 gcd(a,b)|m</p>
+<p>由裴蜀定理可知 ax+by=m 一定有解的充要条件为 gcd(a,b)|m </p>
 <p>所以对于解一般的 ax+by=m 不定方程，我们可以先证明ax+by=gcd(a,b),在扩展到一般域</p>
 <p>假设一组解为 x1,y1 即ax1+by1=m:</p>
 <p>因为gcd(a,b)=gcd(b,a%b) 即 bx2+(a%b)y2=ax1+by1;</p>
-<p>其中 a%b=a-b*[a/b] 即 bx2+(a-b*[a/b])y2=ax1+by1</p>
+<p>其中 a%b=a-b<em>[a/b] 即 bx2+(a-b</em>[a/b])y2=ax1+by1</p>
 <p>系数对称后可得：x1=y2,y1=x2-[a/b]y2 ;</p>
 <p>我们考虑到在gcd(a,b)递归的最终结果为 b|a，则此时ax+b*0=gcd(a,0)=a ,x=1,y=0;</p>
 <p>从此时往前递归并借用我们得到的x1,x2,y1,y2 的关系可得最终x1,y1</p>
