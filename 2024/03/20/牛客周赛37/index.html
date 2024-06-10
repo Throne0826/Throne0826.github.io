@@ -194,7 +194,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
                     图论
                 </a>
             </span>
@@ -208,14 +208,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #ff7d73">
+                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #03a9f4">
                     动态规划
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #03a9f4">
+                <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #00bcd4">
                     类背包dp
                 </a>
             </span>
@@ -225,114 +225,124 @@
     </div>
     
     <div class="content" v-pre>
-        <h3 id="题目：E-魔法之森的蘑菇"><a href="#题目：E-魔法之森的蘑菇" class="headerlink" title="题目：E-魔法之森的蘑菇"></a>题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/E">E-魔法之森的蘑菇</a></h3><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你一张图，起点为$S$终点为$T$，起初任意选择前进方向，除非遇到 $<em>$，否则不能更改方向，遇到 $</em>$ 可以选择朝向除返回刚刚位置的其他方向，$#$ 为障碍物，$.$ 为普通路径，求 $S$ $-$ $&gt;T$ 最短距离。</p>
+        <h3 id="题目e-魔法之森的蘑菇"><a class="markdownIt-Anchor" href="#题目e-魔法之森的蘑菇"></a> 题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/E">E-魔法之森的蘑菇</a></h3>
+<h4 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h4>
+<p>给你一张图，起点为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>终点为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>，起初任意选择前进方向，除非遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span>，否则不能更改方向，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> 可以选择朝向除返回刚刚位置的其他方向，# 为障碍物，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 为普通路径，求 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">−</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">&gt;T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> 最短距离。</p>
 <span id="more"></span>
-<h4 id="题目分析："><a href="#题目分析：" class="headerlink" title="题目分析："></a>题目分析：</h4><p>起初很容易考虑BFS，遇到 $*$ 就把三个方向全加进去，遇到 $.$ 就按原来方向走，同时把走过的点打上标记，通过bfs最短路属性记录最小答案。这个思路是没错的，但是我们之所以把走过的点打上标记，是因为我们已经保证这个点的所有状态已经加到队列中去。但是这个题一个点的所有状态并不是单纯走到这个点，而是包含了从四种方向走来的四种状态，比如假设一开始走到 $x$ 点为 $2$ 步，但是由于 $x$ 点为 $.$  ,它的这个方向并不能对最短答案有贡献，所以可能有一个更长的但是方向不一样的路径经过这个点，并且能对最短答案造成贡献。所以上述思路只需要改成走到一个点被打上标记只能是带有特定方向的，再取每个点距离最小值，本质上其实就是一个以四个方向形成的分层图最短路。</p>
-<h4 id="题目代码："><a href="#题目代码：" class="headerlink" title="题目代码："></a>题目代码：</h4><pre><code class="lang-c++">int n, m, sx, sy, ex, ey, len[N][N][4], dx[] = &#123;0, 0, 1, -1&#125;, dy[] = &#123;1, -1, 0, 0&#125;;
-bool st[N][N][4];
-char g[N][N];
-queue&lt;array&lt;int, 3&gt;&gt; q;
-void solve()
-&#123;
-    while (q.size())
-        q.pop();
+<h4 id="题目分析"><a class="markdownIt-Anchor" href="#题目分析"></a> 题目分析：</h4>
+<p>起初很容易考虑BFS，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> 就把三个方向全加进去，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 就按原来方向走，同时把走过的点打上标记，通过bfs最短路属性记录最小答案。这个思路是没错的，但是我们之所以把走过的点打上标记，是因为我们已经保证这个点的所有状态已经加到队列中去。但是这个题一个点的所有状态并不是单纯走到这个点，而是包含了从四种方向走来的四种状态，比如假设一开始走到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> 步，但是由于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span>  ,它的这个方向并不能对最短答案有贡献，所以可能有一个更长的但是方向不一样的路径经过这个点，并且能对最短答案造成贡献。所以上述思路只需要改成走到一个点被打上标记只能是带有特定方向的，再取每个点距离最小值，本质上其实就是一个以四个方向形成的分层图最短路。</p>
+<h4 id="题目代码"><a class="markdownIt-Anchor" href="#题目代码"></a> 题目代码：</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n, m, sx, sy, ex, ey, len[N][N][<span class="hljs-number">4</span>], dx[] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>&#125;, dy[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;
+<span class="hljs-type">bool</span> st[N][N][<span class="hljs-number">4</span>];
+<span class="hljs-type">char</span> g[N][N];
+queue&lt;array&lt;<span class="hljs-type">int</span>, 3&gt;&gt; q;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+        q.<span class="hljs-built_in">pop</span>();
     cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++)
-        for (int j = 1; j &lt;= m; j++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
         &#123;
 
-            for (int k = 0; k &lt; 4; k++)
-                st[i][j][k] = 0, len[i][j][k] = 1e18;
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">4</span>; k++)
+                st[i][j][k] = <span class="hljs-number">0</span>, len[i][j][k] = <span class="hljs-number">1e18</span>;
             ;
         &#125;
-    for (int i = 1; i &lt;= n; i++)
-        for (int j = 1; j &lt;= m; j++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
         &#123;
             cin &gt;&gt; g[i][j];
-            if (g[i][j] == &#39;S&#39;)
-                sx = i, sy = j, g[i][j] = &#39;*&#39;;
-            if (g[i][j] == &#39;T&#39;)
-                ex = i, ey = j, g[i][j] = &#39;*&#39;;
+            <span class="hljs-keyword">if</span> (g[i][j] == <span class="hljs-string">&#x27;S&#x27;</span>)
+                sx = i, sy = j, g[i][j] = <span class="hljs-string">&#x27;*&#x27;</span>;
+            <span class="hljs-keyword">if</span> (g[i][j] == <span class="hljs-string">&#x27;T&#x27;</span>)
+                ex = i, ey = j, g[i][j] = <span class="hljs-string">&#x27;*&#x27;</span>;
         &#125;
-    for (int i = 0; i &lt; 4; i++)
-        st[sx][sy][i] = 1, len[sx][sy][i] = 0;
-    for (int i = 0; i &lt; 4; i++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        st[sx][sy][i] = <span class="hljs-number">1</span>, len[sx][sy][i] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
     &#123;
-        int t = sx + dx[i];
-        int z = sy + dy[i];
-        if (t &gt;= 1 &amp;&amp; t &lt;= n &amp;&amp; z &gt;= 1 &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == &#39;*&#39; || g[t][z] == &#39;.&#39;))
-            st[t][z][i] = 1, q.push(&#123;t, z, i&#125;), len[t][z][i] = 1;
+        <span class="hljs-type">int</span> t = sx + dx[i];
+        <span class="hljs-type">int</span> z = sy + dy[i];
+        <span class="hljs-keyword">if</span> (t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>))
+            st[t][z][i] = <span class="hljs-number">1</span>, q.<span class="hljs-built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="hljs-number">1</span>;
     &#125;
 
-    while (q.size())
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
     &#123;
-        auto [x, y, to] = q.front();
-        q.pop();
-        int t, z;
-        // cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;&quot; &quot;&lt;&lt;len[x][y]&lt;&lt;&quot;\n&quot;;
-        if (x == ex &amp;&amp; y == ey)
-            break;
-        if (g[x][y] == &#39;.&#39;)
+        <span class="hljs-keyword">auto</span> [x, y, to] = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-type">int</span> t, z;
+        <span class="hljs-comment">// cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;&quot; &quot;&lt;&lt;len[x][y]&lt;&lt;&quot;\n&quot;;</span>
+        <span class="hljs-keyword">if</span> (x == ex &amp;&amp; y == ey)
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">if</span> (g[x][y] == <span class="hljs-string">&#x27;.&#x27;</span>)
         &#123;
             t = x + dx[to], z = y + dy[to];
-            if (t &gt;= 1 &amp;&amp; t &lt;= n &amp;&amp; z &gt;= 1 &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == &#39;*&#39; || g[t][z] == &#39;.&#39;) &amp;&amp; !st[t][z][to])
-                q.push(&#123;t, z, to&#125;), len[t][z][to] = min(len[t][z][to], len[x][y][to] + 1), st[t][z][to] = 1;
+            <span class="hljs-keyword">if</span> (t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][to])
+                q.<span class="hljs-built_in">push</span>(&#123;t, z, to&#125;), len[t][z][to] = <span class="hljs-built_in">min</span>(len[t][z][to], len[x][y][to] + <span class="hljs-number">1</span>), st[t][z][to] = <span class="hljs-number">1</span>;
         &#125;
-        else if (g[x][y] == &#39;*&#39;)
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (g[x][y] == <span class="hljs-string">&#x27;*&#x27;</span>)
         &#123;
-            int tt;
-            if (to == 0)
-                tt = 1;
-            else if (to == 1)
-                tt = 0;
-            else if (to == 2)
-                tt = 3;
-            else if (to == 3)
-                tt = 2;
-            for (int i = 0; i &lt; 4; i++)
+            <span class="hljs-type">int</span> tt;
+            <span class="hljs-keyword">if</span> (to == <span class="hljs-number">0</span>)
+                tt = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">1</span>)
+                tt = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">2</span>)
+                tt = <span class="hljs-number">3</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (to == <span class="hljs-number">3</span>)
+                tt = <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
             &#123;
                 t = x + dx[i], z = y + dy[i];
-                if (i != tt &amp;&amp; t &gt;= 1 &amp;&amp; t &lt;= n &amp;&amp; z &gt;= 1 &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == &#39;*&#39; || g[t][z] == &#39;.&#39;) &amp;&amp; !st[t][z][i])
-                    q.push(&#123;t, z, i&#125;), len[t][z][i] = min(len[t][z][i], len[x][y][to] + 1), st[t][z][i] = 1;
+                <span class="hljs-keyword">if</span> (i != tt &amp;&amp; t &gt;= <span class="hljs-number">1</span> &amp;&amp; t &lt;= n &amp;&amp; z &gt;= <span class="hljs-number">1</span> &amp;&amp; z &lt;= m &amp;&amp; (g[t][z] == <span class="hljs-string">&#x27;*&#x27;</span> || g[t][z] == <span class="hljs-string">&#x27;.&#x27;</span>) &amp;&amp; !st[t][z][i])
+                    q.<span class="hljs-built_in">push</span>(&#123;t, z, i&#125;), len[t][z][i] = <span class="hljs-built_in">min</span>(len[t][z][i], len[x][y][to] + <span class="hljs-number">1</span>), st[t][z][i] = <span class="hljs-number">1</span>;
             &#125;
         &#125;
     &#125;
-    int ans = 1e18;
-    for (int i = 0; i &lt; 4; i++)
-        ans = min(ans, len[ex][ey][i]);
-    if (ans != 1e18)
-        cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-    else
-        cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+    <span class="hljs-type">int</span> ans = <span class="hljs-number">1e18</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        ans = <span class="hljs-built_in">min</span>(ans, len[ex][ey][i]);
+    <span class="hljs-keyword">if</span> (ans != <span class="hljs-number">1e18</span>)
+        cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">else</span>
+        cout &lt;&lt; <span class="hljs-number">-1</span> &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
 &#125;
 </code></pre>
-<h3 id="题目：F-三途川的摆渡人"><a href="#题目：F-三途川的摆渡人" class="headerlink" title="题目：F-三途川的摆渡人_"></a>题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/F">F-三途川的摆渡人_</a></h3><h4 id="题目大意："><a href="#题目大意：" class="headerlink" title="题目大意："></a>题目大意：</h4><p>$n$个数，每个数为$a_i$ ,$（0&lt;=a_i&lt;=127）$，求 $&amp;$ 成 $0$ 的得最少个数，不能输出 $-1$。</p>
-<h4 id="题目分析：-1"><a href="#题目分析：-1" class="headerlink" title="题目分析："></a>题目分析：</h4><p>从 $&amp;$ 的性质去拆位贪心考虑显然太麻烦，但是 $&amp;$ 具有传递性可以状态转移。设 $dp[i]$$[a[i]&amp;j]$ 表示前i个物品，转移到 $a[i]&amp;j$ 的最小次数：</p>
-<script type="math/tex; mode=display">
-状态转移：dp[i][a[i]\&j]=\min(dp[i][a[i]\&j], dp[i-1][j]+1);</script><p>又因为相同的数$&amp;$，结果一定不为$0$，所以前$n$个数直接优化成扫$0$ $~$ $127$以内存在的值即可，而且只用到上一层所以直接滚动数组优化：</p>
-<script type="math/tex; mode=display">
-状态转移：dp[1][i\&j]=min(dp[1][i\&j],dp[0][j]+1);</script><h4 id="题目代码：-1"><a href="#题目代码：-1" class="headerlink" title="题目代码："></a>题目代码：</h4><pre><code class="lang-c++">int dp[2][203],p[220];//滚动数组和记录0~127数存在与否的p
-void solve()&#123;
-    int n;cin&gt;&gt;n;
-    memset(p,0,sizeof p);
-    for(int i=1;i&lt;=n;i++)&#123;
-        int x;cin&gt;&gt;x;
+<h3 id="题目f-三途川的摆渡人_"><a class="markdownIt-Anchor" href="#题目f-三途川的摆渡人_"></a> 题目：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/77231/F">F-三途川的摆渡人_</a></h3>
+<h4 id="题目大意"><a class="markdownIt-Anchor" href="#题目大意"></a> 题目大意：</h4>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>个数，每个数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（</mtext><mn>0</mn><mo>&lt;</mo><mo>=</mo><msub><mi>a</mi><mi>i</mi></msub><mo>&lt;</mo><mo>=</mo><mn>127</mn><mtext>）</mtext></mrow><annotation encoding="application/x-tex">（0&lt;=a_i&lt;=127）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord cjk_fallback">（</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">7</span><span class="mord cjk_fallback">）</span></span></span></span>，求 &amp; 成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 的得最少个数，不能输出 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>。</p>
+<h4 id="题目分析-2"><a class="markdownIt-Anchor" href="#题目分析-2"></a> 题目分析：</h4>
+<p>从 &amp; 的性质去拆位贪心考虑显然太麻烦，但是 &amp; 具有传递性可以状态转移。设 dp[i][a[i]&amp;j] 表示前i个物品，转移到 a[i]&amp;j 的最小次数：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>状态转移：</mtext><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mi>min</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">;</mo></mrow><annotation encoding="application/x-tex">状态转移：dp[i][a[i]\&amp;j]=\min(dp[i][a[i]\&amp;j], dp[i-1][j]+1);
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord cjk_fallback">状</span><span class="mord cjk_fallback">态</span><span class="mord cjk_fallback">转</span><span class="mord cjk_fallback">移</span><span class="mord cjk_fallback">：</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">;</span></span></span></span></span></p>
+<p>又因为相同的数&amp;，结果一定不为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>，所以前<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>个数直接优化成扫<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext> </mtext></mrow><annotation encoding="application/x-tex">~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>127</mn></mrow><annotation encoding="application/x-tex">127</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">7</span></span></span></span>以内存在的值即可，而且只用到上一层所以直接滚动数组优化：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>状态转移：</mtext><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mi mathvariant="normal">&amp;</mi><mi>j</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">;</mo></mrow><annotation encoding="application/x-tex">状态转移：dp[1][i\&amp;j]=min(dp[1][i\&amp;j],dp[0][j]+1);
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord cjk_fallback">状</span><span class="mord cjk_fallback">态</span><span class="mord cjk_fallback">转</span><span class="mord cjk_fallback">移</span><span class="mord cjk_fallback">：</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mord">&amp;</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">;</span></span></span></span></span></p>
+<h4 id="题目代码-2"><a class="markdownIt-Anchor" href="#题目代码-2"></a> 题目代码：</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> dp[<span class="hljs-number">2</span>][<span class="hljs-number">203</span>],p[<span class="hljs-number">220</span>];<span class="hljs-comment">//滚动数组和记录0~127数存在与否的p</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> n;cin&gt;&gt;n;
+    <span class="hljs-built_in">memset</span>(p,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> p);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
+        <span class="hljs-type">int</span> x;cin&gt;&gt;x;
         p[x]++;
     &#125;
-    memset(dp,0x3f,sizeof dp);
-    for(int i=0;i&lt;=200;i++)&#123;
-        if(p[i])&#123;
-            dp[1][i]=1;//当前点选，并且没有比直接选当前点来组成当前点次数更小的了
-            for(int j=0;j&lt;=200;j++)&#123;
-                dp[1][i&amp;j]=min(dp[1][i&amp;j],dp[0][j]+1);//dp[1][i&amp;j]不选，后面为选的，取最小
+    <span class="hljs-built_in">memset</span>(dp,<span class="hljs-number">0x3f</span>,<span class="hljs-keyword">sizeof</span> dp);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=<span class="hljs-number">200</span>;i++)&#123;
+        <span class="hljs-keyword">if</span>(p[i])&#123;
+            dp[<span class="hljs-number">1</span>][i]=<span class="hljs-number">1</span>;<span class="hljs-comment">//当前点选，并且没有比直接选当前点来组成当前点次数更小的了</span>
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=<span class="hljs-number">200</span>;j++)&#123;
+                dp[<span class="hljs-number">1</span>][i&amp;j]=<span class="hljs-built_in">min</span>(dp[<span class="hljs-number">1</span>][i&amp;j],dp[<span class="hljs-number">0</span>][j]+<span class="hljs-number">1</span>);<span class="hljs-comment">//dp[1][i&amp;j]不选，后面为选的，取最小</span>
             &#125;
         &#125;
-        for(int j=0;j&lt;=200;j++)&#123;
-            dp[0][j]=dp[1][j];//滚动赋值
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=<span class="hljs-number">200</span>;j++)&#123;
+            dp[<span class="hljs-number">0</span>][j]=dp[<span class="hljs-number">1</span>][j];<span class="hljs-comment">//滚动赋值</span>
         &#125;
     &#125;
-    if(dp[0][0]&gt;n)cout&lt;&lt;-1&lt;&lt;&quot;\n&quot;;
-    else cout&lt;&lt;n-dp[0][0]&lt;&lt;&quot;\n&quot;;//求得组成当前数最小个数，所以抛弃个数为n-dp[0][0]
+    <span class="hljs-keyword">if</span>(dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]&gt;n)cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">else</span> cout&lt;&lt;n-dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;<span class="hljs-comment">//求得组成当前数最小个数，所以抛弃个数为n-dp[0][0]</span>
 &#125;
 </code></pre>
 
