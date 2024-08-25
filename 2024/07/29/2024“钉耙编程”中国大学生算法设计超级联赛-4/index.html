@@ -192,21 +192,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #03a9f4">
+                <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #00a596">
                     期望
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #00a596">
+                <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #03a9f4">
                     概率论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #ff7d73">
+                <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #ffa2c4">
                     根号思想
                 </a>
             </span>
@@ -270,7 +270,26 @@ H400000v40H845.2724
 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n,q,a[N],b[N],c[N],A[N],B[N],ca,cb,sum;
+<pre class="highlight"><code class="cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ll long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> pb push_back</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PII pair<span class="hljs-string">&lt;int, int&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PI acos(-1)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> s second</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> f first</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> Bint __int128</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> all(x) x.begin(),x.end()</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> isdigit(x) ((x) &gt;= <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; (x) &lt;= <span class="hljs-string">&#x27;9&#x27;</span>)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> double long double</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ULL unsigned long long</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2e5</span> + <span class="hljs-number">7</span>, P = <span class="hljs-number">998244353</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> M = <span class="hljs-number">1e6</span> + <span class="hljs-number">7</span>, inf = <span class="hljs-number">0x3f3f3f3f3f3f3f3f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">double</span> eps = <span class="hljs-number">1e-6</span>;
+
+
+<span class="hljs-type">int</span> n,q,a[N],b[N],c[N],A[N],B[N],ca,cb,sum;
 <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">fix</span><span class="hljs-params">(<span class="hljs-type">int</span>&amp;x)</span></span>&#123;
   <span class="hljs-keyword">while</span>(x&lt;=<span class="hljs-number">0</span>)x+=n;
   <span class="hljs-keyword">while</span>(x&gt;n)x-=n;
@@ -305,8 +324,17 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;cb;i++)&#123;
 			<span class="hljs-built_in">modify</span>(B[i]-k,B[i]);
 		&#125;
-		cout&lt;&lt;sum&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
 	&#125;
+    <span class="hljs-keyword">return</span> ;
+&#125;
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>),cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>),cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-type">int</span> T=<span class="hljs-number">1</span>;
+    cin&gt;&gt;T;
+    <span class="hljs-keyword">while</span>(T--)&#123;
+        <span class="hljs-built_in">solve</span>();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;
 </code></pre>
 <h4 id="最优-k-子段"><a class="markdownIt-Anchor" href="#最优-k-子段"></a> 最优 K 子段</h4>
@@ -317,7 +345,25 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p>因为起初数组元素是均匀分布，那么其<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>−</mo><mtext>前缀</mtext></mrow><annotation encoding="application/x-tex">x-前缀</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord cjk_fallback">前</span><span class="mord cjk_fallback">缀</span></span></span></span>也满足均匀分布，那么其位置<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>e</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>p</mi><mi>o</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">set.pos</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal">s</span></span></span></span>也满足均匀分布</p>
 <p>因为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1-n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>的质数个数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mfrac><mi>n</mi><mrow><mi>l</mi><mi>n</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\approx\frac{n}{ln}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.040392em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>,为质数概率<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mrow><mi>l</mi><mi>n</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{ln}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，期望为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>n</mi><mo>≈</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">ln\approx logn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span></span></span></span></p>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>所以单次枚举时间复杂度</mtext><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo><mtext>，总时间复杂度</mtext><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mi>n</mi><mo>∗</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo>+</mo><mi>n</mi><mo>∗</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>≈</mo><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">所以单次枚举时间复杂度O(logn)，总时间复杂度O(log(n*log+n*log))\approx O(nlog^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">单</span><span class="mord cjk_fallback">次</span><span class="mord cjk_fallback">枚</span><span class="mord cjk_fallback">举</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">总</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
-<pre class="highlight"><code class="c++"><span class="hljs-type">int</span> n,a[N],k,pre[N];
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ll long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> pb push_back</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PII pair<span class="hljs-string">&lt;int, int&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PI acos(-1)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> s second</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> f first</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> Bint __int128</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> all(x) x.begin(),x.end()</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> isdigit(x) ((x) &gt;= <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; (x) &lt;= <span class="hljs-string">&#x27;9&#x27;</span>)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> double long double</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ULL unsigned long long</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2e5</span> + <span class="hljs-number">7</span>, P = <span class="hljs-number">998244353</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> M = <span class="hljs-number">1e6</span> + <span class="hljs-number">7</span>, inf = <span class="hljs-number">0x3f3f3f3f3f3f3f3f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">double</span> eps = <span class="hljs-number">1e-6</span>;
+
+<span class="hljs-type">int</span> n,a[N],k,pre[N];
 <span class="hljs-type">int</span> primes[<span class="hljs-number">1000009</span>],cnt;
 <span class="hljs-type">bool</span> st[<span class="hljs-number">1000009</span>];
 set&lt;PII&gt;b;
@@ -375,6 +421,15 @@ set&lt;PII&gt;b;
 	<span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>(l))
 	cout&lt;&lt;l&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
 	<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-string">&quot;impossible\n&quot;</span>;
+&#125;
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>),cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>),cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-type">int</span> T=<span class="hljs-number">1</span>;
+    cin&gt;&gt;T;
+    <span class="hljs-keyword">while</span>(T--)&#123;
+        <span class="hljs-built_in">solve</span>();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;
 </code></pre>
 
