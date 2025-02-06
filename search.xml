@@ -1,9 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>微信小程序开发笔记</title>
+    <url>/2024/12/10/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<span id="more"></span>
+<h4 id="视图组件"><a class="markdownIt-Anchor" href="#视图组件"></a> 视图组件：</h4>
+<h5 id="1view"><a class="markdownIt-Anchor" href="#1view"></a> 1.view:</h5>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140616351.png" alt="image-20241210140616351" /></p>
+<pre class="highlight"><code class="">.wxml
+&lt;view class=&quot;container1&quot;&gt; //声明容器类
+
+.wxss
+.container1 view&#123;//声明类的样式
+   width:
+   height:
+   text-align :center ;
+   line-height:100px;
+&#125;
+
+.container1 view:nth-child(1)&#123;//访问容器内的元素
+     background-color:
+&#125;
+
+.container1&#123;//对容器元素的排列 空间
+display:flex;
+justify-context:space;
+&#125;
+</code></pre>
+<h5 id="2scroll-view"><a class="markdownIt-Anchor" href="#2scroll-view"></a> 2.scroll-view:</h5>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140704121.png" alt="image-20241210140704121" /></p>
+<pre class="highlight"><code class="">.wxml
+&lt;sroll-view class=&quot;&quot; scroll-y&gt;//纵向滚动
+
+.wxss
+.container1&#123;
+border 1px solid red;
+width:
+height
+&#125;
+</code></pre>
+<h5 id="3swiper和swier-item"><a class="markdownIt-Anchor" href="#3swiper和swier-item"></a> 3.swiper和swier-item</h5>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140723786.png" alt="image-20241210140723786" /></p>
+<pre class="highlight"><code class="">wxml
+&lt;swiper class=&quot;swiper-container&quot; indicator-dots&gt;//轮播图容器
+&lt;swiper-item&gt;//轮播图元素
+&lt;view class=&quot;item&quot;&gt;A&lt;/view&gt;
+&lt;/swiper-item&gt;
+&lt;swiper-item&gt;
+&lt;view class=&quot;item&quot;&gt;B&lt;/view&gt;
+&lt;/swiper-item&gt;
+&lt;swiper-item&gt;
+&lt;view class=&quot;item&quot;&gt;C&lt;/view&gt;
+&lt;/swiper-item&gt;
+&lt;/swiper&gt;
+
+wxss
+.swiper-container&#123;
+  height: 150px;
+&#125;
+.item&#123;  
+  height: 100%;
+  line-height: 150px;
+  text-align: center;
+&#125;
+swiper-item:nth-child(1) &#123;
+  background-color:lightgreen;
+&#125;
+swiper-item:nth-child(2) &#123;
+  background-color:lightpink;
+&#125;
+swiper-item:nth-child(3)&#123;
+  background-color:lightblue;
+&#125;
+</code></pre>
+<h6 id="swiper的属性"><a class="markdownIt-Anchor" href="#swiper的属性"></a> swiper的属性：</h6>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210210205744.png" alt="image-20241210210205744" /></p>
+<h4 id="基础组件"><a class="markdownIt-Anchor" href="#基础组件"></a> 基础组件：</h4>
+<p>text：</p>
+<p>1.text是在行内，加user-select 可以选择复制</p>
+<p>rich-text:</p>
+<pre class="highlight"><code class="">wxml
+&lt;rich-text nodes=&quot;&lt;h1 style='color:red;'&gt;标题&lt;/h1&gt;&quot;&gt;
+</code></pre>
+<p>按钮组件：</p>
+<pre class="highlight"><code class="">&lt;button&gt;普通按钮&lt;/button&gt;
+&lt;button type=&quot;primary&quot; size=&quot;mini&quot; plain&gt;主要按钮&lt;/button&gt;
+&lt;button type=&quot;warn&quot;&gt;警告按钮&lt;/button&gt;
+</code></pre>
+<p>图片组件：</p>
+<p>images</p>
+<p><images src="" mode></images></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210213653301.png" alt="image-20241210213653301" /></p>
+<p>小程序API的三大分类：</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210214259773.png" alt="image-20241210214259773" /></p>
+<p>数据绑定：</p>
+<pre class="highlight"><code class="">data:&#123;
+info:''//字符串类型
+imgsrc='图片地址'
+num:Math.random()/.toFixed(2)//保留几位小数
+msgList:[&#123;msg:'hello'&#125;,&#123;msg:'world'&#125;]//数组类型的数据
+&#125;
+</code></pre>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241213184814576.png" alt="image-20241213184814576" /></p>
+<p>bindtap:</p>
+<pre class="highlight"><code class="">&lt;button type=&quot;primary&quot; bindtap=&quot;binTapHander&quot;&gt;按钮&lt;/view&gt;//
+
+&#123;
+binTapHander(e)&#123;//引用函数
+console.log(e)//打印日志
+&#125;
+&#125;
+
+Count()&#123;
+this.setData(&#123;
+   count:this.data.count+1
+&#125;)
+&#125;
+
+&lt;button type=&quot;primary&quot; bind:tap=&quot;bin1&quot; data-info=&quot;&#123;&#123;3&#125;&#125;&quot;&gt;多增按钮&lt;/button&gt;//传递参数必须用data-*形式
+count:this.data.count+e.target.dataset.info//引用参数
+</code></pre>
+<p>bindinput:</p>
+<pre class="highlight"><code class="">console.log(e.detail.value)//输入内容
+
+&lt;input value='&#123;&#123;msg&#125;&#125;'//赋初值 bindinput=&quot;&quot;/&gt;
+&#123;
+this.setData(&#123;
+msg:e.detail.value
+&#125;)
+&#125;
+</code></pre>
+<pre class="highlight"><code class="">&lt;block wx:if=&quot;&#123;&#123;true&#125;&#125;&quot;&gt;&lt;/block&gt;//包裹性质的容器 
+wx:if 是删除或添加
+hidden是显示或者不显示 
+
+</code></pre>
+<p><a href="wx:for">wx:for</a></p>
+<pre class="highlight"><code class="">arr:['苹果','华为',‘小米’]
+
+&lt;view wx:for=&quot;&#123;&#123;arr&#125;&#125;&quot;&gt;
+索引是：&#123;&#123;index&#125;&#125;,内容是：&#123;&#123;item&#125;&#125;
+&lt;/view&gt;
+
+
+</code></pre>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216200200746.png" alt="image-20241216200200746" /></p>
+<p>wx:key提高渲染效率</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216201148484.png" alt="image-20241216201148484" /></p>
+<p>@import引入外联样式表</p>
+<p>建立common/common.wxss</p>
+<p>wxss声明@import ‘common/common/wxss’；</p>
+<p>wxml class=“username…”</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216204041036.png" alt="image-20241216204041036" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216205327211.png" alt="image-20241216205327211" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216205406314.png" alt="image-20241216205406314" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216211104996.png" alt="image-20241216211104996" /></p>
+<p>导航栏：</p>
+<p>声明式导航：</p>
+<pre class="highlight"><code class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/home/home&#x27;</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;switchTab&quot;</span>&gt;</span>跳转tabar页面<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/info/info&#x27;</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;navigate&quot;</span>&gt;</span>跳转到非tabar页面<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;navigateBack&quot;</span> <span class="hljs-attr">delta</span>=<span class="hljs-string">&quot;1&quot;</span>//<span class="hljs-attr">代表后退几页</span>&gt;</span>后退导航<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>默认为1
+</code></pre>
+<p>编程式导航：</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219095815780.png" alt="image-20241219095815780" /></p>
+<pre class="highlight"><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">&quot;getswitchbar&quot;</span>&gt;</span>跳转页面<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+getswitchbar()&#123;
+wx.switchbar()&#123;
+url=&#x27;&#x27;
+&#125;
+&#125;
+</code></pre>
+<p>页面传参：</p>
+<pre class="highlight"><code class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/info/info?name=zs&amp;age=20&#x27;</span>&gt;</span>跳转页面并传参<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
+</code></pre>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219100450570.png" alt="image-20241219100450570" /></p>
+<pre class="highlight"><code class="">&lt;button bind:tap=&quot;getnavigate&quot;&gt;跳转页面&lt;/button&gt;
+getnavigate()&#123;
+    wx.navigateTo(&#123;
+      url: '/pages/info/info',
+    &#125;)
+&#125;
+</code></pre>
+<p>页面传参：</p>
+<pre class="highlight"><code class="html">  getnavigate()&#123;
+    wx.navigateTo(&#123;
+      url: &#x27;/pages/info/info?age=20&amp;name=zs&#x27;
+    &#125;)
+  &#125;,
+</code></pre>
+<p>所有页面传递的参数可以在onLoad函数的options找到 然后保存到变量中即可</p>
+<p>下拉刷新：</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219103349374.png" alt="image-20241219103349374" /></p>
+<pre class="highlight"><code class=""> onPullDownRefresh() &#123;//可以在下拉刷新的时候重置数据
+    console.log('下拉一次'),
+    this.setData(&#123;
+      count:0
+    &#125;)
+    wx.stopPullDownRefresh()//停止下拉刷新
+  &#125;,
+</code></pre>
+<p>触底：</p>
+<pre class="highlight"><code class=""> getcolor()&#123;
+    console.log('触发了上拉触底'),
+    wx.request(&#123;
+      url: 'https://www.colr.org/json/color/random',
+      method:&quot;GET&quot;,
+      success:(&#123;data:res&#125;)=&gt;&#123;
+        this.setData(&#123;
+          colorlist:[...this.data.colorlist,...res.colorlist]
+        &#125;)
+      &#125;
+    &#125;)
+  &#125;,
+  onReachBottom:function()&#123;
+    this.getcolor()
+  &#125;,
+</code></pre>
+<p>生命周期：</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221224642778.png" alt="image-20241221224642778" /></p>
+<p>wxs：</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221230209794.png" alt="image-20241221230209794" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221231543854.png" alt="image-20241221231543854" /></p>
+<p>wxs属于脚本 其实就像是封装了一个类 ，exports是共享允许别的调用</p>
+<p>定义wxs脚本文件：定于iutils文件-&gt;定义tools.wxs</p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221232552691.png" alt="image-20241221232552691" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221232756361.png" alt="image-20241221232756361" /></p>
+<pre class="highlight"><code class="">跳转页面：
+&lt;navigator class=&quot;grid-item&quot; wx:for=&quot;&#123;&#123;gridlist&#125;&#125;&quot; wx:key=&quot;id&quot; url=&quot;/pages/shoplist/shoplist?id=&#123;&#123;item.id&#125;&#125;&amp;name=&#123;&#123;item.name&#125;&#125;&quot;&gt;
+
+在onload中赋值：
+this.setData(&#123;
+      query:options
+    &#125;)
+在onready中调用接口修改标题
+wx.setNavigationBarTitle(&#123;
+      title: this.data.query.name
+    &#125;)
+
+</code></pre>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104214509668.png" alt="image-20250104214509668" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104214547386.png" alt="image-20250104214547386" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104215030219.png" alt="image-20250104215030219" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104215211134.png" alt="image-20250104215211134" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104220621337.png" alt="image-20250104220621337" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104220932298.png" alt="image-20250104220932298" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104221109481.png" alt="image-20250104221109481" /></p>
+<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104221336156.png" alt="image-20250104221336156" /></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>work</title>
+    <url>/2024/10/28/work/</url>
+    <content><![CDATA[<h3 id="实验二阿里云-腾讯云实验-配置开发服务器与-wordpress-应用的完整步骤"><a class="markdownIt-Anchor" href="#实验二阿里云-腾讯云实验-配置开发服务器与-wordpress-应用的完整步骤"></a> 实验二：阿里云 + 腾讯云实验 —— 配置开发服务器与 WordPress 应用的完整步骤</h3>
+<h4 id="一-阿里云部分"><a class="markdownIt-Anchor" href="#一-阿里云部分"></a> <strong>一、阿里云部分：</strong></h4>
+<h5 id="1-注册和登录阿里云"><a class="markdownIt-Anchor" href="#1-注册和登录阿里云"></a> 1. <strong>注册和登录阿里云</strong></h5>
+<ul>
+<li>访问 <a href="https://www.aliyun.com">阿里云官网</a> 并注册账户。如果你已有账户，直接登录控制台。</li>
+<li><strong>领取免费试用</strong>：新用户可以申请阿里云的免费试用（一般包括1个月的云服务器使用时间）。</li>
+<li>
+
+</li>
+</ul>
+<h5 id="2-创建云服务器-ecs"><a class="markdownIt-Anchor" href="#2-创建云服务器-ecs"></a> 2. <strong>创建云服务器 ECS</strong></h5>
+<ul>
+<li>登录到 <a href="https://home.console.aliyun.com">阿里云控制台</a>。</li>
+<li>选择 <strong>ECS（Elastic Compute Service）</strong>，点击“创建实例”。</li>
+<li><img src="work%5C%E5%88%9B%E5%BB%BAECS%E5%AE%9E%E4%BE%8B.png" alt="图片" /></li>
+<li><strong>网络和安全组</strong>：设置安全组，确保开放 <strong>HTTP (80)</strong> 和 <strong>SSH (22)</strong> 端口，后续可以通过这些端口访问服务器。</li>
+<li><img src="work%5C%E8%AE%BE%E7%BD%AE%E7%BD%91%E7%BB%9C%E7%BB%84%E5%92%8C%E5%AE%89%E5%85%A8%E7%BB%84.png" alt="图片" /></li>
+<li><strong>远程连接</strong>：</li>
+<li><img src="work%5C%E5%BB%BA%E7%AB%8B%E8%BF%9C%E7%A8%8B%E9%93%BE%E6%8E%A5.jpg" alt="图片" /></li>
+<li><strong>重置远程连接密码</strong></li>
+<li><img src="work%5C%E9%87%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E5%AF%86%E7%A0%81.png" alt="图片" /></li>
+<li><strong>重置实例密码</strong>:</li>
+<li><img src="work%5C%E9%87%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B%E5%AF%86%E7%A0%81.jpg" alt="图片" /></li>
+<li><strong>完成创建</strong>：确认配置信息无误后，点击“创建实例”，等待服务器创建完成。</li>
+</ul>
+<h5 id="3-连接服务器"><a class="markdownIt-Anchor" href="#3-连接服务器"></a> 3. <strong>连接服务器</strong></h5>
+<ul>
+<li>使用 SSH 工具连接到 ECS 实例。</li>
+<li>输入密码后登录成功。</li>
+<li>![图片](work\使用 SSH 工具连接到 ECS 实例.jpg)</li>
+</ul>
+<h5 id="4-配置-lamp-环境linux-apache-mysql-php"><a class="markdownIt-Anchor" href="#4-配置-lamp-环境linux-apache-mysql-php"></a> 4. <strong>配置 LAMP 环境（Linux + Apache + MySQL + PHP）</strong></h5>
+<ul>
+<li>
+<p><strong>安装 Apache</strong>：</p>
+<p><img src="work%5C%E5%AE%89%E8%A3%85apache.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><strong>安装rpm</strong>：</p>
+</li>
+<li>
+<p><img src="work%5C%E4%B8%8B%E8%BD%BDrpm1.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><img src="work%5C%E4%B8%8B%E8%BD%BDrpm2.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><strong>安装 MySQL</strong>：</p>
+<p><img src="work%5C%E4%B8%8B%E8%BD%BDmysql%E6%BA%90.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><strong>安装mariadb</strong></p>
+<p><img src="work%5C%E5%AE%89%E8%A3%85mariadb.png" alt="图片" /></p>
+</li>
+</ul>
+<h5 id="5-下载并安装-wordpress"><a class="markdownIt-Anchor" href="#5-下载并安装-wordpress"></a> 5. <strong>下载并安装 WordPress</strong></h5>
+<ul>
+<li>
+<p><strong>下载 WordPress</strong>：</p>
+<p><img src="work%5C%E4%B8%8B%E8%BD%BDwordpress.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><strong>解压WordPress</strong>：</p>
+<p><img src="work%5C%E8%A7%A3%E5%8E%8B%E5%AE%89%E8%A3%85wordpress.jpg" alt="图片" /></p>
+</li>
+<li>
+<p><strong>配置 MySQL 数据库</strong>：<br />
+登录并重置 MySQL：</p>
+<p>![图片](D:\myblog\blog\source_posts\work\重置mysql密码 权限.jpg)</p>
+<p>创建 WordPress 数据库：</p>
+<p><img src="work%5C%E9%85%8D%E7%BD%AEmysql%E6%95%B0%E6%8D%AE%E5%BA%93.png" alt="图片" /></p>
+</li>
+<li>
+<p><strong>配置 WordPress</strong>：<br />
+复制配置文件并编辑：</p>
+<p><img src="work%5C%E9%85%8D%E7%BD%AEwordpress.jpg" alt="图片" /></p>
+<p>将数据库名、用户名、密码填写到 <code>wp-config.php</code> 中对应的字段。</p>
+</li>
+<li>
+<p>访问IP：</p>
+<p><img src="work%5C%E7%99%BB%E5%BD%95.png" alt="图片" /></p>
+</li>
+</ul>
+<h4 id="二-腾讯云部分"><a class="markdownIt-Anchor" href="#二-腾讯云部分"></a> <strong>二、腾讯云部分：</strong></h4>
+<h5 id="1-注册和登录腾讯云"><a class="markdownIt-Anchor" href="#1-注册和登录腾讯云"></a> 1. <strong>注册和登录腾讯云</strong></h5>
+<ul>
+<li>访问 <a href="https://cloud.tencent.com">腾讯云官网</a> 并注册账户，或者直接登录控制台。</li>
+<li><img src="work%5C1.png" alt="图片" /></li>
+</ul>
+<h5 id="2-创建云服务器-cvm"><a class="markdownIt-Anchor" href="#2-创建云服务器-cvm"></a> 2. <strong>创建云服务器 CVM</strong></h5>
+<ul>
+<li>登录到 <a href="https://console.cloud.tencent.com">腾讯云控制台</a>。</li>
+<li>选择 <strong>CVM（Cloud Virtual Machine）</strong>，点击“新建”。</li>
+<li><strong>选择地域和配置</strong>：根据需求选择地域和实例类型，通常可以选择共享型（如 1 核 1GB）。</li>
+<li><strong>选择操作系统</strong>：推荐使用 <strong>CentOS 7</strong> 或 <strong>Ubuntu</strong>。</li>
+<li><strong>设置安全组</strong>：开放 HTTP（80）和 SSH（22）端口，允许后续远程连接。</li>
+<li><strong>确认创建</strong>：点击“立即购买”并完成配置。</li>
+<li><img src="work%5C2.png" alt="图片" /></li>
+</ul>
+<h5 id="4-配置-lnmp-环境linux-nginx-mysql-php"><a class="markdownIt-Anchor" href="#4-配置-lnmp-环境linux-nginx-mysql-php"></a> 4. <strong>配置 LNMP 环境（Linux + Nginx + MySQL + PHP）</strong></h5>
+<ul>
+<li>
+<p><strong>安装 Nginx</strong>：</p>
+<p><img src="work%5C%E5%AE%89%E8%A3%85nginx.png" alt="图片" /></p>
+</li>
+<li>
+<p><img src="work%5Cnginx.png" alt="图片" /></p>
+</li>
+<li>
+<p><strong>安装 PHP-FPM</strong>：</p>
+<p><img src="work%5Cphp.png" alt="图片" /></p>
+</li>
+<li>
+<p><strong>配置 Nginx</strong>：修改 Nginx 配置文件 <code>/etc/nginx/nginx.conf</code>，使其支持 PHP 和 WordPress。</p>
+</li>
+<li>
+<p>![图片](work\配置 Nginx.png)</p>
+</li>
+<li>
+<p><strong>配置 WordPress</strong>：同样编辑 <code>wp-config.php</code> 文件，输入 MySQL 数据库信息。</p>
+</li>
+<li>
+<p>![图片](work\配置 WordPress.png)</p>
+</li>
+<li>
+<p><strong>启动 WordPress</strong>：在浏览器中访问服务器的 IP 地址，进入 WordPress 安装页面，完成配置。</p>
+</li>
+</ul>
+<p>![图片](work\登录 (2).png)</p>
+]]></content>
+  </entry>
+  <entry>
     <title>2024CCPC深圳站组队赛题解</title>
     <url>/2024/10/18/2024CCPC%E6%B7%B1%E5%9C%B3%E7%AB%99%E7%BB%84%E9%98%9F%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="a一道好题"><a class="markdownIt-Anchor" href="#a一道好题"></a> A:一道好题</h3>
+    <content><![CDATA[<h3 id="-more-"><a class="markdownIt-Anchor" href="#-more-"></a> <span id="more"></span></h3>
+<h3 id="a一道好题"><a class="markdownIt-Anchor" href="#a一道好题"></a> A:一道好题</h3>
 <h4 id="description"><a class="markdownIt-Anchor" href="#description"></a> Description</h4>
 <p>一道好题应该有一个简洁的题面。</p>
 <p>有一个长度为 n，初始全为 0 的序列 a，另有一个长度为 n 的序列 b，你希望将 a 变成 b，你可以执行如下两种操作：</p>
