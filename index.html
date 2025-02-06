@@ -189,279 +189,6 @@
         
 
 <div class="post">
-    <a href="/2024/12/10/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
-        <h2 class="post-title">微信小程序开发笔记</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/12/10
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <span id="more"></span>
-<h4 id="视图组件"><a class="markdownIt-Anchor" href="#视图组件"></a> 视图组件：</h4>
-<h5 id="1view"><a class="markdownIt-Anchor" href="#1view"></a> 1.view:</h5>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140616351.png" alt="image-20241210140616351" /></p>
-<pre class="highlight"><code class="">.wxml
-&lt;view class=&quot;container1&quot;&gt; //声明容器类
-
-.wxss
-.container1 view&#123;//声明类的样式
-   width:
-   height:
-   text-align :center ;
-   line-height:100px;
-&#125;
-
-.container1 view:nth-child(1)&#123;//访问容器内的元素
-     background-color:
-&#125;
-
-.container1&#123;//对容器元素的排列 空间
-display:flex;
-justify-context:space;
-&#125;
-</code></pre>
-<h5 id="2scroll-view"><a class="markdownIt-Anchor" href="#2scroll-view"></a> 2.scroll-view:</h5>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140704121.png" alt="image-20241210140704121" /></p>
-<pre class="highlight"><code class="">.wxml
-&lt;sroll-view class=&quot;&quot; scroll-y&gt;//纵向滚动
-
-.wxss
-.container1&#123;
-border 1px solid red;
-width:
-height
-&#125;
-</code></pre>
-<h5 id="3swiper和swier-item"><a class="markdownIt-Anchor" href="#3swiper和swier-item"></a> 3.swiper和swier-item</h5>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210140723786.png" alt="image-20241210140723786" /></p>
-<pre class="highlight"><code class="">wxml
-&lt;swiper class=&quot;swiper-container&quot; indicator-dots&gt;//轮播图容器
-&lt;swiper-item&gt;//轮播图元素
-&lt;view class=&quot;item&quot;&gt;A&lt;/view&gt;
-&lt;/swiper-item&gt;
-&lt;swiper-item&gt;
-&lt;view class=&quot;item&quot;&gt;B&lt;/view&gt;
-&lt;/swiper-item&gt;
-&lt;swiper-item&gt;
-&lt;view class=&quot;item&quot;&gt;C&lt;/view&gt;
-&lt;/swiper-item&gt;
-&lt;/swiper&gt;
-
-wxss
-.swiper-container&#123;
-  height: 150px;
-&#125;
-.item&#123;  
-  height: 100%;
-  line-height: 150px;
-  text-align: center;
-&#125;
-swiper-item:nth-child(1) &#123;
-  background-color:lightgreen;
-&#125;
-swiper-item:nth-child(2) &#123;
-  background-color:lightpink;
-&#125;
-swiper-item:nth-child(3)&#123;
-  background-color:lightblue;
-&#125;
-</code></pre>
-<h6 id="swiper的属性"><a class="markdownIt-Anchor" href="#swiper的属性"></a> swiper的属性：</h6>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210210205744.png" alt="image-20241210210205744" /></p>
-<h4 id="基础组件"><a class="markdownIt-Anchor" href="#基础组件"></a> 基础组件：</h4>
-<p>text：</p>
-<p>1.text是在行内，加user-select 可以选择复制</p>
-<p>rich-text:</p>
-<pre class="highlight"><code class="">wxml
-&lt;rich-text nodes=&quot;&lt;h1 style='color:red;'&gt;标题&lt;/h1&gt;&quot;&gt;
-</code></pre>
-<p>按钮组件：</p>
-<pre class="highlight"><code class="">&lt;button&gt;普通按钮&lt;/button&gt;
-&lt;button type=&quot;primary&quot; size=&quot;mini&quot; plain&gt;主要按钮&lt;/button&gt;
-&lt;button type=&quot;warn&quot;&gt;警告按钮&lt;/button&gt;
-</code></pre>
-<p>图片组件：</p>
-<p>images</p>
-<p><images src="" mode></images></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210213653301.png" alt="image-20241210213653301" /></p>
-<p>小程序API的三大分类：</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241210214259773.png" alt="image-20241210214259773" /></p>
-<p>数据绑定：</p>
-<pre class="highlight"><code class="">data:&#123;
-info:''//字符串类型
-imgsrc='图片地址'
-num:Math.random()/.toFixed(2)//保留几位小数
-msgList:[&#123;msg:'hello'&#125;,&#123;msg:'world'&#125;]//数组类型的数据
-&#125;
-</code></pre>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241213184814576.png" alt="image-20241213184814576" /></p>
-<p>bindtap:</p>
-<pre class="highlight"><code class="">&lt;button type=&quot;primary&quot; bindtap=&quot;binTapHander&quot;&gt;按钮&lt;/view&gt;//
-
-&#123;
-binTapHander(e)&#123;//引用函数
-console.log(e)//打印日志
-&#125;
-&#125;
-
-Count()&#123;
-this.setData(&#123;
-   count:this.data.count+1
-&#125;)
-&#125;
-
-&lt;button type=&quot;primary&quot; bind:tap=&quot;bin1&quot; data-info=&quot;&#123;&#123;3&#125;&#125;&quot;&gt;多增按钮&lt;/button&gt;//传递参数必须用data-*形式
-count:this.data.count+e.target.dataset.info//引用参数
-</code></pre>
-<p>bindinput:</p>
-<pre class="highlight"><code class="">console.log(e.detail.value)//输入内容
-
-&lt;input value='&#123;&#123;msg&#125;&#125;'//赋初值 bindinput=&quot;&quot;/&gt;
-&#123;
-this.setData(&#123;
-msg:e.detail.value
-&#125;)
-&#125;
-</code></pre>
-<pre class="highlight"><code class="">&lt;block wx:if=&quot;&#123;&#123;true&#125;&#125;&quot;&gt;&lt;/block&gt;//包裹性质的容器 
-wx:if 是删除或添加
-hidden是显示或者不显示 
-
-</code></pre>
-<p><a href="wx:for">wx:for</a></p>
-<pre class="highlight"><code class="">arr:['苹果','华为',‘小米’]
-
-&lt;view wx:for=&quot;&#123;&#123;arr&#125;&#125;&quot;&gt;
-索引是：&#123;&#123;index&#125;&#125;,内容是：&#123;&#123;item&#125;&#125;
-&lt;/view&gt;
-
-
-</code></pre>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216200200746.png" alt="image-20241216200200746" /></p>
-<p>wx:key提高渲染效率</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216201148484.png" alt="image-20241216201148484" /></p>
-<p>@import引入外联样式表</p>
-<p>建立common/common.wxss</p>
-<p>wxss声明@import ‘common/common/wxss’；</p>
-<p>wxml class=“username…”</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216204041036.png" alt="image-20241216204041036" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216205327211.png" alt="image-20241216205327211" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216205406314.png" alt="image-20241216205406314" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241216211104996.png" alt="image-20241216211104996" /></p>
-<p>导航栏：</p>
-<p>声明式导航：</p>
-<pre class="highlight"><code class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/home/home&#x27;</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;switchTab&quot;</span>&gt;</span>跳转tabar页面<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/info/info&#x27;</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;navigate&quot;</span>&gt;</span>跳转到非tabar页面<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">open-type</span>=<span class="hljs-string">&quot;navigateBack&quot;</span> <span class="hljs-attr">delta</span>=<span class="hljs-string">&quot;1&quot;</span>//<span class="hljs-attr">代表后退几页</span>&gt;</span>后退导航<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>默认为1
-</code></pre>
-<p>编程式导航：</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219095815780.png" alt="image-20241219095815780" /></p>
-<pre class="highlight"><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">&quot;getswitchbar&quot;</span>&gt;</span>跳转页面<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-getswitchbar()&#123;
-wx.switchbar()&#123;
-url=&#x27;&#x27;
-&#125;
-&#125;
-</code></pre>
-<p>页面传参：</p>
-<pre class="highlight"><code class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&#x27;/pages/info/info?name=zs&amp;age=20&#x27;</span>&gt;</span>跳转页面并传参<span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span>
-</code></pre>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219100450570.png" alt="image-20241219100450570" /></p>
-<pre class="highlight"><code class="">&lt;button bind:tap=&quot;getnavigate&quot;&gt;跳转页面&lt;/button&gt;
-getnavigate()&#123;
-    wx.navigateTo(&#123;
-      url: '/pages/info/info',
-    &#125;)
-&#125;
-</code></pre>
-<p>页面传参：</p>
-<pre class="highlight"><code class="html">  getnavigate()&#123;
-    wx.navigateTo(&#123;
-      url: &#x27;/pages/info/info?age=20&amp;name=zs&#x27;
-    &#125;)
-  &#125;,
-</code></pre>
-<p>所有页面传递的参数可以在onLoad函数的options找到 然后保存到变量中即可</p>
-<p>下拉刷新：</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241219103349374.png" alt="image-20241219103349374" /></p>
-<pre class="highlight"><code class=""> onPullDownRefresh() &#123;//可以在下拉刷新的时候重置数据
-    console.log('下拉一次'),
-    this.setData(&#123;
-      count:0
-    &#125;)
-    wx.stopPullDownRefresh()//停止下拉刷新
-  &#125;,
-</code></pre>
-<p>触底：</p>
-<pre class="highlight"><code class=""> getcolor()&#123;
-    console.log('触发了上拉触底'),
-    wx.request(&#123;
-      url: 'https://www.colr.org/json/color/random',
-      method:&quot;GET&quot;,
-      success:(&#123;data:res&#125;)=&gt;&#123;
-        this.setData(&#123;
-          colorlist:[...this.data.colorlist,...res.colorlist]
-        &#125;)
-      &#125;
-    &#125;)
-  &#125;,
-  onReachBottom:function()&#123;
-    this.getcolor()
-  &#125;,
-</code></pre>
-<p>生命周期：</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221224642778.png" alt="image-20241221224642778" /></p>
-<p>wxs：</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221230209794.png" alt="image-20241221230209794" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221231543854.png" alt="image-20241221231543854" /></p>
-<p>wxs属于脚本 其实就像是封装了一个类 ，exports是共享允许别的调用</p>
-<p>定义wxs脚本文件：定于iutils文件-&gt;定义tools.wxs</p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221232552691.png" alt="image-20241221232552691" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20241221232756361.png" alt="image-20241221232756361" /></p>
-<pre class="highlight"><code class="">跳转页面：
-&lt;navigator class=&quot;grid-item&quot; wx:for=&quot;&#123;&#123;gridlist&#125;&#125;&quot; wx:key=&quot;id&quot; url=&quot;/pages/shoplist/shoplist?id=&#123;&#123;item.id&#125;&#125;&amp;name=&#123;&#123;item.name&#125;&#125;&quot;&gt;
-
-在onload中赋值：
-this.setData(&#123;
-      query:options
-    &#125;)
-在onready中调用接口修改标题
-wx.setNavigationBarTitle(&#123;
-      title: this.data.query.name
-    &#125;)
-
-</code></pre>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104214509668.png" alt="image-20250104214509668" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104214547386.png" alt="image-20250104214547386" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104215030219.png" alt="image-20250104215030219" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104215211134.png" alt="image-20250104215211134" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104220621337.png" alt="image-20250104220621337" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104220932298.png" alt="image-20250104220932298" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104221109481.png" alt="image-20250104221109481" /></p>
-<p><img src="C:%5CUsers%5C%E5%88%98%E6%99%93%E5%AE%87%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250104221336156.png" alt="image-20250104221336156" /></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2024/12/10/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
     <a href="/2024/10/18/2024CCPC%E6%B7%B1%E5%9C%B3%E7%AB%99%E7%BB%84%E9%98%9F%E8%B5%9B%E9%A2%98%E8%A7%A3/">
         <h2 class="post-title">2024CCPC深圳站组队赛题解</h2>
     </a>
@@ -992,7 +719,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #ff7d73">根号思想</a>
+            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #00bcd4">根号思想</a>
         </span>
         
     </div>
@@ -1072,7 +799,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
         </span>
         
     </div>
@@ -1120,22 +847,22 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/dfs/" style="color: #ff7d73">dfs</a>
+            <a href="/tags/dfs/" style="color: #00bcd4">dfs</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #00a596">强连通分量</a>
+            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ffa2c4">强连通分量</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/tarjan/" style="color: #00bcd4">tarjan</a>
+            <a href="/tags/tarjan/" style="color: #03a9f4">tarjan</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #03a9f4">拓扑</a>
+            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #00a596">拓扑</a>
         </span>
         
     </div>
@@ -1183,7 +910,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">图论</a>
+            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ff7d73">图论</a>
         </span>
         
         <span class="tag">
@@ -1193,32 +920,32 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/LCA/" style="color: #00a596">LCA</a>
+            <a href="/tags/LCA/" style="color: #ff7d73">LCA</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Tarjan/" style="color: #ffa2c4">Tarjan</a>
+            <a href="/tags/Tarjan/" style="color: #00bcd4">Tarjan</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/st%E8%A1%A8/" style="color: #00bcd4">st表</a>
+            <a href="/tags/st%E8%A1%A8/" style="color: #00a596">st表</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="color: #00a596">数据结构</a>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="color: #ffa2c4">数据结构</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #03a9f4">并查集</a>
+            <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #00bcd4">并查集</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #ffa2c4">线段树</a>
+            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #ff7d73">线段树</a>
         </span>
         
         <span class="tag">
@@ -1228,7 +955,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/bfs/" style="color: #00bcd4">bfs</a>
+            <a href="/tags/bfs/" style="color: #03a9f4">bfs</a>
         </span>
         
     </div>
@@ -1276,11 +1003,59 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #03a9f4">扩展欧几里得</a>
+            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #00bcd4">扩展欧几里得</a>
         </span>
         
     </div>
     <a href="/2024/04/03/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/04/03/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/">
+        <h2 class="post-title">2024 ICPC National Invitational Collegiate Programming Contest, Wuhan Site（2024武汉邀请赛）</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E8%A1%A5%E9%A2%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                补题
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="题目problem-b-countless-me-codeforces"><a class="markdownIt-Anchor" href="#题目problem-b-countless-me-codeforces"></a> 题目<a target="_blank" rel="noopener" href="https://codeforces.com/gym/105143/problem/B">Problem - B. Countless Me- Codeforces</a>：</h3>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #00bcd4">扩展欧几里得</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/03/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/" class="go-post">阅读全文</a>
 </div>
 
 
