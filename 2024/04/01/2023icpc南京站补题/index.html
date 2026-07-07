@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783397440475" />
+<link rel="stylesheet" href="/css/main.css?v=1783399306299" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,21 +190,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #03a9f4">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #00bcd4">
+                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">
                     最小环
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">
+                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ffa2c4">
                     最短路
                 </a>
             </span>
@@ -221,41 +221,43 @@
     </div>
     
     <div class="content" v-pre>
-        <pre class="highlight"><code class="cpp">vectore[N];
-<span class="hljs-type">int</span> n,m,c,minn,dist[N];
-<span class="hljs-type">bool</span> st[N];
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
-    minn=<span class="hljs-number">1e18</span>;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i,greater &gt;q;
-    dist[u]=<span class="hljs-number">0</span>;
-    q.<span class="hljs-built_in">push</span>(&#123;dist[u],u&#125;);
-    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())&#123;
-        <span class="hljs-keyword">auto</span> [dis,ver]=q.<span class="hljs-built_in">top</span>();
-        q.<span class="hljs-built_in">pop</span>();
-        <span class="hljs-keyword">if</span>(st[ver])<span class="hljs-keyword">continue</span>;
-        st[ver]=<span class="hljs-number">1</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [v,w]:e[ver])&#123;
-            <span class="hljs-keyword">if</span>(v==u)minn=<span class="hljs-built_in">min</span>(minn,dis+w);
-            <span class="hljs-keyword">if</span>(st[v])<span class="hljs-keyword">continue</span>;
-            <span class="hljs-keyword">if</span>(dist[v]&gt;dis+w)&#123;
+        <pre><code class="lang-cpp">vectore[N];
+
+&lt;!--more--&gt;
+int n,m,c,minn,dist[N];
+bool st[N];
+void Dijkstra(int u)&#123;
+    minn=1e18;
+    for(int i=1;i,greater &gt;q;
+    dist[u]=0;
+    q.push(&#123;dist[u],u&#125;);
+    while(q.size())&#123;
+        auto [dis,ver]=q.top();
+        q.pop();
+        if(st[ver])continue;
+        st[ver]=1;
+        for(auto [v,w]:e[ver])&#123;
+            if(v==u)minn=min(minn,dis+w);
+            if(st[v])continue;
+            if(dist[v]&gt;dis+w)&#123;
                 dist[v]=dis+w;
-                q.<span class="hljs-built_in">push</span>(&#123;dist[v],v&#125;);
+                q.push(&#123;dist[v],v&#125;);
             &#125;
         &#125;
     &#125;
 &#125;
-<span class="hljs-type">void</span> <span class="hljs-built_in">solve</span>()&#123;
+void solve()&#123;
     cin&gt;&gt;n&gt;&gt;m&gt;&gt;c;
-    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;u&gt;&gt;v&gt;&gt;z;
-        e[u].<span class="hljs-built_in">pb</span>(&#123;v,z&#125;);
-        <span class="hljs-keyword">if</span>(z&lt;=c)ans=<span class="hljs-number">1</span>;
+    int ans=0;
+    for(int i=1;i&gt;u&gt;&gt;v&gt;&gt;z;
+        e[u].pb(&#123;v,z&#125;);
+        if(z&lt;=c)ans=1;
     &#125;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-        <span class="hljs-built_in">Dijkstra</span>(i);
-        <span class="hljs-keyword">if</span>(minn&lt;=c)&#123;ans=<span class="hljs-number">2</span>;<span class="hljs-keyword">break</span>;&#125;
+    for(int i=1;i&lt;=n;i++)&#123;
+        Dijkstra(i);
+        if(minn&lt;=c)&#123;ans=2;break;&#125;
     &#125;
-    cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    cout&lt;&lt;ans&lt;&lt;&quot;\n&quot;;
 &#125;
 </code></pre>
 

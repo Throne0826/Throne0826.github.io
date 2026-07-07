@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>分类 | Throne</title>
+    <title>409选拔赛补题 | Throne</title>
     <meta name="author" content="Lxy" />
     <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
@@ -47,7 +47,11 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783399306290" />
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=1783399306301" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -156,14 +160,20 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>409选拔赛补题</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/22
+        </span>
         
-        
-        
-        <span>
-            <a href="/categories/%E8%A1%A5%E9%A2%98/" style="background: #00a596">
+        <span class="category">
+            <a href="/categories/%E8%A1%A5%E9%A2%98/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -172,40 +182,95 @@
         </span>
         
         
-        
-        <span>
-            <a href="/categories/%E6%AF%94%E8%B5%9B/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                比赛
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
+                    图论
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%90%8C%E4%BD%99%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">
+                    同余最短路
+                </a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E7%AC%94%E8%AE%B0/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                笔记
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/categories/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                欧拉定理
-            </a>
-        </span>
-        
         
     </div>
+    
+    <div class="content" v-pre>
+        <h3 id="Problem-A-Find-a-Number同余最短路-建图"><a href="#Problem-A-Find-a-Number同余最短路-建图" class="headerlink" title="Problem - A -  Find a Number同余最短路/建图"></a>Problem - A -  Find a Number同余最短路/建图</h3><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你两个正整数$d$和$s$。求能被$d$整除且其数位之和等于$s$的最小正整数$n$。</p>
+<span id="more"></span>
+<p><strong>输入</strong></p>
+<p>第一行包含两个正整数$d$和$s$（$1 \le d \le 500, 1 \le s \le 5000$），用空格隔开。</p>
+<p><strong>输出</strong></p>
+<p>打印所需的数字，如果不存在，则打印 （-1）。</p>
+<h4 id="题目分析："><a href="#题目分析：" class="headerlink" title="题目分析："></a>题目分析：</h4><p>有一个性质：假设一个数为$x$，则$x%mod$后再添加任何数位都不会影响已经$mod$掉的。（因为再加上任何数位，已经$mod$掉的只会$*$ $10^x$）</p>
+<p>所以用$dis[模数]$ $[数位之和]$作为点，建图跑最短路，顺便维护一下当前点从哪一个点转移过来的记录路径即可。</p>
+<h4 id="题目代码："><a href="#题目代码：" class="headerlink" title="题目代码："></a>题目代码：</h4><pre><code class="lang-cpp">queue&gt; q;
+bitset st[N][M];
+int s, d;
+struct node
+&#123;
+    short x, y, z;
+&#125; path[N][M];
+stack stk;
+void solve()
+&#123;
+    cin &gt;&gt; s &gt;&gt; d;
+    st[0][0] = 1;
+    q.push(&#123;0, 0&#125;);
+    path[0][0] = &#123;-1, -1, -1&#125;;
+    while (q.size())
+    &#123;
+        auto [mod, sum] = q.front();
+        q.pop();
+        for (int i = 0; i &lt;= 9; i++)
+        &#123;
+            int ver = (mod * 10 + i) % s, su = sum + i;
+            if (su &lt;= d &amp;&amp; st[ver][su] == 0)
+                q.push(&#123;ver, su&#125;), st[ver][su] = 1, path[ver][su] = &#123;mod, sum, i&#125;;
+        &#125;
+    &#125;
+    if (st[0][d] == 0)
+    &#123;
+        cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+        return;
+    &#125;
+    s = 0;
+    while (path[s][d].x != -1)
+    &#123;
+        auto [x, y, z] = path[s][d];
+        stk.push(z);
+        s = x, d = y;
+    &#125;
+    while (stk.size())
+    &#123;
+        cout &lt;&lt; stk.top();
+        stk.pop();
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
     
 </div>
 
@@ -250,6 +315,29 @@
 <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script src="/js/lib/fireworks.min.js"></script>
     <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="Throne0826/Throne0826.github.io"
+    data-repo-id="R_kgDOLhYhEA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOLhYhEM4Ch5hu"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="noborder_light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
     
 </body>
 </html>
