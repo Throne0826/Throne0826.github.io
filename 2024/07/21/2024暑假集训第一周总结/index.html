@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783400734722" />
+<link rel="stylesheet" href="/css/main.css?v=1783401015757" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -184,22 +184,21 @@
 <p>第一周一共四场比赛：总的来说还有很多东西没学，或者学的不深，个人感觉八月之前应该在不停的学新东西了，八月之后得对算法加深一些理解和掌握。比赛得时候，签到和能出得思维大家都一样，后期就看谁知识点学过或者掌握的更深了…</p>
 <p>牛客多校一：</p>
 <p>这一场补了三个题</p>
-<hr />
-<p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/81596/A">A-A Bit Common_2024牛客暑期多校训练营1 (nowcoder.com)</a>$ 题意是给你n(n\le5000),m(m\le5000),q(q\le10<sup>9)三个数,求从[0,2</sup>m)任取数凑成长度为n的序列，并且该序列中存在一个子 $</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/81596/A">A-A Bit Common_2024牛客暑期多校训练营1 (nowcoder.com)</a>$ 题意是给你n(n\le5000),m(m\le5000),q(q\le10^9)三个数,求从[0,2^m)任取数凑成长度为n的序列，并且该序列中存在一个子 $</p>
 <p>$ 序列AND值为1，求总共的方案数并对\ q \  取模。$</p>
 <p>$ 分析：$</p>
 <p>$n,m都是5000，显然时间复杂度在o(n^2)以内，所以我们可以考虑枚举子序列的个数 $</p>
-<p>$ 假设子序列为k个 那么有c(n,k)种序列位置可能 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 一个数AND为1 只能为1$</p>
+<p>$ 假设子序列为k个 那么有c(n,k)种序列位置可能 $.$ 一个数AND为1 只能为1$</p>
 <p>$ 多个数AND值为1，那么他们的2进制位最低位一定为1，其他位一定都不同时为1$</p>
 <p>$ 剩下的n-k个就随便选了 .$</p>
 <p>$ 总结一下就得出一个公式：$</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></msubsup><mi>C</mi><mo stretchy="false">(</mo><mi>n</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mn>2</mn><mrow><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">\sum_{k=2}^{n} C(n,k)(2^k-1)^{m-1}2^{(m-1)(n-k)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.148818em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">m</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span></p>
-<p>$ 组合数预处理用递推式o(n<sup>2)，枚举序列计算答案为o(nlogm),总时间复杂度为o(n</sup>2)$ 总结：题不难，也没用到的什么难的知识点 还是组合数论推式子类题刷的少</p>
-<hr />
+<p>$\sum_{k=2}^{n} C(n,k)(2^k-1)^{m-1}2^{(m-1)(n-k)}$</p>
+<p>$ 组合数预处理用递推式o(n^2)，枚举序列计算答案为o(nlogm),总时间复杂度为o(n^2)$ 总结：题不难，也没用到的什么难的知识点 还是组合数论推式子类题刷的少</p>
+<hr>
 <p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/81596/B">B-A Bit More Common_2024牛客暑期多校训练营1 (nowcoder.com)</a></p>
 <p>题意和范围跟上面一样，区别是找到序列中存在两个子序列AND值为1方案数</p>
-<h3 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h3>
-
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3>
     </div>
     
     

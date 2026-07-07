@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783400734727" />
+<link rel="stylesheet" href="/css/main.css?v=1783401015764" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -197,7 +197,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%90%8C%E4%BD%99%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00a596">
+                <a href="/tags/%E5%90%8C%E4%BD%99%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">
                     同余最短路
                 </a>
             </span>
@@ -208,66 +208,61 @@
     
     <div class="content" v-pre>
         <p>这篇记录 409 选拔赛补题，主要整理同余最短路、建图和若干实现细节。</p>
-<h2 id="problem-a-find-a-number同余最短路建图"><a class="markdownIt-Anchor" href="#problem-a-find-a-number同余最短路建图"></a> Problem - A -  Find a Number同余最短路/建图</h2>
-<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
-<p>给你两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>。求能被 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 整除且其数位之和等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span> 的最小正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>。</p>
+<h2 id="Problem-A-Find-a-Number同余最短路-建图"><a href="#Problem-A-Find-a-Number同余最短路-建图" class="headerlink" title="Problem - A -  Find a Number同余最短路/建图"></a>Problem - A -  Find a Number同余最短路/建图</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给你两个正整数 $d$ 和 $s$。求能被 $d$ 整除且其数位之和等于 $s$ 的最小正整数 $n$。</p>
 <span id="more"></span>
 <ul>
-<li><em>输入</em>*</li>
+<li><em>输入*</em></li>
 </ul>
-<p>第一行包含两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>d</mi><mo>≤</mo><mn>500</mn><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>s</mi><mo>≤</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">1 \le d \le 500, 1 \le s \le 5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83041em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span>），用空格隔开。</p>
+<p>第一行包含两个正整数 $d$ 和 $s$（$1 \le d \le 500, 1 \le s \le 5000$），用空格隔开。</p>
 <ul>
-<li><em>输出</em>*</li>
+<li><em>输出*</em></li>
 </ul>
 <p>打印所需的数字，如果不存在，则打印 （-1）。</p>
-<h3 id="题目分析"><a class="markdownIt-Anchor" href="#题目分析"></a> 题目分析</h3>
-<p>有一个性质：假设一个数为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>，则 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x%mod</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 后再添加任何数位都不会影响已经 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">mod</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span></span></span></span> 掉的。（因为再加上任何数位，已经 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">mod</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span></span></span></span> 掉的只会 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mi>x</mi></msup></mrow><annotation encoding="application/x-tex">10^x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span>）</p>
-<p>所以用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo stretchy="false">[</mo><mtext>模数</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dis[模数]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord cjk_fallback">模</span><span class="mord cjk_fallback">数</span><span class="mclose">]</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mtext>数位之和</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[数位之和]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">位</span><span class="mord cjk_fallback">之</span><span class="mord cjk_fallback">和</span><span class="mclose">]</span></span></span></span> 作为点，建图跑最短路，顺便维护一下当前点从哪一个点转移过来的记录路径即可。</p>
-<h3 id="题目代码"><a class="markdownIt-Anchor" href="#题目代码"></a> 题目代码</h3>
-<pre class="highlight"><code class="cpp">queue&gt; q;
+<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p>有一个性质：假设一个数为 $x$，则 $x%mod$ 后再添加任何数位都不会影响已经 $mod$ 掉的。（因为再加上任何数位，已经 $mod$ 掉的只会 $*$ $10^x$）</p>
+<p>所以用 $dis[模数]$ $[数位之和]$ 作为点，建图跑最短路，顺便维护一下当前点从哪一个点转移过来的记录路径即可。</p>
+<h3 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h3><pre><code class="lang-cpp">queue&gt; q;
 bitset st[N][M];
-<span class="hljs-type">int</span> s, d;
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>
+int s, d;
+struct node
 &#123;
-    <span class="hljs-type">short</span> x, y, z;
+    short x, y, z;
 &#125; path[N][M];
 stack stk;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
-</span>&#123;
+void solve()
+&#123;
     cin &gt;&gt; s &gt;&gt; d;
-    st[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
-    q.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;);
-    path[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>&#125;;
-    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+    st[0][0] = 1;
+    q.push(&#123;0, 0&#125;);
+    path[0][0] = &#123;-1, -1, -1&#125;;
+    while (q.size())
     &#123;
-        <span class="hljs-keyword">auto</span> [mod, sum] = q.<span class="hljs-built_in">front</span>();
-        q.<span class="hljs-built_in">pop</span>();
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">9</span>; i++)
+        auto [mod, sum] = q.front();
+        q.pop();
+        for (int i = 0; i &lt;= 9; i++)
         &#123;
-            <span class="hljs-type">int</span> ver = (mod * <span class="hljs-number">10</span> + i) % s, su = sum + i;
-            <span class="hljs-keyword">if</span> (su &lt;= d &amp;&amp; st[ver][su] == <span class="hljs-number">0</span>)
-                q.<span class="hljs-built_in">push</span>(&#123;ver, su&#125;), st[ver][su] = <span class="hljs-number">1</span>, path[ver][su] = &#123;mod, sum, i&#125;;
+            int ver = (mod * 10 + i) % s, su = sum + i;
+            if (su &lt;= d &amp;&amp; st[ver][su] == 0)
+                q.push(&#123;ver, su&#125;), st[ver][su] = 1, path[ver][su] = &#123;mod, sum, i&#125;;
         &#125;
     &#125;
-    <span class="hljs-keyword">if</span> (st[<span class="hljs-number">0</span>][d] == <span class="hljs-number">0</span>)
+    if (st[0][d] == 0)
     &#123;
-        cout &lt;&lt; <span class="hljs-number">-1</span> &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-        <span class="hljs-keyword">return</span>;
+        cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+        return;
     &#125;
-    s = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (path[s][d].x != <span class="hljs-number">-1</span>)
+    s = 0;
+    while (path[s][d].x != -1)
     &#123;
-        <span class="hljs-keyword">auto</span> [x, y, z] = path[s][d];
-        stk.<span class="hljs-built_in">push</span>(z);
+        auto [x, y, z] = path[s][d];
+        stk.push(z);
         s = x, d = y;
     &#125;
-    <span class="hljs-keyword">while</span> (stk.<span class="hljs-built_in">size</span>())
+    while (stk.size())
     &#123;
-        cout &lt;&lt; stk.<span class="hljs-built_in">top</span>();
-        stk.<span class="hljs-built_in">pop</span>();
+        cout &lt;&lt; stk.top();
+        stk.pop();
     &#125;
 &#125;
-
 </code></pre>
 
     </div>
