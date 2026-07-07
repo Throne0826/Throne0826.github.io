@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783401015764" />
+<link rel="stylesheet" href="/css/main.css?v=1783404885685" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -197,21 +197,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/DFS/" style="color: #00bcd4">
+                <a href="/tags/DFS/" style="color: #03a9f4">
                     DFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/BFS/" style="color: #ffa2c4">
+                <a href="/tags/BFS/" style="color: #ff7d73">
                     BFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/STL/" style="color: #00bcd4">
+                <a href="/tags/STL/" style="color: #ffa2c4">
                     STL
                 </a>
             </span>
@@ -221,59 +221,18 @@
     </div>
     
     <div class="content" v-pre>
-        <p>这篇记录 2016 USP-ICMC 中 Martian Sunrise 的补题思路，重点是把音调匹配过程抽象成可维护的集合状态。</p>
-<h2 id="Problem-B-Martian-Sunrise贪心"><a href="#Problem-B-Martian-Sunrise贪心" class="headerlink" title="Problem - B - Martian Sunrise贪心"></a>Problem - B - Martian Sunrise贪心</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给你 $m$ 行音调，每行音调有 $7$ 个元素，给你一行目标音调 $n$, 每次可以从 $m$ 行任选两行,作为你的元素集合去匹配目标音调，求最少多少次完成匹配。$（1 \le m \le 16，1 \le n \le 1e4）$</p>
+        <h2 id="problem-b-martian-sunrise"><a class="markdownIt-Anchor" href="#problem-b-martian-sunrise"></a> Problem B - Martian Sunrise</h2>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
+<p>给定 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 行音调，每行有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span></span></span></span> 个元素；再给定一行长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 的目标音调。每次可以从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 行中任选两行，作为当前可用的元素集合去匹配目标音调，求完成匹配所需的最少次数。</p>
+<p>约束为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>m</mi><mo>≤</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">1 \le m \le 16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">6</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">1 \le n \le 10^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span>。</p>
 <span id="more"></span>
-<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p>所有选择的方案总共 $m*(m-1)/2$，乘上总元素大约 $3000$，然后直接从第一个目标音调的元素枚举到 $n$，同时枚举所有现存的包含当前元素的集合，同时去除不包含的，如何此时没有任何一个集合满足，则重新枚举所有集合并且答案数 $++$。这里有个贪心正确性：取匹配目标元素最长的集合并不会让总集合数变多。时间复杂度大约 $3e7$ 左右。</p>
-<h3 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h3><pre><code class="lang-cpp">map mp;
-int cnt;
-set b[300];
-bool st[300];
-void solve()
-&#123;
-    int m;
-    cin &gt;&gt; m;
-    vector v[m];
-    for (int i = 0; i &gt; s;
-            if (!mp[s])
-            mp[s] = ++cnt;
-            v[i].pb(mp[s]);
-        &#125;
-    &#125;
-
-    int n;
-    cin &gt;&gt; n;
-    vector a(n);
-    for (auto &amp;x : a)
-    &#123;
-        string s;
-        cin &gt;&gt; s;
-        x = mp[s];
-    &#125;
-
-    int idx = 0;
-    if (m == 1)
-    &#123;
-        for (auto &amp;x : v[0])
-            b[idx].insert(x);
-        idx++;
-    &#125;
-
-    for (int i = 0; i  s[N];
-queue q;
-bitset st;
-void bfs(int u, int v)
-    &#123;
-        int nn = u + h - 1, mm = v + w - 1;
-        set::iterator it = s[v].lower_bound(u);
-        // cout= u &amp;&amp; t = v &amp;&amp; z &gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;
-    ans = n * m;
-    for (int i = 1; i &gt; x &gt;&gt; y;
-        bfs(x, y);
-        cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-    &#125;
-&#125;
-</code></pre>
+<h3 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h3>
+<p>可以先枚举所有“两行组合”。组合总数为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>m</mi><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{m(m-1)}{2}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>由于每行只有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span></span></span></span> 个元素，组合后的集合规模也不大。接着从目标音调的第一个元素开始向后扫描，并维护当前仍然可行的组合。</p>
+<p>如果当前元素不在某个组合中，就把这个组合删掉；如果所有组合都不可行，说明必须重新选择一次组合，此时答案加一，并重新恢复所有组合。</p>
+<p>贪心点在于：每次尽量选择能连续匹配更长前缀的组合，不会让最终次数变多。整体复杂度大约在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">3\times 10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> 级别，可以接受。</p>
 
     </div>
     

@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783401015759" />
+<link rel="stylesheet" href="/css/main.css?v=1783404885682" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,7 +190,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
                     图论
                 </a>
             </span>
@@ -211,42 +211,42 @@
             
             <span class="tag">
                 
-                <a href="/tags/Tarjan/" style="color: #00a596">
+                <a href="/tags/Tarjan/" style="color: #00bcd4">
                     Tarjan
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/st%E8%A1%A8/" style="color: #ffa2c4">
+                <a href="/tags/st%E8%A1%A8/" style="color: #03a9f4">
                     st表
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="color: #ff7d73">
+                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="color: #00a596">
                     数据结构
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #03a9f4">
+                <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #ff7d73">
                     并查集
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #ff7d73">
+                <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #03a9f4">
                     线段树
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/dfs/" style="color: #00a596">
+                <a href="/tags/dfs/" style="color: #ffa2c4">
                     dfs
                 </a>
             </span>
@@ -263,81 +263,29 @@
     </div>
     
     <div class="content" v-pre>
-        <p>这篇整理树上 LCA、路径交并和直径相关的常见模型，方便之后比赛中快速复用。</p>
-<p>最近的一些比赛中经常用到树上 $lca$ 的常见模型，整理一下：</p>
+        <p>最近的一些比赛中经常用到树上 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">LCA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">A</span></span></span></span> 的常见模型，这里整理一下几种做法和应用场景。</p>
 <span id="more"></span>
-<p>首先整理一下 $LCA$ 的四种求法：</p>
+<h2 id="lca-常见求法"><a class="markdownIt-Anchor" href="#lca-常见求法"></a> LCA 常见求法</h2>
+<h3 id="倍增-lca"><a class="markdownIt-Anchor" href="#倍增-lca"></a> 倍增 LCA</h3>
+<p>预处理复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>，单次查询复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。</p>
+<p>基本思路是先用 BFS 或 DFS 预处理每个节点深度，并用倍增数组 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>u</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[u][i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">u</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 表示节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span></span></span></span> 向上跳 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>i</mi></msup></mrow><annotation encoding="application/x-tex">2^i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.824664em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span></span></span></span> 步后的祖先。查询时先把两个点跳到同一深度，再从高位到低位一起向上跳，最终得到最近公共祖先。</p>
+<h3 id="tarjan-离线-lca"><a class="markdownIt-Anchor" href="#tarjan-离线-lca"></a> Tarjan 离线 LCA</h3>
+<p>总体复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mi>q</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n+q)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span>，适合所有查询已知、可以离线处理的场景。</p>
+<p>核心是 DFS 遍历树，并用并查集维护已经访问过的子树。当一个询问的另一个端点已经访问过时，就可以用并查集祖先得到答案。</p>
+<h3 id="欧拉序-rmq"><a class="markdownIt-Anchor" href="#欧拉序-rmq"></a> 欧拉序 + RMQ</h3>
+<p>预处理复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>，单次查询复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>。</p>
+<p>做法是 DFS 处理欧拉序，记录每个节点第一次出现的位置，并用 ST 表维护欧拉序区间内深度最小的节点。两个点的 LCA 就是它们第一次出现位置之间深度最小的节点。</p>
+<h3 id="树链剖分-lca"><a class="markdownIt-Anchor" href="#树链剖分-lca"></a> 树链剖分 LCA</h3>
+<p>预处理复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> 或 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>，单次查询复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。</p>
+<p>树链剖分更适合需要同时维护路径信息的题，比如路径修改、路径查询等。</p>
+<h2 id="常见模型"><a class="markdownIt-Anchor" href="#常见模型"></a> 常见模型</h2>
+<p>树上 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">LCA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">A</span></span></span></span> 常见应用包括：</p>
 <ol>
-<li>倍增 $LCA$：预处理 $O(nlogn)$ 单次查询 $O(logn)$ 通过 $bfs$ 预处理节点深度和 $st$ 表倍增处理祖宗节点，在查询的时候用倍增先将两点跳到统一深度，再找同祖宗节点的最深节点</li>
+<li>动态维护树的直径。</li>
+<li>判断两条树上路径是否相交。</li>
+<li>统计树上路径的并。</li>
 </ol>
-<pre><code class="lang-cpp">int n,depth[N],f[N][19];
-vector&lt;int&gt; e[N];
-void bfs(int root)&#123;
-    memset(depth,0x3f,sizeof depth);
-    depth[0]=0,depth[root]=1;//0为st表的哨兵
-    queue&lt;int&gt; q;
-    q.push(root);
-    while(q.size())&#123;
-        int ver=q.front();
-        q.pop();
-        for(auto &amp;to:e[ver])&#123;
-            if(depth[to]&gt;depth[ver]+1)&#123;
-                depth[to]=depth[ver]+1;
-                f[to][0]=ver;
-                for(int i=1;i=0;i--)&#123;
-        if(depth[f[a][i]]=0;i--)&#123;
-        if(f[a][i]!=f[b][i])
-        a=f[a][i],b=f[b][i];
-    &#125;
-    return f[a][0];
-&#125;
-</code></pre>
-<ol>
-<li>$Tarjan$ 离线 $LCA$: 总体时间复杂度 $O(n+q)$，$n$ 为节点 $q$ 为查询次数</li>
-</ol>
-<p>暂定</p>
-<ol>
-<li>在线 $RMQLCA$：预处理 $O(nlogn)$ 单次查询 $O(1)$ 通过 $dfs$ 处理欧拉序及其深度，并保存每个节点第一次出现位置，通过 $st$ 表维护区间深度最小值即可</li>
-</ol>
-<pre><code class="lang-cpp">int n,q,root,depth[Ne[N];
-void dfs(int u,int d,int fa)&#123;
-    se[++tot]=u;
-    id[u]=tot;
-    depth[tot]=d;
-    for (auto &amp;to : e[u])&#123;
-        if(to==fa)continue;
-        dfs(to,d+1,u);
-        se[++tot]=u;
-        depth[tot]=d;
-    &#125;
-&#125;
-int lca(int l,int r)&#123;
-    int k=Log[r-l+1];
-    return depth[f[l][k]]&gt;n&gt;&gt;q&gt;&gt;root;
-    for(int i=1;i&gt;u&gt;&gt;v;
-        e[u].pb(v);
-        e[v].pb(u);
-    &#125;
-    dfs(root,1,0);
-    Log[1]=0,Log[2]=1;
-    for(int i=3;i&gt;u&gt;&gt;v;
-        int l=id[u],r=id[v];
-        if(l&gt;r)swap(l,r);
-    &#125;
-&#125;
-</code></pre>
-<ol>
-<li>树链剖分 $LCA$:预处理 $O(n)$ 单次查询 $O(logn)$ 暂定</li>
-</ol>
-<p>树上 $LCA$ 的几种常用模型：</p>
-<ol>
-<li><p>动态维护树的直径</p>
-</li>
-<li><p>树上路径的交</p>
-</li>
-<li><p>树上路径的并</p>
-</li>
-</ol>
+<p>这些模型的关键通常是把路径 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span> 拆成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>→</mo><mi>L</mi><mi>C</mi><mi>A</mi><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">u\to LCA(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>→</mo><mi>L</mi><mi>C</mi><mi>A</mi><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">v\to LCA(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span> 两段，再用深度、距离或 DFS 序进行判断。</p>
 
     </div>
     
