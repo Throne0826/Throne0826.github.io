@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783406476135" />
+<link rel="stylesheet" href="/css/main.css?v=1783412112104" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,21 +190,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #ff7d73">
+                <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #ffa2c4">
                     贪心
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/DFS/" style="color: #ffa2c4">
+                <a href="/tags/DFS/" style="color: #00bcd4">
                     DFS
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/BFS/" style="color: #00bcd4">
+                <a href="/tags/BFS/" style="color: #03a9f4">
                     BFS
                 </a>
             </span>
@@ -233,6 +233,56 @@
 <p>由于每行只有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span></span></span></span> 个元素，组合后的集合规模也不大。接着从目标音调的第一个元素开始向后扫描，并维护当前仍然可行的组合。</p>
 <p>如果当前元素不在某个组合中，就把这个组合删掉；如果所有组合都不可行，说明必须重新选择一次组合，此时答案加一，并重新恢复所有组合。</p>
 <p>贪心点在于：每次尽量选择能连续匹配更长前缀的组合，不会让最终次数变多。整体复杂度大约在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">3\times 10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span> 级别，可以接受。</p>
+<h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
+<pre class="highlight"><code class="cpp">map mp;
+<span class="hljs-type">int</span> cnt;
+set b[<span class="hljs-number">300</span>];
+<span class="hljs-type">bool</span> st[<span class="hljs-number">300</span>];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-type">int</span> m;
+    cin &gt;&gt; m;
+    vector v[m];
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &gt; s;
+            <span class="hljs-keyword">if</span> (!mp[s])
+            mp[s] = ++cnt;
+            v[i].<span class="hljs-built_in">pb</span>(mp[s]);
+        &#125;
+    &#125;
+
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+    vector <span class="hljs-built_in">a</span>(n);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : a)
+    &#123;
+        string s;
+        cin &gt;&gt; s;
+        x = mp[s];
+    &#125;
+
+    <span class="hljs-type">int</span> idx = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (m == <span class="hljs-number">1</span>)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;x : v[<span class="hljs-number">0</span>])
+            b[idx].<span class="hljs-built_in">insert</span>(x);
+        idx++;
+    &#125;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i  s[N];
+queue q;
+bitset st;
+<span class="hljs-type">void</span> <span class="hljs-built_in">bfs</span>(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> v)
+    &#123;
+        <span class="hljs-type">int</span> nn = u + h - <span class="hljs-number">1</span>, mm = v + w - <span class="hljs-number">1</span>;
+        set::iterator it = s[v].<span class="hljs-built_in">lower_bound</span>(u);
+        <span class="hljs-comment">// cout= u &amp;&amp; t = v &amp;&amp; z &gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; w &gt;&gt; Q;</span>
+    ans = n * m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &gt; x &gt;&gt; y;
+        <span class="hljs-built_in">bfs</span>(x, y);
+        cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+    &#125;
+&#125;
+</code></pre>
 
     </div>
     

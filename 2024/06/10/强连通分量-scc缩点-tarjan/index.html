@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783406476126" />
+<link rel="stylesheet" href="/css/main.css?v=1783412112086" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,14 +190,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/dfs/" style="color: #03a9f4">
+                <a href="/tags/dfs/" style="color: #ffa2c4">
                     dfs
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ffa2c4">
+                <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ff7d73">
                     强连通分量
                 </a>
             </span>
@@ -211,7 +211,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #03a9f4">
+                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #00bcd4">
                     拓扑
                 </a>
             </span>
@@ -295,6 +295,103 @@ vector&lt;<span class="hljs-type">int</span>&gt; e[N];
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>u</mi><mo stretchy="false">]</mo><mo>+</mo><msub><mi>w</mi><mi>v</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">dp[v]=\max(dp[v], dp[u]+w_v)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">u</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
 <p>最终答案就是所有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">dp</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span></span></span></span> 值的最大值。</p>
+<h3 id="缩点代码"><a class="markdownIt-Anchor" href="#缩点代码"></a> 缩点代码</h3>
+<pre class="highlight"><code class="cpp"><span class="hljs-type">int</span> dfn[N], low[N],cnt,sz[N],scc[N],sc,d[N],dp[N],ans,w[N];
+stack&lt;<span class="hljs-type">int</span>&gt; st;
+vector&lt;<span class="hljs-type">int</span>&gt; e[N], ex[N];
+<span class="hljs-type">bool</span> vis[N];
+queue&lt;<span class="hljs-type">int</span>&gt; q;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
+    dfn[u]=low[u]=++cnt;
+    st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;to : e[u])&#123;
+        <span class="hljs-keyword">if</span>(!dfn[to])&#123;
+            <span class="hljs-built_in">tarjan</span>(to);
+            low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
+            low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
+        sc++;
+        <span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
+            sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
+            scc[st.<span class="hljs-built_in">top</span>()]=sc;
+            vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
+            st.<span class="hljs-built_in">pop</span>();
+        &#125;
+        sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
+        scc[st.<span class="hljs-built_in">top</span>()]=sc;
+        vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
+        st.<span class="hljs-built_in">pop</span>();
+    &#125;
+&#125;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">topu</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;n&gt;&gt;m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;w[i];
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;u&gt;&gt;v;
+        e[u].<span class="hljs-built_in">pb</span>(v);
+    &#125;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;ist;
+vector&lt;<span class="hljs-type">int</span>&gt; e[N], ex[N];
+<span class="hljs-type">bool</span> vis[N];
+queue&lt;<span class="hljs-type">int</span>&gt; q;
+<span class="hljs-type">void</span> <span class="hljs-built_in">tarjan</span>(<span class="hljs-type">int</span> u)&#123;
+    dfn[u]=low[u]=++cnt;
+    st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;to : e[u])&#123;
+        <span class="hljs-keyword">if</span>(!dfn[to])&#123;
+            <span class="hljs-built_in">tarjan</span>(to);
+            low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
+            low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
+        sc++;
+        <span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
+            scc[st.<span class="hljs-built_in">top</span>()]=sc;
+            vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
+            st.<span class="hljs-built_in">pop</span>();
+        &#125;
+        scc[st.<span class="hljs-built_in">top</span>()]=sc;
+        vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
+        st.<span class="hljs-built_in">pop</span>();
+    &#125;
+&#125;
+<span class="hljs-type">void</span> <span class="hljs-built_in">solve</span>()&#123;
+    <span class="hljs-type">int</span> n;cin&gt;&gt;n;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;x,x)&#123;
+            e[i].<span class="hljs-built_in">pb</span>(x);
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+    <span class="hljs-keyword">if</span>(!dfn[i])<span class="hljs-built_in">tarjan</span>(i);
+
+    <span class="hljs-type">int</span> ans1=<span class="hljs-number">0</span>,ans2=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
+        <span class="hljs-type">int</span> u=scc[i];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[i])&#123;
+            <span class="hljs-type">int</span> v=scc[to];
+            <span class="hljs-keyword">if</span>(u==v)<span class="hljs-keyword">continue</span>;
+            d[v]++,ud[u]++;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=sc;i++)
+    &#123;
+        <span class="hljs-keyword">if</span>(!d[i])ans1++;
+        <span class="hljs-keyword">if</span>(!ud[i])ans2++;
+    &#125;
+    cout&lt;&lt;ans1&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">if</span>(sc==<span class="hljs-number">1</span>)
+    cout&lt;&lt;<span class="hljs-number">0</span>&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    <span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">max</span>(ans1,ans2)&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+&#125;
+</code></pre>
 
     </div>
     

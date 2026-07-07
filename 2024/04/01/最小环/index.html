@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783406476134" />
+<link rel="stylesheet" href="/css/main.css?v=1783412112098" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,28 +190,28 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #03a9f4">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #ff7d73">
+                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">
                     最小环
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00a596">
+                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00bcd4">
                     最短路
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Dijkstra/" style="color: #ff7d73">
+                <a href="/tags/Dijkstra/" style="color: #00a596">
                     Dijkstra
                 </a>
             </span>
@@ -242,6 +242,43 @@
 <p>时间复杂度约为：</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>m</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nm\log n)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span></p>
+<h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
+<pre class="highlight"><code class="cpp">vector&lt;<span class="hljs-type">int</span>&gt; e[N];
+<span class="hljs-type">int</span> n,m,c,minn,dist[N];
+<span class="hljs-type">bool</span> st[N];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
+    minn=<span class="hljs-number">1e18</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i,greater &gt;q;
+    dist[u]=<span class="hljs-number">0</span>;
+    q.<span class="hljs-built_in">push</span>(&#123;dist[u],u&#125;);
+    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())&#123;
+        <span class="hljs-keyword">auto</span> [dis,ver]=q.<span class="hljs-built_in">top</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-keyword">if</span>(st[ver])<span class="hljs-keyword">continue</span>;
+        st[ver]=<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [v,w]:e[ver])&#123;
+            <span class="hljs-keyword">if</span>(v==u)minn=<span class="hljs-built_in">min</span>(minn,dis+w);
+            <span class="hljs-keyword">if</span>(st[v])<span class="hljs-keyword">continue</span>;
+            <span class="hljs-keyword">if</span>(dist[v]&gt;dis+w)&#123;
+                dist[v]=dis+w;
+                q.<span class="hljs-built_in">push</span>(&#123;dist[v],v&#125;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-type">void</span> <span class="hljs-built_in">solve</span>()&#123;
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;c;
+    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;u&gt;&gt;v&gt;&gt;z;
+        e[u].<span class="hljs-built_in">pb</span>(&#123;v,z&#125;);
+        <span class="hljs-keyword">if</span>(z&lt;=c)ans=<span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
+        <span class="hljs-built_in">Dijkstra</span>(i);
+        <span class="hljs-keyword">if</span>(minn&lt;=c)&#123;ans=<span class="hljs-number">2</span>;<span class="hljs-keyword">break</span>;&#125;
+    &#125;
+&#125;
+</code></pre>
 
     </div>
     
