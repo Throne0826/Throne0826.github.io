@@ -1,4 +1,4 @@
-﻿mixins.highlight = {
+mixins.highlight = {
     data() {
         return { copying: false };
     },
