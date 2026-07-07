@@ -1,4 +1,4 @@
-#archives {
+﻿#archives {
     margin: auto;
     margin-top: 100px;
     padding: 20px;
@@ -504,8 +504,8 @@
     margin-right: 10px;
 }
 .code-content {
-    background: #0d1117 !important;
-    color: #c9d1d9;
+    background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%) !important;
+    color: #263445;
     font-size: 13px;
     line-height: 1.85;
     overflow: auto;
@@ -529,10 +529,11 @@ body::-webkit-scrollbar-track {
 }
 .copycode {
     align-items: center;
-    background: #21262d;
-    border: 1px solid #30363d;
+    background: #ffffffd9;
+    border: 1px solid #cdddf0;
     border-radius: 8px;
-    color: #c9d1d9;
+    box-shadow: 0 4px 12px #3b82c51f;
+    color: #5f7896;
     cursor: pointer;
     display: flex;
     height: 30px;
@@ -545,9 +546,9 @@ body::-webkit-scrollbar-track {
     z-index: 2;
 }
 .copycode:hover {
-    background: #30363d;
-    border-color: #58a6ff;
-    color: #58a6ff;
+    background: #eef6ff;
+    border-color: #66afef;
+    color: #2f80c8;
     opacity: 1;
 }
 .copycode i {
@@ -576,8 +577,8 @@ body::-webkit-scrollbar-track {
     padding-left: 22px !important;
 }
 .hljs-ln-numbers {
-    border-right: 1px solid #30363d;
-    color: #6e7681;
+    border-right: 1px solid #d8e5f5;
+    color: #8da4bb;
     padding-right: 14px !important;
     text-align: right;
     vertical-align: top;
@@ -620,23 +621,34 @@ body::-webkit-scrollbar-track {
     white-space: normal !important;
 }
 .language {
-    background: #161b22;
-    border-bottom: 1px solid #30363d;
+    background: linear-gradient(180deg, #f1f7ff 0%, #e8f2ff 100%);
+    border-bottom: 1px solid #d8e5f5;
     border-radius: 14px 14px 0 0;
     box-shadow: none;
     box-sizing: border-box;
-    color: #8b949e;
+    color: #52759a;
     font-family: Lexend, "Noto Sans SC", sans-serif;
     font-size: 12px;
     font-weight: bold;
     left: 0;
     letter-spacing: 0;
     line-height: 42px;
-    padding: 0 58px 0 18px;
+    padding: 0 58px 0 68px;
     position: absolute;
     top: 0;
     width: 100%;
     z-index: 1;
+}
+.language::before {
+    background: #ff6b6b;
+    border-radius: 50%;
+    box-shadow: 15px 0 0 #ffd166, 30px 0 0 #5dd39e;
+    content: "";
+    height: 10px;
+    left: 18px;
+    position: absolute;
+    top: 16px;
+    width: 10px;
 }
 .page-num,
 .icon-link a,
@@ -717,6 +729,9 @@ a:hover {
     opacity: 0.8;
 }
 .content .copycode:hover {
+    background: #eef6ff;
+    border-color: #66afef;
+    color: #2f80c8;
     opacity: 1;
 }
 audio,
@@ -816,10 +831,10 @@ ol {
     margin: 15px 0;
 }
 pre {
-    background: #0d1117;
-    border: 1px solid #30363d;
+    background: #fbfdff;
+    border: 1px solid #d8e5f5;
     border-radius: 14px;
-    box-shadow: 0 12px 30px #1b1f2424;
+    box-shadow: 0 14px 34px #2f6ca31c;
     margin: 25px 0;
     overflow: hidden;
     white-space: normal;
@@ -1026,5 +1041,6 @@ ol li {
         padding-left: 20px;
     }
 }
+
 
 
