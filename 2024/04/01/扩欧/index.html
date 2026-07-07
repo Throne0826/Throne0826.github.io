@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783399306299" />
+<link rel="stylesheet" href="/css/main.css?v=1783400734726" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,7 +190,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #00a596">
+                <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #ff7d73">
                     扩展欧几里得
                 </a>
             </span>
@@ -204,7 +204,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E9%80%86%E5%85%83/" style="color: #ff7d73">
+                <a href="/tags/%E9%80%86%E5%85%83/" style="color: #00bcd4">
                     逆元
                 </a>
             </span>
@@ -214,14 +214,15 @@
     </div>
     
     <div class="content" v-pre>
-        <p>扩展欧几里得：</p>
+        <p>这篇整理扩展欧几里得的基本推导，以及它在不定方程和逆元中的常见用法。</p>
+<p>扩展欧几里得：</p>
 <p>对于任意整数 a,b，求解 ax+by=m</p>
 <span id="more"></span>
 <p>由裴蜀定理可知 ax+by=m 一定有解的充要条件为 gcd(a,b)|m</p>
 <p>所以对于解一般的 ax+by=m 不定方程，我们可以先证明ax+by=gcd(a,b),在扩展到一般域</p>
 <p>假设一组解为 x1,y1 即ax1+by1=m:</p>
 <p>因为gcd(a,b)=gcd(b,a%b) 即 bx2+(a%b)y2=ax1+by1;</p>
-<p>其中 a%b=a-b<em>[a/b] 即 bx2+(a-b</em>[a/b])y2=ax1+by1</p>
+<p>其中 a%b=a-b*[a/b] 即 bx2+(a-b*[a/b])y2=ax1+by1</p>
 <p>系数对称后可得：x1=y2,y1=x2-[a/b]y2 ;</p>
 <p>我们考虑到在gcd(a,b)递归的最终结果为 b|a，则此时ax+b*0=gcd(a,0)=a ,x=1,y=0;</p>
 <p>从此时往前递归并借用我们得到的x1,x2,y1,y2 的关系可得最终x1,y1</p>

@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783399306298" />
+<link rel="stylesheet" href="/css/main.css?v=1783400734724" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,7 +190,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #ffa2c4">
+                <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #03a9f4">
                     扩展欧几里得
                 </a>
             </span>
@@ -200,18 +200,22 @@
     </div>
     
     <div class="content" v-pre>
-        <h3 id="题目Problem-B-Countless-Me-Codeforces："><a href="#题目Problem-B-Countless-Me-Codeforces：" class="headerlink" title="题目Problem - B. Countless Me- Codeforces："></a>题目Problem - B. Countless Me- Codeforces：</h3><h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><p>假设最优的情况下，每个值为$x_1$,$x_2$…$x_n$,则使给定序列变为最优值只需要一次，整个序列只需要n次，所以可以把序列变成任意序列。因为越$|$越大,所以不难想到拆位并尽可能让高位置$0$。</p>
+        <p>这篇整理 2024 武汉邀请赛 Countless Me 的补题思路，核心是按位拆分并构造更优序列。</p>
+<h2 id="题目problem-b-countless-me-codeforces"><a class="markdownIt-Anchor" href="#题目problem-b-countless-me-codeforces"></a> 题目Problem - B. Countless Me- Codeforces</h2>
+<h3 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h3>
+<p>假设最优的情况下，每个值为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>…<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">x_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,则使给定序列变为最优值只需要一次，整个序列只需要n次，所以可以把序列变成任意序列。因为越 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span></span></span></span> 越大,所以不难想到拆位并尽可能让高位置 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>。</p>
 <span id="more"></span>
-<p>我们不妨把所有值相加为$now$，再从高位到低位贪心判断当前位是否可以保留。</p>
-<pre><code class="lang-cpp">    for(int i=1;i&gt;x;
+<p>我们不妨把所有值相加为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">now</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>，再从高位到低位贪心判断当前位是否可以保留。</p>
+<pre class="highlight"><code class="cpp">    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;x;
         res+=x;
     &#125;
-    int ans=0;
-    for(int i=30;i&gt;=0;i--)&#123;
-        int ver=((1llver)ans|=(1ll&lt;&lt;i),res-=min(n,res/(1ll&lt;&lt;i))*(1ll&lt;&lt;i);
+    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">30</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;
+        <span class="hljs-type">int</span> ver=((<span class="hljs-number">1ll</span>ver)ans|=(<span class="hljs-number">1ll</span>&lt;&lt;i),res-=<span class="hljs-built_in">min</span>(n,res/(<span class="hljs-number">1ll</span>&lt;&lt;i))*(<span class="hljs-number">1ll</span>&lt;&lt;i);
     &#125;
-    cout&lt;&lt;ans&lt;&lt;&quot;\n&quot;;
+    cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
 &#125;
+
 </code></pre>
 
     </div>

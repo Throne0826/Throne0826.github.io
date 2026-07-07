@@ -49,7 +49,7 @@
 
 <script src="/js/lib/home.js"></script>
 
-<link rel="stylesheet" href="/css/main.css?v=1783399306316" />
+<link rel="stylesheet" href="/css/main.css?v=1783400734736" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -213,7 +213,10 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="题目（Problem-D2-Reverse-Card-Hard-Version）-Codeforces）："><a href="#题目（Problem-D2-Reverse-Card-Hard-Version）-Codeforces）：" class="headerlink" title="题目（Problem - D2. Reverse Card (Hard Version）- Codeforces）："></a>题目（Problem - D2. Reverse Card (Hard Version）- Codeforces）：</h3><h4 id="题面："><a href="#题面：" class="headerlink" title="题面："></a>题面：</h4><p>给你两个正整数$n$，$m$。</p>
+            <p>这篇整理 Codeforces Round 942 Div.2 的补题内容，主要记录 Reverse Card 相关推导。</p>
+<h2 id="题目problem-d2-reverse-card-hard-version-codeforces"><a class="markdownIt-Anchor" href="#题目problem-d2-reverse-card-hard-version-codeforces"></a> 题目（Problem - D2. Reverse Card (Hard Version）- Codeforces）</h2>
+<h3 id="题面"><a class="markdownIt-Anchor" href="#题面"></a> 题面</h3>
+<p>给你两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>。</p>
             
         </div>
     </div>
@@ -227,7 +230,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #00bcd4">扩展欧几里得</a>
+            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #03a9f4">扩展欧几里得</a>
         </span>
         
     </div>
@@ -261,46 +264,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <pre><code class="lang-cpp">vectore[N];
-
-&lt;!--more--&gt;
-int n,m,c,minn,dist[N];
-bool st[N];
-void Dijkstra(int u)&#123;
-    minn=1e18;
-    for(int i=1;i,greater &gt;q;
-    dist[u]=0;
-    q.push(&#123;dist[u],u&#125;);
-    while(q.size())&#123;
-        auto [dis,ver]=q.top();
-        q.pop();
-        if(st[ver])continue;
-        st[ver]=1;
-        for(auto [v,w]:e[ver])&#123;
-            if(v==u)minn=min(minn,dis+w);
-            if(st[v])continue;
-            if(dist[v]&gt;dis+w)&#123;
-                dist[v]=dis+w;
-                q.push(&#123;dist[v],v&#125;);
-            &#125;
-        &#125;
-    &#125;
-&#125;
-void solve()&#123;
-    cin&gt;&gt;n&gt;&gt;m&gt;&gt;c;
-    int ans=0;
-    for(int i=1;i&gt;u&gt;&gt;v&gt;&gt;z;
-        e[u].pb(&#123;v,z&#125;);
-        if(z&lt;=c)ans=1;
-    &#125;
-    for(int i=1;i&lt;=n;i++)&#123;
-        Dijkstra(i);
-        if(minn&lt;=c)&#123;ans=2;break;&#125;
-    &#125;
-    cout&lt;&lt;ans&lt;&lt;&quot;\n&quot;;
-&#125;
-</code></pre>
-
+            <p>这篇是 2023 ICPC 南京站的补题记录，主要整理图论题中用最短路判断最小环和可行答案的写法。</p>
             
         </div>
     </div>
@@ -314,22 +278,22 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00bcd4">图论</a>
+            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">图论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #00a596">最小环</a>
+            <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">最小环</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">最短路</a>
+            <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00bcd4">最短路</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Dijkstra/" style="color: #00bcd4">Dijkstra</a>
+            <a href="/tags/Dijkstra/" style="color: #03a9f4">Dijkstra</a>
         </span>
         
     </div>
@@ -363,7 +327,11 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="Problem-1946DBirthday-Gift"><a href="#Problem-1946DBirthday-Gift" class="headerlink" title="Problem - 1946DBirthday Gift"></a>Problem - 1946DBirthday Gift</h3><h4 id="题面"><a href="#题面" class="headerlink" title="题面"></a>题面</h4><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>对于区间位运算容易想到拆位，对x进行从高位到低位拆位分析：</p>
+            <p>这篇整理 Codeforces Round 936 D. Birthday Gift 的补题思路，重点是位运算拆位和区间处理。</p>
+<h2 id="problem-1946dbirthday-gift"><a class="markdownIt-Anchor" href="#problem-1946dbirthday-gift"></a> Problem - 1946DBirthday Gift</h2>
+<h3 id="题面"><a class="markdownIt-Anchor" href="#题面"></a> 题面</h3>
+<h3 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h3>
+<p>对于区间位运算容易想到拆位，对x进行从高位到低位拆位分析：</p>
             
         </div>
     </div>
@@ -377,7 +345,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="color: #ffa2c4">位运算</a>
+            <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="color: #00bcd4">位运算</a>
         </span>
         
     </div>
@@ -411,7 +379,8 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <p>记录一下 <code>$blog</code> 创建、换主题、部署和加速的大体流程。</p>
+            <p>这篇记录博客从 Hexo 初始化、主题切换、部署到 CDN 加速的大体流程，也补充一些踩坑点。</p>
+<p>记录一下 <code>$blog</code> 创建、换主题、部署和加速的大体流程。</p>
             
         </div>
     </div>
@@ -425,7 +394,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/hexo/" style="color: #00bcd4">hexo</a>
+            <a href="/tags/hexo/" style="color: #ffa2c4">hexo</a>
         </span>
         
         <span class="tag">
@@ -435,7 +404,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/vercel/" style="color: #00bcd4">vercel</a>
+            <a href="/tags/vercel/" style="color: #ffa2c4">vercel</a>
         </span>
         
         <span class="tag">
@@ -445,7 +414,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/cdn/" style="color: #ff7d73">cdn</a>
+            <a href="/tags/cdn/" style="color: #00a596">cdn</a>
         </span>
         
     </div>
@@ -479,7 +448,8 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <p>扩展欧几里得：</p>
+            <p>这篇整理扩展欧几里得的基本推导，以及它在不定方程和逆元中的常见用法。</p>
+<p>扩展欧几里得：</p>
 <p>对于任意整数 a,b，求解 ax+by=m</p>
             
         </div>
@@ -494,17 +464,17 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #03a9f4">扩展欧几里得</a>
+            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #ffa2c4">扩展欧几里得</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #ff7d73">数论</a>
+            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #03a9f4">数论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E9%80%86%E5%85%83/" style="color: #00bcd4">逆元</a>
+            <a href="/tags/%E9%80%86%E5%85%83/" style="color: #ff7d73">逆元</a>
         </span>
         
     </div>
@@ -538,7 +508,10 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="2021CCPC桂林-E-Buy-and-Delete"><a href="#2021CCPC桂林-E-Buy-and-Delete" class="headerlink" title="2021CCPC桂林 E Buy and Delete"></a>2021CCPC桂林 E Buy and Delete</h3><h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h4><p>爱丽丝和鲍勃正在有向图$G$上玩游戏。在$G$中有$n$个顶点，标记为$1,2,\dots,n$。最初，$G$中没有边。爱丽丝会先从商店直接购买一些边，然后将它们添加到$G$中。之后，鲍勃需要删除边，直到$G$中没有边为止。在一轮删除中，鲍勃可以从$G$中删除一个边子集$S$，这样当只保留$S$中的边时，图就是非循环的。请注意，爱丽丝可以什么也不买，在这种情况下，删除回合数为$0$。</p>
+            <p>这篇整理有向图最小环相关做法，并以 2021 CCPC 桂林 E Buy and Delete 为例记录建模思路。</p>
+<h2 id="2021ccpc桂林-e-buy-and-delete"><a class="markdownIt-Anchor" href="#2021ccpc桂林-e-buy-and-delete"></a> 2021CCPC桂林 E Buy and Delete</h2>
+<h3 id="题目"><a class="markdownIt-Anchor" href="#题目"></a> 题目</h3>
+<p>爱丽丝和鲍勃正在有向图 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 上玩游戏。在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 中有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个顶点，标记为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1,2,\dots,n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span></span></span></span>。最初，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 中没有边。爱丽丝会先从商店直接购买一些边，然后将它们添加到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 中。之后，鲍勃需要删除边，直到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 中没有边为止。在一轮删除中，鲍勃可以从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span></span></span></span> 中删除一个边子集 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>，这样当只保留 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 中的边时，图就是非循环的。请注意，爱丽丝可以什么也不买，在这种情况下，删除回合数为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>。</p>
             
         </div>
     </div>
@@ -552,12 +525,12 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #03a9f4">图论</a>
+            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">图论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #ff7d73">最小环</a>
+            <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">最小环</a>
         </span>
         
         <span class="tag">
@@ -567,7 +540,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/Dijkstra/" style="color: #03a9f4">Dijkstra</a>
+            <a href="/tags/Dijkstra/" style="color: #00a596">Dijkstra</a>
         </span>
         
     </div>
@@ -601,7 +574,10 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="Problem-B-Martian-Sunrise贪心"><a href="#Problem-B-Martian-Sunrise贪心" class="headerlink" title="Problem - B - Martian Sunrise贪心"></a>Problem - B - Martian Sunrise贪心</h3><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你$m$行音调，每行音调有$7$个元素，给你一行目标音调$n$, 每次可以从$m$行任选两行,作为你的元素集合去匹配目标音调，求最少多少次完成匹配。$（1 \le m \le 16，1 \le n \le 1e4）$</p>
+            <p>这篇记录 2016 USP-ICMC 中 Martian Sunrise 的补题思路，重点是把音调匹配过程抽象成可维护的集合状态。</p>
+<h2 id="problem-b-martian-sunrise贪心"><a class="markdownIt-Anchor" href="#problem-b-martian-sunrise贪心"></a> Problem - B - Martian Sunrise贪心</h2>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
+<p>给你 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 行音调，每行音调有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span></span></span></span> 个元素，给你一行目标音调 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>, 每次可以从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 行任选两行,作为你的元素集合去匹配目标音调，求最少多少次完成匹配。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>（</mtext><mn>1</mn><mo>≤</mo><mi>m</mi><mo>≤</mo><mn>16</mn><mtext>，</mtext><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1</mn><mi>e</mi><mn>4</mn><mtext>）</mtext></mrow><annotation encoding="application/x-tex">（1 \le m \le 16，1 \le n \le 1e4）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord cjk_fallback">（</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord">6</span><span class="mord cjk_fallback">，</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord mathnormal">e</span><span class="mord">4</span><span class="mord cjk_fallback">）</span></span></span></span></p>
             
         </div>
     </div>
@@ -615,7 +591,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #00a596">贪心</a>
+            <a href="/tags/%E8%B4%AA%E5%BF%83/" style="color: #00bcd4">贪心</a>
         </span>
         
         <span class="tag">
@@ -625,7 +601,7 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/BFS/" style="color: #ffa2c4">BFS</a>
+            <a href="/tags/BFS/" style="color: #00a596">BFS</a>
         </span>
         
         <span class="tag">
@@ -664,7 +640,10 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="Problem-A-Find-a-Number同余最短路-建图"><a href="#Problem-A-Find-a-Number同余最短路-建图" class="headerlink" title="Problem - A -  Find a Number同余最短路/建图"></a>Problem - A -  Find a Number同余最短路/建图</h3><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你两个正整数$d$和$s$。求能被$d$整除且其数位之和等于$s$的最小正整数$n$。</p>
+            <p>这篇记录 409 选拔赛补题，主要整理同余最短路、建图和若干实现细节。</p>
+<h2 id="problem-a-find-a-number同余最短路建图"><a class="markdownIt-Anchor" href="#problem-a-find-a-number同余最短路建图"></a> Problem - A -  Find a Number同余最短路/建图</h2>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
+<p>给你两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>。求能被 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 整除且其数位之和等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span> 的最小正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>。</p>
             
         </div>
     </div>
@@ -717,7 +696,10 @@ void solve()&#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <h3 id="题目：E-魔法之森的蘑菇"><a href="#题目：E-魔法之森的蘑菇" class="headerlink" title="题目：E-魔法之森的蘑菇"></a>题目：E-魔法之森的蘑菇</h3><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>给你一张图，起点为$S$终点为$T$，起初任意选择前进方向，除非遇到$<em>$，否则不能更改方向，遇到$</em>$可以选择朝向除返回刚刚位置的其他方向，# 为障碍物，$.$为普通路径，求$S$ $-$ $&gt;T$最短距离。</p>
+            <p>这篇记录牛客周赛 37 的补题，重点是图上状态设计、搜索路径和实现细节。</p>
+<h2 id="题目e-魔法之森的蘑菇"><a class="markdownIt-Anchor" href="#题目e-魔法之森的蘑菇"></a> 题目：E-魔法之森的蘑菇</h2>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
+<p>给你一张图，起点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 终点为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>，起初任意选择前进方向，除非遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span>，否则不能更改方向，遇到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∗</mo></mrow><annotation encoding="application/x-tex">*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span></span></span></span> 可以选择朝向除返回刚刚位置的其他方向，# 为障碍物，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.10556em;vertical-align:0em;"></span><span class="mord">.</span></span></span></span> 为普通路径，求 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">−</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">&gt;T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> 最短距离。</p>
             
         </div>
     </div>
@@ -736,17 +718,17 @@ void solve()&#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%88%86%E5%B1%82%E5%9B%BE/" style="color: #ff7d73">分层图</a>
+            <a href="/tags/%E5%88%86%E5%B1%82%E5%9B%BE/" style="color: #ffa2c4">分层图</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #ffa2c4">动态规划</a>
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="color: #00bcd4">动态规划</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #00bcd4">类背包dp</a>
+            <a href="/tags/%E7%B1%BB%E8%83%8C%E5%8C%85dp/" style="color: #03a9f4">类背包dp</a>
         </span>
         
     </div>

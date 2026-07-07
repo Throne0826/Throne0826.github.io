@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783399306299" />
+<link rel="stylesheet" href="/css/main.css?v=1783400734726" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,35 +190,35 @@
             
             <span class="tag">
                 
-                <a href="/tags/hexo/" style="color: #00bcd4">
+                <a href="/tags/hexo/" style="color: #ffa2c4">
                     hexo
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/next/" style="color: #ffa2c4">
+                <a href="/tags/next/" style="color: #03a9f4">
                     next
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/vercel/" style="color: #ff7d73">
+                <a href="/tags/vercel/" style="color: #00bcd4">
                     vercel
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/cloudflare/" style="color: #00bcd4">
+                <a href="/tags/cloudflare/" style="color: #ff7d73">
                     cloudflare
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/cdn/" style="color: #00a596">
+                <a href="/tags/cdn/" style="color: #00bcd4">
                     cdn
                 </a>
             </span>
@@ -228,30 +228,31 @@
     </div>
     
     <div class="content" v-pre>
-        <p>记录一下 <code>$blog</code> 创建、换主题、部署和加速的大体流程。</p>
+        <p>这篇记录博客从 Hexo 初始化、主题切换、部署到 CDN 加速的大体流程，也补充一些踩坑点。</p>
+<p>记录一下 <code>$blog</code> 创建、换主题、部署和加速的大体流程。</p>
 <span id="more"></span>
 <p>最开始是跟着枫叶的教程，用 <code>Hexo + Next</code> 搭出了第一版博客。</p>
 <ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102592286">从零开始搭建个人博客（超详细） - 知乎 (zhihu.com)</a></li>
 </ol>
 <p>教程整体比较完整；如果某一步报错，可以先看知乎评论区，很多细节问题已经有人补充过。</p>
-<ol>
+<ol start="2">
 <li>之后可以在 <a target="_blank" rel="noopener" href="https://hexo.io/themes/">Themes | Hexo</a> 里选择自己喜欢的主题，下载后放到 <code>$blog/themes</code> 目录，再在配置里切换主题。</li>
 </ol>
 <p>第一个是 <code>GitHub</code> 中的下载地址，点进去点击 <code>Download</code> 即可：</p>
-<img src="/2024/04/01/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/myblog1.webp" class="" title="Hexo 主题下载入口">
+<img src="https://lifexoryoung.cn/images/posts/blog-create/myblog1.webp" alt="Hexo 主题下载入口">
 <p>第二个是该主题的展示效果：</p>
-<img src="/2024/04/01/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/myblog2.webp" class="" title="Hexo 主题展示效果">
+<img src="https://lifexoryoung.cn/images/posts/blog-create/myblog2.webp" alt="Hexo 主题展示效果">
 <p>一般展示效果的首页第一篇博客都会讲该主题的配置方式：</p>
-<img src="/2024/04/01/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/myblog3.webp" class="" title="主题配置说明入口">
-<ol>
+<img src="https://lifexoryoung.cn/images/posts/blog-create/myblog3.webp" alt="主题配置说明入口">
+<ol start="3">
 <li>一些常用工具：</li>
 </ol>
 <p><a target="_blank" rel="noopener" href="https://try8.cn/tool/color/picker?eqid=f8d057810004bfbd0000000364759ea9">在线调色板  (try8.cn)</a>用于获取你想要的颜色，去修改主题</p>
 <p><a target="_blank" rel="noopener" href="https://www.likebizhi.com/tag/4k_page_1.html">高清4k图片_4k壁纸大全 - Like壁纸网 (likebizhi.com)</a>很多高清精品的壁纸，可以当背景等等</p>
 <p><a target="_blank" rel="noopener" href="https://fontawesome.com.cn/v5">图标库v5 - FontAwesome 字体图标中文Icon</a>用于博客的图标</p>
 <p><a target="_blank" rel="noopener" href="https://www.imhunk.com/cloudflare-tutorials/#title1">如何用 CDN 加速你的网站 - Cloudflare 免费版详细使用教程 - Hunk (imhunk.com)</a> 用 Cloudflare CDN 加速博客站点。Cloudflare 里还有很多有用的优化项，比如速度优化，后面可以按需继续探索：</p>
-<img src="/2024/04/01/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/myblog4.webp" class="" title="Cloudflare 速度优化配置">
+<img src="https://lifexoryoung.cn/images/posts/blog-create/myblog4.webp" alt="Cloudflare 速度优化配置">
 <p><a target="_blank" rel="noopener" href="https://www.erenship.com/posts/db37.html">Hexo 博客站点加速不完全指南 - Eren の 宇宙船 (erenship.com)</a> 介绍了 Vercel 加速方案，可以作为补充参考。</p>
 <p><a target="_blank" rel="noopener" href="https://pagespeed.web.dev/analysis/https-lifexoryoung-com-cn/os1aw9wyc4?form_factor=desktop">PageSpeed Insights (web.dev)</a> 可以测试页面加载速度，并给出具体优化建议。</p>
 
