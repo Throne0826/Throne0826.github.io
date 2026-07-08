@@ -6,7 +6,9 @@
   aiOriginal: "",
   aiSuggestion: "",
   aiRange: null,
-  draftTimer: 0
+  draftTimer: 0,
+  undoStack: [],
+  redoStack: []
 };
 
 const els = {
@@ -44,6 +46,44 @@ function setStatus(message, isError = false) {
 
 function getDraftKey() {
   return `blog-admin-draft:${els.pathInput.value.trim() || "new"}`;
+}
+
+function snapshot() {
+  return { text: els.editorInput.value, start: els.editorInput.selectionStart, end: els.editorInput.selectionEnd };
+}
+
+function restoreSnapshot(item) {
+  if (!item) return;
+  els.editorInput.value = item.text;
+  els.editorInput.selectionStart = item.start;
+  els.editorInput.selectionEnd = item.end;
+  els.editorInput.focus();
+  updatePreview();
+  saveDraftSoon();
+}
+
+function recordUndo() {
+  state.undoStack.push(snapshot());
+  if (state.undoStack.length > 80) state.undoStack.shift();
+  state.redoStack = [];
+}
+
+function undoEdit() {
+  const current = snapshot();
+  const previous = state.undoStack.pop();
+  if (!previous) return;
+  state.redoStack.push(current);
+  restoreSnapshot(previous);
+  setStatus("Undone.");
+}
+
+function redoEdit() {
+  const current = snapshot();
+  const next = state.redoStack.pop();
+  if (!next) return;
+  state.undoStack.push(current);
+  restoreSnapshot(next);
+  setStatus("Redone.");
 }
 
 function saveDraftSoon() {
@@ -95,7 +135,17 @@ function escapeHtml(value) {
 function renderMarkdown(markdown) {
   const body = markdownBody(markdown);
   if (window.marked) {
-    window.marked.setOptions({ breaks: false, gfm: true, headerIds: false, mangle: false });
+    window.marked.setOptions({
+      breaks: false,
+      gfm: true,
+      headerIds: false,
+      mangle: false,
+      highlight(code, lang) {
+        if (!window.hljs) return code;
+        const language = window.hljs.getLanguage(lang) ? lang : "plaintext";
+        return window.hljs.highlight(code, { language }).value;
+      }
+    });
     try {
       return window.marked.parse(body);
     } catch (error) {
@@ -109,6 +159,9 @@ let mathRenderTimer = 0;
 function updatePreview() {
   const value = els.editorInput.value;
   els.preview.innerHTML = renderMarkdown(value);
+  if (window.hljs) {
+    els.preview.querySelectorAll("pre code").forEach((block) => window.hljs.highlightElement(block));
+  }
   els.editorMeta.textContent = `${value.length} 字`;
   clearTimeout(mathRenderTimer);
   mathRenderTimer = setTimeout(() => {
@@ -137,7 +190,8 @@ function getSelection() {
   };
 }
 
-function replaceRange(range, text) {
+function replaceRange(range, text, options = {}) {
+  if (!options.skipUndo) recordUndo();
   if (!range) {
     els.editorInput.value = text;
   } else {
@@ -262,6 +316,7 @@ async function loadPost(path) {
   state.currentPath = data.path;
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
+  recordUndo();
   els.editorInput.value = data.content;
   hideReview();
   updatePreview();
@@ -281,6 +336,7 @@ function newPost() {
   state.currentPath = "";
   state.currentSha = "";
   els.pathInput.value = `source/_posts/${date}-${slugifyTitle(title)}.md`;
+  recordUndo();
   els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${time}\nmathjax: true\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
   hideReview();
   updatePreview();
@@ -404,6 +460,17 @@ els.editorInput.addEventListener("input", () => {
   saveDraftSoon();
 });
 els.editorInput.addEventListener("keydown", (event) => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
+    event.preventDefault();
+    if (event.shiftKey) redoEdit();
+    else undoEdit();
+    return;
+  }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "y") {
+    event.preventDefault();
+    redoEdit();
+    return;
+  }
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
     event.preventDefault();
     savePost().catch((error) => setStatus(error.message || String(error), true));
@@ -411,3 +478,6 @@ els.editorInput.addEventListener("keydown", (event) => {
 });
 
 newPost();
+
+
+

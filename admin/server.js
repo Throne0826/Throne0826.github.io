@@ -167,16 +167,17 @@ async function savePost({ path, content, sha, message }) {
 function polishPrompt({ mode, markdown }) {
   const task = {
     polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
-    format: "Clean up Markdown formatting, including heading levels, lists, code fences, blank lines, and Hexo front matter, without changing technical meaning.",
+    format: "Strictly repair Markdown structure. Fix heading levels, missing blank lines, broken lists, malformed tables, unclosed code fences, malformed LaTeX delimiters, misplaced Hexo front matter, and inconsistent sample input/output blocks. Preserve technical meaning.",
     title: "Improve the title and update the title field in Hexo front matter when appropriate.",
-    summary: "Add or improve a description/summary field in Hexo front matter and lightly polish the article body."
+    summary: "Add or improve a description/summary field in Hexo front matter and lightly polish the article body.",
+    check: "Audit the Markdown article for problems. At the top, add a section named ## 检查结果 listing detected issues, then output a corrected complete Markdown version below. Check Markdown syntax, LaTeX delimiters, code fences, heading structure, front matter, tags/categories, and possible technical inconsistencies."
   }[mode || "polish"] || "Polish and clean up the Markdown article.";
 
   return [
     "You are an editor for a Chinese technical blog.",
     task,
     "Requirements:",
-    "1. Output only the complete Markdown document. Do not explain your changes.",
+    "1. Output only the complete Markdown document. Do not wrap it in backticks.",
     "2. Preserve Hexo YAML front matter delimiters and fields.",
     "3. Do not remove code blocks or change algorithms, complexity, variable names, formulas, or technical facts.",
     "4. Use natural Chinese punctuation and spacing between Chinese and English text.",
@@ -314,6 +315,7 @@ createServer(async (req, res) => {
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
 });
+
 
 
 
