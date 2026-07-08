@@ -3,10 +3,11 @@
     name: lifexoryoung-blog-admin
     runtime: node
     rootDir: admin
+    branch: source
     plan: free
     buildCommand: npm install
     startCommand: npm start
-    autoDeploy: true
+    autoDeployTrigger: commit
     envVars:
       - key: NODE_ENV
         value: production
@@ -26,3 +27,4 @@
         sync: false
       - key: OPENAI_MODEL
         value: gpt-4.1-mini
+
