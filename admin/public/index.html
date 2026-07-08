@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Admin</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <strong>Throne Blog</strong>
+          <span>Markdown Admin</span>
+        </div>
+
+        <label class="field">
+          <span>Admin Token</span>
+          <input id="tokenInput" type="password" autocomplete="current-password">
+        </label>
+
+        <div class="actions">
+          <button id="saveTokenButton" type="button">保存令牌</button>
+          <button id="loadPostsButton" type="button">刷新文章</button>
+        </div>
+
+        <button id="newPostButton" class="wide" type="button">新建文章</button>
+        <div id="postList" class="post-list"></div>
+      </aside>
+
+      <section class="editor">
+        <header class="toolbar">
+          <label class="path-field">
+            <span>文件路径</span>
+            <input id="pathInput" placeholder="source/_posts/new-post.md">
+          </label>
+          <div class="toolbar-actions">
+            <select id="modeSelect" title="AI 模式">
+              <option value="polish">润色</option>
+              <option value="format">整理格式</option>
+              <option value="title">优化标题</option>
+              <option value="summary">补摘要</option>
+            </select>
+            <button id="polishButton" type="button">AI 处理</button>
+            <button id="saveButton" type="button">保存并发布</button>
+          </div>
+        </header>
+
+        <div class="workspace">
+          <textarea id="editorInput" spellcheck="false"></textarea>
+          <article id="preview" class="preview"></article>
+        </div>
+
+        <footer id="status" class="status">准备就绪</footer>
+      </section>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

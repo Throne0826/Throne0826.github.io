@@ -1,0 +1,56 @@
+﻿name: Deploy Hexo
+
+on:
+  push:
+    branches:
+      - source
+    paths:
+      - source/**
+      - themes/**
+      - scaffolds/**
+      - _config*.yml
+      - package.json
+      - package-lock.json
+      - .github/workflows/deploy-hexo.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: source
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Hexo site
+        run: npm run build
+
+      - name: Keep custom domain
+        run: |
+          if [ -f source/CNAME ]; then
+            cp source/CNAME public/CNAME
+          fi
+
+      - name: Deploy to GitHub Pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: main
+          publish_dir: ./public
+          cname: lifexoryoung.cn
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com

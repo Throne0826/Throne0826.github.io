@@ -1,0 +1,13 @@
+﻿.DS_Store
+Thumbs.db
+db.json
+*.log
+.env
+.env.*
+node_modules/
+public/
+!admin/public/**
+!admin/public/
+.deploy*/
+_multiconfig.yml
+sudo
