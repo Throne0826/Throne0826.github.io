@@ -1,4 +1,4 @@
-const state = {
+﻿const state = {
   token: localStorage.getItem("blog-admin-token") || "",
   currentPath: "",
   currentSha: "",
@@ -28,17 +28,31 @@ function setStatus(message, isError = false) {
 }
 
 async function api(path, options = {}) {
-  const response = await fetch(path, {
-    ...options,
-    headers: {
-      "content-type": "application/json",
-      "x-admin-token": state.token,
-      ...(options.headers || {})
+  const timeoutMs = options.timeoutMs || 90000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(path, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        "content-type": "application/json",
+        "x-admin-token": state.token,
+        ...(options.headers || {})
+      }
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || `Request failed: ${response.status}`);
+    return data;
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Request timed out. Check Render logs or retry later.");
     }
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || `Request failed: ${response.status}`);
-  return data;
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function escapeHtml(value) {
@@ -91,15 +105,15 @@ function renderPosts() {
 }
 
 async function loadPosts() {
-  setStatus("正在加载文章列表...");
+  setStatus("Loading posts...");
   const data = await api("/api/posts");
   state.posts = data.posts || [];
   renderPosts();
-  setStatus(`已加载 ${state.posts.length} 篇文章`);
+  setStatus(`Loaded ${state.posts.length} posts`);
 }
 
 async function loadPost(path) {
-  setStatus("正在读取文章...");
+  setStatus("Loading post...");
   const data = await api(`/api/post?path=${encodeURIComponent(path)}`);
   state.currentPath = data.path;
   state.currentSha = data.sha;
@@ -107,7 +121,7 @@ async function loadPost(path) {
   els.editorInput.value = data.content;
   updatePreview();
   renderPosts();
-  setStatus(`已打开 ${data.path}`);
+  setStatus(`Opened ${data.path}`);
 }
 
 function slugifyTitle(title) {
@@ -121,57 +135,78 @@ function slugifyTitle(title) {
 function newPost() {
   const now = new Date();
   const date = now.toISOString().slice(0, 10);
+  const time = now.toTimeString().slice(0, 8);
   const title = "新文章";
   state.currentPath = "";
   state.currentSha = "";
   els.pathInput.value = `source/_posts/${date}-${slugifyTitle(title)}.md`;
-  els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${now.toTimeString().slice(0, 8)}\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
+  els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${time}\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
   updatePreview();
   renderPosts();
-  setStatus("已创建草稿，保存后会提交到 GitHub 并触发部署");
+  setStatus("Draft created. Save will commit to GitHub and trigger deploy.");
 }
 
 async function polish() {
   const markdown = els.editorInput.value.trim();
   if (!markdown) {
-    setStatus("当前文章为空，无法处理", true);
+    setStatus("Current post is empty.", true);
     return;
   }
-  setStatus("AI 正在处理文章...");
-  const data = await api("/api/polish", {
-    method: "POST",
-    body: JSON.stringify({
-      mode: els.modeSelect.value,
-      markdown
-    })
-  });
-  els.editorInput.value = data.content || "";
-  updatePreview();
-  setStatus("AI 处理完成，请检查后保存");
+
+  const previousText = els.polishButton.textContent;
+  els.polishButton.disabled = true;
+  els.polishButton.textContent = "处理中...";
+  setStatus("AI is processing. This usually takes 10-30 seconds...");
+
+  try {
+    const data = await api("/api/polish", {
+      method: "POST",
+      timeoutMs: 120000,
+      body: JSON.stringify({
+        mode: els.modeSelect.value,
+        markdown
+      })
+    });
+    els.editorInput.value = data.content || "";
+    updatePreview();
+    setStatus("AI processing finished. Please review before saving.");
+  } finally {
+    els.polishButton.disabled = false;
+    els.polishButton.textContent = previousText;
+  }
 }
 
 async function savePost() {
   const path = els.pathInput.value.trim();
   const content = els.editorInput.value;
   if (!path || !content.trim()) {
-    setStatus("文件路径和内容不能为空", true);
+    setStatus("Path and content are required.", true);
     return;
   }
 
-  setStatus("正在保存到 GitHub...");
-  const data = await api("/api/post", {
-    method: "PUT",
-    body: JSON.stringify({
-      path,
-      content,
-      sha: state.currentSha,
-      message: `Update ${path.replace(/^source\/_posts\//, "")}`
-    })
-  });
-  state.currentPath = data.path;
-  state.currentSha = data.sha;
-  setStatus(`已提交，GitHub Actions 将自动发布：${data.commit || data.path}`);
-  await loadPosts();
+  const previousText = els.saveButton.textContent;
+  els.saveButton.disabled = true;
+  els.saveButton.textContent = "保存中...";
+  setStatus("Saving to GitHub...");
+
+  try {
+    const data = await api("/api/post", {
+      method: "PUT",
+      body: JSON.stringify({
+        path,
+        content,
+        sha: state.currentSha,
+        message: `Update ${path.replace(/^source\/_posts\//, "")}`
+      })
+    });
+    state.currentPath = data.path;
+    state.currentSha = data.sha;
+    setStatus(`Committed. GitHub Actions will deploy: ${data.commit || data.path}`);
+    await loadPosts();
+  } finally {
+    els.saveButton.disabled = false;
+    els.saveButton.textContent = previousText;
+  }
 }
 
 function bind(handler) {
@@ -187,7 +222,7 @@ function bind(handler) {
 els.saveTokenButton.addEventListener("click", () => {
   state.token = els.tokenInput.value.trim();
   localStorage.setItem("blog-admin-token", state.token);
-  setStatus("令牌已保存到当前浏览器");
+  setStatus("Token saved in this browser.");
 });
 els.loadPostsButton.addEventListener("click", bind(loadPosts));
 els.newPostButton.addEventListener("click", newPost);
