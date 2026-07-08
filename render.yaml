@@ -1,0 +1,28 @@
+﻿services:
+  - type: web
+    name: lifexoryoung-blog-admin
+    runtime: node
+    rootDir: admin
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: GITHUB_OWNER
+        value: Throne0826
+      - key: GITHUB_REPO
+        value: Throne0826.github.io
+      - key: GITHUB_BRANCH
+        value: source
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
