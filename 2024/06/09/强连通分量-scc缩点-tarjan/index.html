@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783505253865" />
+<link rel="stylesheet" href="/css/main.css?v=1783505449128" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,28 +190,28 @@
             
             <span class="tag">
                 
-                <a href="/tags/dfs/" style="color: #03a9f4">
+                <a href="/tags/dfs/" style="color: #ff7d73">
                     dfs
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #00a596">
+                <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ffa2c4">
                     强连通分量
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/tarjan/" style="color: #03a9f4">
+                <a href="/tags/tarjan/" style="color: #ff7d73">
                     tarjan
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ff7d73">
+                <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ffa2c4">
                     拓扑
                 </a>
             </span>
@@ -225,171 +225,161 @@
 <span id="more"></span>
 <p>强连通分量指的是：在一个有向图中，任意两点之间都可以相互到达的最大点集。</p>
 <p>缩点可以理解为“把环缩成点”。把每个强连通分量压成一个新点后，原图会变成一个 <code>DAG</code>（有向无环图），后续就可以在 DAG 上做拓扑、DP 等处理。</p>
-<h2 id="tarjan-求-scc"><a class="markdownIt-Anchor" href="#tarjan-求-scc"></a> Tarjan 求 SCC</h2>
-<p>Tarjan 求强连通分量的时间复杂度为：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n+m)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></span></p>
-<p>单纯判断是否有环一般可以用 DFS。在搜索过程中，一条边大致会遇到三种情况：</p>
+<h2 id="Tarjan-求-SCC"><a href="#Tarjan-求-SCC" class="headerlink" title="Tarjan 求 SCC"></a>Tarjan 求 SCC</h2><p>Tarjan 求强连通分量的时间复杂度为：</p>
+<script type="math/tex; mode=display">
+O(n+m)</script><p>单纯判断是否有环一般可以用 DFS。在搜索过程中，一条边大致会遇到三种情况：</p>
 <ol>
 <li>指向一个还没有搜索过的点。</li>
 <li>指向一个搜索过的点，但这个点不是当前 DFS 链上的祖先。</li>
 <li>指向一个搜索过的点，并且这个点是当前 DFS 链上的祖先。</li>
 </ol>
 <p>下图描述了这三种情况：黑色边为 <code>1</code>，绿色边为 <code>2</code>，蓝色边为 <code>3</code>。</p>
-<img src="https://lifexoryoung.cn/images/posts/scc-tarjan/dfs-edge-types.webp?v=202607071306" alt="DFS 过程中三类边的示意图">
+<p><img src="https://lifexoryoung.cn/images/posts/scc-tarjan/dfs-edge-types.webp?v=202607071306" alt="DFS 过程中三类边的示意图"></p>
 <p>只有第三类边会形成环。形成环的点属于同一个强连通分量，其余不能互相到达的点会各自成为单点强连通分量。以上图为例，强连通分量可以表示为 <code>&#123;1&#125;</code>、<code>&#123;2, 3&#125;</code>、<code>&#123;4&#125;</code>、<code>&#123;5&#125;</code>。</p>
 <p>实际图中可能存在多个环互相嵌套，所以不能在第一次发现环时就立刻缩点。Tarjan 的做法是：</p>
 <ul>
-<li>用 <code>dfn[u]</code> 记录节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span></span></span></span> 第一次被访问的时间戳。</li>
-<li>用 <code>low[u]</code> 记录节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span></span></span></span> 能回到的最早时间戳。</li>
+<li>用 <code>dfn[u]</code> 记录节点 $u$ 第一次被访问的时间戳。</li>
+<li>用 <code>low[u]</code> 记录节点 $u$ 能回到的最早时间戳。</li>
 <li>用一个栈维护当前 DFS 链上的点。</li>
 </ul>
 <p>当某个点满足 <code>dfn[u] == low[u]</code> 时，说明它是当前强连通分量中最早被访问的点。此时从栈顶不断弹出节点，直到弹出 <code>u</code>，这些点就构成一个完整的强连通分量。</p>
-<h3 id="模板"><a class="markdownIt-Anchor" href="#模板"></a> 模板</h3>
-<pre class="highlight"><code class="cpp"><span class="hljs-type">int</span> dfn[N], low[N], scc[N], sz[N];
-<span class="hljs-type">int</span> timer, scc_cnt;
-stack&lt;<span class="hljs-type">int</span>&gt; st;
-vector&lt;<span class="hljs-type">int</span>&gt; e[N];
-<span class="hljs-type">bool</span> in_stack[N];
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><pre><code class="lang-cpp">int dfn[N], low[N], scc[N], sz[N];
+int timer, scc_cnt;
+stack&lt;int&gt; st;
+vector&lt;int&gt; e[N];
+bool in_stack[N];
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>&#123;
+void tarjan(int u) &#123;
     dfn[u] = low[u] = ++timer;
-    st.<span class="hljs-built_in">push</span>(u);
-    in_stack[u] = <span class="hljs-literal">true</span>;
+    st.push(u);
+    in_stack[u] = true;
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v : e[u]) &#123;
-        <span class="hljs-keyword">if</span> (!dfn[v]) &#123;
-            <span class="hljs-built_in">tarjan</span>(v);
-            low[u] = <span class="hljs-built_in">min</span>(low[u], low[v]);
-        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (in_stack[v]) &#123;
-            low[u] = <span class="hljs-built_in">min</span>(low[u], dfn[v]);
+    for (int v : e[u]) &#123;
+        if (!dfn[v]) &#123;
+            tarjan(v);
+            low[u] = min(low[u], low[v]);
+        &#125; else if (in_stack[v]) &#123;
+            low[u] = min(low[u], dfn[v]);
         &#125;
     &#125;
 
-    <span class="hljs-keyword">if</span> (dfn[u] == low[u]) &#123;
+    if (dfn[u] == low[u]) &#123;
         ++scc_cnt;
-        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;
-            <span class="hljs-type">int</span> x = st.<span class="hljs-built_in">top</span>();
-            st.<span class="hljs-built_in">pop</span>();
-            in_stack[x] = <span class="hljs-literal">false</span>;
+        while (true) &#123;
+            int x = st.top();
+            st.pop();
+            in_stack[x] = false;
             scc[x] = scc_cnt;
             sz[scc_cnt]++;
-            <span class="hljs-keyword">if</span> (x == u) <span class="hljs-keyword">break</span>;
+            if (x == u) break;
         &#125;
     &#125;
 &#125;
 </code></pre>
-<h2 id="例题p3387模板缩点"><a class="markdownIt-Anchor" href="#例题p3387模板缩点"></a> 例题：P3387【模板】缩点</h2>
-<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
-<p>给定一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个点、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 条边的有向图，每个点有一个权值。求一条路径，使路径经过的点权值之和最大。重复经过同一个点时，点权只计算一次。</p>
-<h3 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h3>
-<p>第一行两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo separator="true">,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n,m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">m</span></span></span></span>。</p>
-<p>第二行 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个整数，其中第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 个数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> 的点权。</p>
-<p>接下来 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 行，每行两个整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u,v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span>，表示一条 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>→</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u\to v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 的有向边。</p>
-<h3 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h3>
-<p>输出最大的点权之和。</p>
-<h3 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路</h3>
-<p>因为原图是有向图，可能存在环。路径可以多次经过边或点，因此同一个强连通分量中的所有点权都可以被取到。</p>
+<h2 id="例题：P3387【模板】缩点"><a href="#例题：P3387【模板】缩点" class="headerlink" title="例题：P3387【模板】缩点"></a>例题：P3387【模板】缩点</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个 $n$ 个点、$m$ 条边的有向图，每个点有一个权值。求一条路径，使路径经过的点权值之和最大。重复经过同一个点时，点权只计算一次。</p>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>第一行两个正整数 $n,m$。</p>
+<p>第二行 $n$ 个整数，其中第 $i$ 个数 $a_i$ 表示点 $i$ 的点权。</p>
+<p>接下来 $m$ 行，每行两个整数 $u,v$，表示一条 $u\to v$ 的有向边。</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>输出最大的点权之和。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>因为原图是有向图，可能存在环。路径可以多次经过边或点，因此同一个强连通分量中的所有点权都可以被取到。</p>
 <p>先用 Tarjan 求 SCC，并把每个强连通分量缩成一个点。缩点后得到 DAG，新点权值为该 SCC 内所有点权之和。</p>
 <p>问题就变成：在 DAG 上求点权最长路径。可以按拓扑序做 DP：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>u</mi><mo stretchy="false">]</mo><mo>+</mo><msub><mi>w</mi><mi>v</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">dp[v]=\max(dp[v], dp[u]+w_v)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">u</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>最终答案就是所有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">dp</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span></span></span></span> 值的最大值。</p>
-<h3 id="缩点代码"><a class="markdownIt-Anchor" href="#缩点代码"></a> 缩点代码</h3>
-<pre class="highlight"><code class="cpp"><span class="hljs-type">int</span> dfn[N], low[N],cnt,sz[N],scc[N],sc,d[N],dp[N],ans,w[N];
-stack&lt;<span class="hljs-type">int</span>&gt; st;
-vector&lt;<span class="hljs-type">int</span>&gt; e[N], ex[N];
-<span class="hljs-type">bool</span> vis[N];
-queue&lt;<span class="hljs-type">int</span>&gt; q;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>&#123;
+<script type="math/tex; mode=display">
+dp[v]=\max(dp[v], dp[u]+w_v)</script><p>最终答案就是所有 $dp$ 值的最大值。</p>
+<h3 id="缩点代码"><a href="#缩点代码" class="headerlink" title="缩点代码"></a>缩点代码</h3><pre><code class="lang-cpp">int dfn[N], low[N],cnt,sz[N],scc[N],sc,d[N],dp[N],ans,w[N];
+stack&lt;int&gt; st;
+vector&lt;int&gt; e[N], ex[N];
+bool vis[N];
+queue&lt;int&gt; q;
+void tarjan(int u)&#123;
     dfn[u]=low[u]=++cnt;
-    st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;to : e[u])&#123;
-        <span class="hljs-keyword">if</span>(!dfn[to])&#123;
-            <span class="hljs-built_in">tarjan</span>(to);
-            low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
+    st.push(u),vis[u]=true;
+    for (auto &amp;to : e[u])&#123;
+        if(!dfn[to])&#123;
+            tarjan(to);
+            low[u]=min(low[u],low[to]);
         &#125;
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
-            low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
+        else if(vis[to])&#123;
+            low[u]=min(low[u],dfn[to]);
         &#125;
     &#125;
-    <span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
+    if(dfn[u]==low[u])&#123;
         sc++;
-        <span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
-            sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-            scc[st.<span class="hljs-built_in">top</span>()]=sc;
-            vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-            st.<span class="hljs-built_in">pop</span>();
+        while(st.top()!=u)&#123;
+            sz[sc]+=w[st.top()];
+            scc[st.top()]=sc;
+            vis[st.top()]=0;
+            st.pop();
         &#125;
-        sz[sc]+=w[st.<span class="hljs-built_in">top</span>()];
-        scc[st.<span class="hljs-built_in">top</span>()]=sc;
-        vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-        st.<span class="hljs-built_in">pop</span>();
+        sz[sc]+=w[st.top()];
+        scc[st.top()]=sc;
+        vis[st.top()]=0;
+        st.pop();
     &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">topu</span><span class="hljs-params">()</span></span>&#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;n&gt;&gt;m;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;w[i];
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;u&gt;&gt;v;
-        e[u].<span class="hljs-built_in">pb</span>(v);
+void topu()&#123;
+    for(int i=1;i&gt;n&gt;&gt;m;
+    for(int i=1;i&gt;w[i];
+    for(int i=1;i&gt;u&gt;&gt;v;
+        e[u].pb(v);
     &#125;
 
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;ist;
-vector&lt;<span class="hljs-type">int</span>&gt; e[N], ex[N];
-<span class="hljs-type">bool</span> vis[N];
-queue&lt;<span class="hljs-type">int</span>&gt; q;
-<span class="hljs-type">void</span> <span class="hljs-built_in">tarjan</span>(<span class="hljs-type">int</span> u)&#123;
+    for(int i=1;ist;
+vector&lt;int&gt; e[N], ex[N];
+bool vis[N];
+queue&lt;int&gt; q;
+void tarjan(int u)&#123;
     dfn[u]=low[u]=++cnt;
-    st.<span class="hljs-built_in">push</span>(u),vis[u]=<span class="hljs-literal">true</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;to : e[u])&#123;
-        <span class="hljs-keyword">if</span>(!dfn[to])&#123;
-            <span class="hljs-built_in">tarjan</span>(to);
-            low[u]=<span class="hljs-built_in">min</span>(low[u],low[to]);
+    st.push(u),vis[u]=true;
+    for (auto &amp;to : e[u])&#123;
+        if(!dfn[to])&#123;
+            tarjan(to);
+            low[u]=min(low[u],low[to]);
         &#125;
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[to])&#123;
-            low[u]=<span class="hljs-built_in">min</span>(low[u],dfn[to]);
+        else if(vis[to])&#123;
+            low[u]=min(low[u],dfn[to]);
         &#125;
     &#125;
-    <span class="hljs-keyword">if</span>(dfn[u]==low[u])&#123;
+    if(dfn[u]==low[u])&#123;
         sc++;
-        <span class="hljs-keyword">while</span>(st.<span class="hljs-built_in">top</span>()!=u)&#123;
-            scc[st.<span class="hljs-built_in">top</span>()]=sc;
-            vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-            st.<span class="hljs-built_in">pop</span>();
+        while(st.top()!=u)&#123;
+            scc[st.top()]=sc;
+            vis[st.top()]=0;
+            st.pop();
         &#125;
-        scc[st.<span class="hljs-built_in">top</span>()]=sc;
-        vis[st.<span class="hljs-built_in">top</span>()]=<span class="hljs-number">0</span>;
-        st.<span class="hljs-built_in">pop</span>();
+        scc[st.top()]=sc;
+        vis[st.top()]=0;
+        st.pop();
     &#125;
 &#125;
-<span class="hljs-type">void</span> <span class="hljs-built_in">solve</span>()&#123;
-    <span class="hljs-type">int</span> n;cin&gt;&gt;n;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;x,x)&#123;
-            e[i].<span class="hljs-built_in">pb</span>(x);
+void solve()&#123;
+    int n;cin&gt;&gt;n;
+    for(int i=1;i&gt;x,x)&#123;
+            e[i].pb(x);
         &#125;
     &#125;
 
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
-    <span class="hljs-keyword">if</span>(!dfn[i])<span class="hljs-built_in">tarjan</span>(i);
+    for(int i=1;i&lt;=n;i++)
+    if(!dfn[i])tarjan(i);
 
-    <span class="hljs-type">int</span> ans1=<span class="hljs-number">0</span>,ans2=<span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
-        <span class="hljs-type">int</span> u=scc[i];
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;to:e[i])&#123;
-            <span class="hljs-type">int</span> v=scc[to];
-            <span class="hljs-keyword">if</span>(u==v)<span class="hljs-keyword">continue</span>;
+    int ans1=0,ans2=0;
+    for(int i=1;i&lt;=n;i++)&#123;
+        int u=scc[i];
+        for(auto &amp;to:e[i])&#123;
+            int v=scc[to];
+            if(u==v)continue;
             d[v]++,ud[u]++;
         &#125;
     &#125;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=sc;i++)
+    for(int i=1;i&lt;=sc;i++)
     &#123;
-        <span class="hljs-keyword">if</span>(!d[i])ans1++;
-        <span class="hljs-keyword">if</span>(!ud[i])ans2++;
+        if(!d[i])ans1++;
+        if(!ud[i])ans2++;
     &#125;
-    cout&lt;&lt;ans1&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
-    <span class="hljs-keyword">if</span>(sc==<span class="hljs-number">1</span>)
-    cout&lt;&lt;<span class="hljs-number">0</span>&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
-    <span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">max</span>(ans1,ans2)&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;
+    cout&lt;&lt;ans1&lt;&lt;&quot;\n&quot;;
+    if(sc==1)
+    cout&lt;&lt;0&lt;&lt;&quot;\n&quot;;
+    else cout&lt;&lt;max(ans1,ans2)&lt;&lt;&quot;\n&quot;;
 &#125;
 </code></pre>
 
