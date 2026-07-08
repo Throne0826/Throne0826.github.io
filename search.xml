@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C++ 题解模板</title>
+    <url>/2026/07/08/2026-07-08-%E6%96%B0%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1>
+<h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2>
+<ul>
+<li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li>
+<li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li>
+<li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li>
+<li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li>
+<li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li>
+<li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。</li>
+</ul>
+<pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (T--) &#123;
+        <span class="hljs-built_in">solve</span>();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>算法竞赛</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>题解模板</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2024CCPC深圳站组队赛题解</title>
     <url>/2024/10/17/2024CCPC%E6%B7%B1%E5%9C%B3%E7%AB%99%E7%BB%84%E9%98%9F%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="a一道好题"><a class="markdownIt-Anchor" href="#a一道好题"></a> A：一道好题</h2>

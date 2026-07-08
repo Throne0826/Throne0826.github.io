@@ -9,8 +9,37 @@
     <atom:link href="https://lifexoryoung.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道</description>
-    <pubDate>Wed, 08 Jul 2026 05:53:46 GMT</pubDate>
+    <pubDate>Wed, 08 Jul 2026 09:58:23 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>C++ 题解模板</title>
+      <link>https://lifexoryoung.cn/2026/07/08/2026-07-08-%E6%96%B0%E6%96%87%E7%AB%A0/</link>
+      <guid>https://lifexoryoung.cn/2026/07/08/2026-07-08-%E6%96%B0%E6%96%87%E7%AB%A0/</guid>
+      <pubDate>Wed, 08 Jul 2026 09:54:55 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;c-题解模板&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#c-题解模板&quot;&gt;&lt;/a&gt; C++ 题解模板&lt;/h1&gt;
+&lt;h2 id=&quot;检查结果&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#检查结果&quot;&gt;&lt;/a&gt; </description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1><h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2><ul><li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li><li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li><li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li><li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li><li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li><li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。</li></ul><pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;&#125;<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;    <span class="hljs-keyword">while</span> (T--) &#123;        <span class="hljs-built_in">solve</span>();    &#125;    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;</code></pre>]]></content:encoded>
+      
+      
+      <category domain="https://lifexoryoung.cn/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      
+      
+      <category domain="https://lifexoryoung.cn/tags/C/">C++</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/">题解模板</category>
+      
+      
+      <comments>https://lifexoryoung.cn/2026/07/08/2026-07-08-%E6%96%B0%E6%96%87%E7%AB%A0/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>2024CCPC深圳站组队赛题解</title>
@@ -244,34 +273,6 @@
       
       
       <comments>https://lifexoryoung.cn/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>2024 ICPC National Invitational Collegiate Programming Contest, Wuhan Site（2024武汉邀请赛）</title>
-      <link>https://lifexoryoung.cn/2024/04/02/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/</link>
-      <guid>https://lifexoryoung.cn/2024/04/02/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/</guid>
-      <pubDate>Tue, 02 Apr 2024 16:00:00 GMT</pubDate>
-      
-      <description>&lt;h2 id=&quot;problem-b-countless-me&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#problem-b-countless-me&quot;&gt;&lt;/a&gt; Problem B - Countless Me&lt;/h2&gt;
-&lt;h3 id=&quot;分析&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#分析&quot;&gt;&lt;/a&gt; 分析&lt;/h3&gt;
-&lt;p&gt;假设最优情况下，目标序列的每个值分别为：&lt;/p&gt;
-&lt;p class=&#39;katex-block&#39;&gt;&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;mo&gt;⋯&lt;/mo&gt;&lt;mtext&gt; &lt;/mtext&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;x_1,x_2,&#92;cdots,x_n
-&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.625em;vertical-align:-0.19444em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.30110799999999993em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.30110799999999993em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;minner&quot;&gt;⋯&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.151392em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;n&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;把原序列变成任意目标序列时，每个位置最多只需要一次操作，因此整体可以看作“构造一个更优的目标序列”。&lt;/p&gt;</description>
-      
-      
-      
-      <content:encoded><![CDATA[<h2 id="problem-b-countless-me"><a class="markdownIt-Anchor" href="#problem-b-countless-me"></a> Problem B - Countless Me</h2><h3 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h3><p>假设最优情况下，目标序列的每个值分别为：</p><p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">x_1,x_2,\cdots,x_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p><p>把原序列变成任意目标序列时，每个位置最多只需要一次操作，因此整体可以看作“构造一个更优的目标序列”。</p><span id="more"></span><p>由于题目和位运算有关，可以从高位到低位贪心判断当前位是否可以保留。设当前所有值的总和为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">now</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>，每一位从高到低尝试加入答案。</p><p>如果当前位可以通过剩余总和分配出来，就保留这一位；否则跳过。这样可以保证高位优先最大化。</p><p>整体思路是：</p><ol><li>统计所有数的总和。</li><li>从高位到低位枚举答案的每一位。</li><li>判断当前剩余总和能否支持这一位的构造。</li><li>如果可以，就把这一位加入答案，并扣掉对应消耗。</li></ol><p>这种做法本质上是按位贪心，高位优先保证最终答案最大。</p><h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3><pre class="highlight"><code class="cpp">    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&gt;x;        res+=x;    &#125;    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">30</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;        <span class="hljs-type">int</span> ver=((<span class="hljs-number">1ll</span>ver)ans|=(<span class="hljs-number">1ll</span>&lt;&lt;i),res-=<span class="hljs-built_in">min</span>(n,res/(<span class="hljs-number">1ll</span>&lt;&lt;i))*(<span class="hljs-number">1ll</span>&lt;&lt;i);    &#125;    cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;&#125;</code></pre>]]></content:encoded>
-      
-      
-      <category domain="https://lifexoryoung.cn/categories/%E8%A1%A5%E9%A2%98/">补题</category>
-      
-      
-      <category domain="https://lifexoryoung.cn/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/">扩展欧几里得</category>
-      
-      
-      <comments>https://lifexoryoung.cn/2024/04/02/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/#disqus_thread</comments>
       
     </item>
     
