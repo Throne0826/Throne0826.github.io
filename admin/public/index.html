@@ -60,6 +60,20 @@
           </div>
         </header>
 
+        <section id="reviewPanel" class="review-panel" hidden>
+          <div class="review-header">
+            <div>
+              <strong>AI 修改对比</strong>
+              <span id="diffSummary">等待生成</span>
+            </div>
+            <div class="review-actions">
+              <button id="applyAiButton" type="button">应用修改</button>
+              <button id="discardAiButton" type="button">丢弃</button>
+            </div>
+          </div>
+          <div id="diffView" class="diff-view" aria-live="polite"></div>
+        </section>
+
         <div class="workspace">
           <textarea id="editorInput" spellcheck="false"></textarea>
           <article id="preview" class="preview"></article>

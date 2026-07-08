@@ -2,7 +2,9 @@
   token: localStorage.getItem("blog-admin-token") || "",
   currentPath: "",
   currentSha: "",
-  posts: []
+  posts: [],
+  aiOriginal: "",
+  aiSuggestion: ""
 };
 
 const els = {
@@ -15,6 +17,11 @@ const els = {
   modeSelect: document.querySelector("#modeSelect"),
   polishButton: document.querySelector("#polishButton"),
   saveButton: document.querySelector("#saveButton"),
+  applyAiButton: document.querySelector("#applyAiButton"),
+  discardAiButton: document.querySelector("#discardAiButton"),
+  reviewPanel: document.querySelector("#reviewPanel"),
+  diffSummary: document.querySelector("#diffSummary"),
+  diffView: document.querySelector("#diffView"),
   editorInput: document.querySelector("#editorInput"),
   preview: document.querySelector("#preview"),
   status: document.querySelector("#status")
@@ -59,6 +66,14 @@ function markdownBody(markdown) {
   return markdown.replace(/^---[\s\S]*?---\s*/, "");
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 function renderMarkdown(markdown) {
   const body = markdownBody(markdown);
   if (window.marked) {
@@ -70,11 +85,7 @@ function renderMarkdown(markdown) {
     });
     return window.marked.parse(body);
   }
-  return body
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replace(/\n/g, "<br>");
+  return escapeHtml(body).replace(/\n/g, "<br>");
 }
 
 let mathRenderTimer = 0;
@@ -89,6 +100,104 @@ function updatePreview() {
       });
     }
   }, 80);
+}
+
+function hideReview() {
+  state.aiOriginal = "";
+  state.aiSuggestion = "";
+  els.reviewPanel.hidden = true;
+  els.diffView.innerHTML = "";
+  els.diffSummary.textContent = "等待生成";
+}
+
+function buildLineDiff(beforeText, afterText) {
+  const before = beforeText.split("\n");
+  const after = afterText.split("\n");
+  const rows = Array.from({ length: before.length + 1 }, () => Array(after.length + 1).fill(0));
+
+  for (let i = before.length - 1; i >= 0; i -= 1) {
+    for (let j = after.length - 1; j >= 0; j -= 1) {
+      rows[i][j] = before[i] === after[j]
+        ? rows[i + 1][j + 1] + 1
+        : Math.max(rows[i + 1][j], rows[i][j + 1]);
+    }
+  }
+
+  const diff = [];
+  let i = 0;
+  let j = 0;
+  while (i < before.length && j < after.length) {
+    if (before[i] === after[j]) {
+      diff.push({ type: "same", text: before[i] });
+      i += 1;
+      j += 1;
+    } else if (rows[i + 1][j] >= rows[i][j + 1]) {
+      diff.push({ type: "remove", text: before[i] });
+      i += 1;
+    } else {
+      diff.push({ type: "add", text: after[j] });
+      j += 1;
+    }
+  }
+  while (i < before.length) {
+    diff.push({ type: "remove", text: before[i] });
+    i += 1;
+  }
+  while (j < after.length) {
+    diff.push({ type: "add", text: after[j] });
+    j += 1;
+  }
+  return diff;
+}
+
+function compactDiff(diff) {
+  const compacted = [];
+  let sameBuffer = [];
+
+  function flushSame(forceAll = false) {
+    if (!sameBuffer.length) return;
+    if (forceAll || sameBuffer.length <= 8) {
+      compacted.push(...sameBuffer);
+    } else {
+      compacted.push(...sameBuffer.slice(0, 3));
+      compacted.push({ type: "skip", text: `${sameBuffer.length - 6} unchanged lines` });
+      compacted.push(...sameBuffer.slice(-3));
+    }
+    sameBuffer = [];
+  }
+
+  for (const part of diff) {
+    if (part.type === "same") {
+      sameBuffer.push(part);
+    } else {
+      flushSame(false);
+      compacted.push(part);
+    }
+  }
+  flushSame(false);
+  return compacted;
+}
+
+function renderDiff(beforeText, afterText) {
+  const diff = buildLineDiff(beforeText, afterText);
+  const added = diff.filter((part) => part.type === "add").length;
+  const removed = diff.filter((part) => part.type === "remove").length;
+  const changed = added + removed;
+  const display = changed ? compactDiff(diff) : diff;
+
+  els.diffSummary.textContent = changed
+    ? `新增 ${added} 行，删除 ${removed} 行`
+    : "AI 没有改动内容";
+
+  els.diffView.innerHTML = display.map((part) => {
+    if (part.type === "skip") {
+      return `<div class="diff-line diff-skip"><span class="diff-mark">...</span><code>${escapeHtml(part.text)}</code></div>`;
+    }
+    const mark = part.type === "add" ? "+" : part.type === "remove" ? "-" : " ";
+    return `<div class="diff-line diff-${part.type}"><span class="diff-mark">${mark}</span><code>${escapeHtml(part.text || " ")}</code></div>`;
+  }).join("");
+
+  els.reviewPanel.hidden = false;
 }
 
 function renderPosts() {
@@ -118,6 +227,7 @@ async function loadPost(path) {
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
   els.editorInput.value = data.content;
+  hideReview();
   updatePreview();
   renderPosts();
   setStatus(`Opened ${data.path}`);
@@ -140,6 +250,7 @@ function newPost() {
   state.currentSha = "";
   els.pathInput.value = `source/_posts/${date}-${slugifyTitle(title)}.md`;
   els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${time}\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
+  hideReview();
   updatePreview();
   renderPosts();
   setStatus("Draft created. Save will commit to GitHub and trigger deploy.");
@@ -166,13 +277,30 @@ async function polish() {
         markdown
       })
     });
-    els.editorInput.value = data.content || "";
-    updatePreview();
-    setStatus("AI processing finished. Please review before saving.");
+    state.aiOriginal = markdown;
+    state.aiSuggestion = data.content || "";
+    renderDiff(state.aiOriginal, state.aiSuggestion);
+    setStatus("AI suggestion is ready. Review the diff, then apply or discard.");
   } finally {
     els.polishButton.disabled = false;
     els.polishButton.textContent = previousText;
   }
+}
+
+function applyAiSuggestion() {
+  if (!state.aiSuggestion) {
+    setStatus("No AI suggestion to apply.", true);
+    return;
+  }
+  els.editorInput.value = state.aiSuggestion;
+  hideReview();
+  updatePreview();
+  setStatus("AI changes applied. Review the preview before saving.");
+}
+
+function discardAiSuggestion() {
+  hideReview();
+  setStatus("AI suggestion discarded.");
 }
 
 async function savePost() {
@@ -200,6 +328,7 @@ async function savePost() {
     });
     state.currentPath = data.path;
     state.currentSha = data.sha;
+    hideReview();
     setStatus(`Committed. GitHub Actions will deploy: ${data.commit || data.path}`);
     await loadPosts();
   } finally {
@@ -227,7 +356,11 @@ els.loadPostsButton.addEventListener("click", bind(loadPosts));
 els.newPostButton.addEventListener("click", newPost);
 els.polishButton.addEventListener("click", bind(polish));
 els.saveButton.addEventListener("click", bind(savePost));
-els.editorInput.addEventListener("input", updatePreview);
+els.applyAiButton.addEventListener("click", applyAiSuggestion);
+els.discardAiButton.addEventListener("click", discardAiSuggestion);
+els.editorInput.addEventListener("input", () => {
+  if (state.aiSuggestion) hideReview();
+  updatePreview();
+});
 
 newPost();
-

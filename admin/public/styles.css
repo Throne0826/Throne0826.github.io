@@ -243,3 +243,113 @@ select {
     border-bottom: 1px solid var(--line);
   }
 }
+
+.review-panel {
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfd;
+  min-height: 0;
+  max-height: 34vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.review-panel[hidden] {
+  display: none;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.review-header strong {
+  display: block;
+  font-size: 14px;
+}
+
+.review-header span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#applyAiButton {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.diff-view {
+  overflow: auto;
+  padding: 10px 0;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.diff-line {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 8px;
+  padding: 2px 18px 2px 0;
+  border-left: 3px solid transparent;
+}
+
+.diff-line code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
+}
+
+.diff-mark {
+  text-align: right;
+  color: var(--muted);
+  user-select: none;
+}
+
+.diff-add {
+  background: #eaf7ef;
+  border-left-color: #2f8f4e;
+}
+
+.diff-add .diff-mark {
+  color: #1f7a3a;
+}
+
+.diff-remove {
+  background: #fdecec;
+  border-left-color: #d14343;
+}
+
+.diff-remove .diff-mark {
+  color: #b42318;
+}
+
+.diff-same {
+  color: #5d6675;
+}
+
+.diff-skip {
+  color: var(--muted);
+  background: #f1f3f5;
+}
+
+@media (max-width: 860px) {
+  .review-panel {
+    max-height: 42vh;
+  }
+
+  .review-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
