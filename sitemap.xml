@@ -74,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/categories/</loc>
+    <loc>https://lifexoryoung.cn/about/</loc>
     
     <lastmod>2026-07-08</lastmod>
     
@@ -83,7 +83,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/about/</loc>
+    <loc>https://lifexoryoung.cn/categories/</loc>
     
     <lastmod>2026-07-08</lastmod>
     
@@ -146,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/</loc>
+    <loc>https://lifexoryoung.cn/2024/04/02/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/</loc>
     
     <lastmod>2026-07-08</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/04/02/2024%20ICPC%20National%20Invitational%20Collegiate%20Programming%20Contest,%20Wuhan%20Site%EF%BC%882024%E6%AD%A6%E6%B1%89%E9%82%80%E8%AF%B7%E8%B5%9B%EF%BC%89/</loc>
+    <loc>https://lifexoryoung.cn/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/</loc>
     
     <lastmod>2026-07-08</lastmod>
     
@@ -227,7 +227,28 @@
 
   
   <url>
-    <loc>https://lifexoryoung.cn/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/</loc>
+    <loc>https://lifexoryoung.cn/tags/%E8%B4%AA%E5%BF%83/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/DFS/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/BFS/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/STL/</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -262,28 +283,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/tags/%E8%B4%AA%E5%BF%83/</loc>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/DFS/</loc>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/BFS/</loc>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/STL/</loc>
+    <loc>https://lifexoryoung.cn/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
