@@ -164,6 +164,56 @@ async function savePost({ path, content, sha, message }) {
   });
 }
 
+function sanitizeImageName(name) {
+  const fallback = "image";
+  const raw = String(name || fallback).replace(/\.[^.]+$/, "");
+  return raw
+    .normalize("NFKD")
+    .replace(/[^a-zA-Z0-9\u4e00-\u9fa5_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || fallback;
+}
+
+function imageExtensionFromMime(mimeType) {
+  return {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/gif": "gif",
+    "image/webp": "webp",
+    "image/svg+xml": "svg"
+  }[mimeType] || "";
+}
+
+async function uploadImage({ name, type, data }) {
+  const ext = imageExtensionFromMime(type);
+  if (!ext) throw new Error("Unsupported image type. Use jpg, png, gif, webp, or svg.");
+  const base64 = String(data || "").replace(/^data:[^;]+;base64,/, "");
+  const bytes = Buffer.from(base64, "base64");
+  if (!bytes.length) throw new Error("Image data is empty.");
+  if (bytes.length > 5 * 1024 * 1024) throw new Error("Image is too large. Keep it under 5MB.");
+
+  const now = new Date();
+  const yyyy = String(now.getUTCFullYear());
+  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const stamp = `${yyyy}${mm}${String(now.getUTCDate()).padStart(2, "0")}-${String(now.getUTCHours()).padStart(2, "0")}${String(now.getUTCMinutes()).padStart(2, "0")}${String(now.getUTCSeconds()).padStart(2, "0")}`;
+  const filename = `${stamp}-${sanitizeImageName(name)}.${ext}`;
+  const repoPath = `source/images/uploads/${yyyy}/${mm}/${filename}`;
+
+  const result = await githubFetch(`/contents/${encodeURIComponent(repoPath).replaceAll("%2F", "/")}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      message: `Upload image ${filename}`,
+      content: bytes.toString("base64"),
+      branch: config.githubBranch
+    })
+  });
+
+  return {
+    path: repoPath,
+    url: `/images/uploads/${yyyy}/${mm}/${filename}`,
+    commit: result.commit?.html_url
+  };
+}
 function polishPrompt({ mode, markdown }) {
   const task = {
     polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
@@ -275,6 +325,12 @@ async function handleApi(req, res, url) {
       return;
     }
 
+
+    if (req.method === "POST" && url.pathname === "/api/upload-image") {
+      const body = await readBody(req);
+      sendJson(res, 200, await uploadImage(body));
+      return;
+    }
     if (req.method === "POST" && url.pathname === "/api/polish") {
       const body = await readBody(req);
       sendJson(res, 200, { content: await polishMarkdown(body) });
@@ -315,6 +371,7 @@ createServer(async (req, res) => {
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
 });
+
 
 
 

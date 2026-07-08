@@ -32,6 +32,7 @@ const els = {
   afterView: document.querySelector("#afterView"),
   diffView: document.querySelector("#diffView"),
   editorInput: document.querySelector("#editorInput"),
+  imageFileInput: document.querySelector("#imageFileInput"),
   editorMeta: document.querySelector("#editorMeta"),
   preview: document.querySelector("#preview"),
   status: document.querySelector("#status")
@@ -223,6 +224,31 @@ function insertBlock(block) {
   replaceRange({ from, to }, `${prefix}${block}${suffix}`);
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error || new Error("Failed to read file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadImageFile(file) {
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    setStatus("Only image files can be uploaded.", true);
+    return;
+  }
+  setStatus(`Uploading image ${file.name}...`);
+  const data = await fileToDataUrl(file);
+  const result = await api("/api/upload-image", {
+    method: "POST",
+    timeoutMs: 60000,
+    body: JSON.stringify({ name: file.name, type: file.type, data })
+  });
+  insertAtSelection("", "", `![${file.name}](${result.url})`);
+  setStatus(`Image uploaded and inserted: ${result.url}`);
+}
 function runTool(tool) {
   const blocks = {
     h2: () => insertAtSelection("## ", "", "小节标题"),
@@ -230,7 +256,7 @@ function runTool(tool) {
     italic: () => insertAtSelection("*", "*", "斜体文本"),
     code: () => insertBlock("```cpp\n// code\n```\n"),
     link: () => insertAtSelection("[", "](https://)", "链接文本"),
-    image: () => insertAtSelection("![", "](https://)", "图片描述"),
+    image: () => els.imageFileInput.click(),
     "math-inline": () => insertAtSelection("$", "$", "a+b"),
     "math-block": () => insertBlock("$$\na^{p-1} \\equiv 1 \\pmod p\n$$\n"),
     table: () => insertBlock("| 项目 | 说明 |\n| --- | --- |\n| A | 内容 |\n"),
@@ -451,6 +477,11 @@ els.copyAiButton.addEventListener("click", bind(copyAiSuggestion));
 els.discardAiButton.addEventListener("click", discardAiSuggestion);
 els.postSearchInput.addEventListener("input", renderPosts);
 els.postSortSelect.addEventListener("change", renderPosts);
+els.imageFileInput.addEventListener("change", bind(async () => {
+  const [file] = els.imageFileInput.files || [];
+  await uploadImageFile(file);
+  els.imageFileInput.value = "";
+}));
 document.querySelectorAll("[data-tool]").forEach((button) => {
   button.addEventListener("click", () => runTool(button.dataset.tool));
 });
@@ -459,6 +490,24 @@ els.editorInput.addEventListener("input", () => {
   updatePreview();
   saveDraftSoon();
 });
+els.editorInput.addEventListener("paste", (event) => {
+  const file = Array.from(event.clipboardData?.files || []).find((item) => item.type.startsWith("image/"));
+  if (!file) return;
+  event.preventDefault();
+  uploadImageFile(file).catch((error) => setStatus(error.message || String(error), true));
+});
+
+els.editorInput.addEventListener("dragover", (event) => {
+  event.preventDefault();
+});
+
+els.editorInput.addEventListener("drop", (event) => {
+  const file = Array.from(event.dataTransfer?.files || []).find((item) => item.type.startsWith("image/"));
+  if (!file) return;
+  event.preventDefault();
+  uploadImageFile(file).catch((error) => setStatus(error.message || String(error), true));
+});
+
 els.editorInput.addEventListener("keydown", (event) => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
     event.preventDefault();
@@ -478,6 +527,7 @@ els.editorInput.addEventListener("keydown", (event) => {
 });
 
 newPost();
+
 
 
 
