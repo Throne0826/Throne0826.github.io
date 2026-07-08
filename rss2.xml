@@ -9,7 +9,7 @@
     <atom:link href="https://lifexoryoung.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道</description>
-    <pubDate>Wed, 08 Jul 2026 10:07:11 GMT</pubDate>
+    <pubDate>Wed, 08 Jul 2026 10:07:24 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -26,7 +26,7 @@
       
       
       
-      <content:encoded><![CDATA[<h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1><h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2><ul><li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li><li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li><li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li><li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li><li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li><li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。</li></ul><pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;&#125;<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;    <span class="hljs-keyword">while</span> (T--) &#123;        <span class="hljs-built_in">solve</span>();    &#125;    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;</code></pre>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1><h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2><ul><li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li><li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li><li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li><li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li><li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li><li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。<img src="/images/uploads/2026/07/20260708-100703-image.png" alt="image.png" /><br /><img src="/images/uploads/2026/07/20260708-100641-02e788d9a8e1aabcc83b2ffa04d519d7.png" alt="02e788d9a8e1aabcc83b2ffa04d519d7.png" /></li></ul><pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;&#125;<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;    <span class="hljs-keyword">while</span> (T--) &#123;        <span class="hljs-built_in">solve</span>();    &#125;    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;</code></pre>]]></content:encoded>
       
       
       <category domain="https://lifexoryoung.cn/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
@@ -230,8 +230,6 @@
       
       <category domain="https://lifexoryoung.cn/tags/%E5%9B%BE%E8%AE%BA/">图论</category>
       
-      <category domain="https://lifexoryoung.cn/tags/dfs/">dfs</category>
-      
       <category domain="https://lifexoryoung.cn/tags/%E6%A0%91%E8%AE%BA/">树论</category>
       
       <category domain="https://lifexoryoung.cn/tags/LCA/">LCA</category>
@@ -245,6 +243,8 @@
       <category domain="https://lifexoryoung.cn/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</category>
       
       <category domain="https://lifexoryoung.cn/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/dfs/">dfs</category>
       
       <category domain="https://lifexoryoung.cn/tags/bfs/">bfs</category>
       
