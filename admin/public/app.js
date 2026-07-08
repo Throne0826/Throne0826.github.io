@@ -6,8 +6,7 @@
   aiOriginal: "",
   aiSuggestion: "",
   aiRange: null,
-  editorView: null,
-  fallbackEditor: null
+  draftTimer: 0
 };
 
 const els = {
@@ -30,7 +29,7 @@ const els = {
   beforeView: document.querySelector("#beforeView"),
   afterView: document.querySelector("#afterView"),
   diffView: document.querySelector("#diffView"),
-  editorHost: document.querySelector("#editorHost"),
+  editorInput: document.querySelector("#editorInput"),
   editorMeta: document.querySelector("#editorMeta"),
   preview: document.querySelector("#preview"),
   status: document.querySelector("#status")
@@ -43,121 +42,16 @@ function setStatus(message, isError = false) {
   els.status.classList.toggle("error", isError);
 }
 
-async function setupEditor() {
-  try {
-    const [{ EditorState }, { EditorView, keymap, lineNumbers, highlightActiveLine, highlightSpecialChars }, { defaultKeymap, history, historyKeymap }, { markdown }, { syntaxHighlighting, defaultHighlightStyle }] = await Promise.all([
-      import("https://esm.sh/@codemirror/state@6.4.1"),
-      import("https://esm.sh/@codemirror/view@6.28.6"),
-      import("https://esm.sh/@codemirror/commands@6.6.0"),
-      import("https://esm.sh/@codemirror/lang-markdown@6.2.5"),
-      import("https://esm.sh/@codemirror/language@6.10.2")
-    ]);
-
-    const saveKey = {
-      key: "Mod-s",
-      preventDefault: true,
-      run() {
-        savePost().catch((error) => setStatus(error.message || String(error), true));
-        return true;
-      }
-    };
-
-    state.editorView = new EditorView({
-      parent: els.editorHost,
-      state: EditorState.create({
-        doc: "",
-        extensions: [
-          lineNumbers(),
-          highlightSpecialChars(),
-          history(),
-          markdown(),
-          syntaxHighlighting(defaultHighlightStyle),
-          highlightActiveLine(),
-          keymap.of([saveKey, ...defaultKeymap, ...historyKeymap]),
-          EditorView.lineWrapping,
-          EditorView.updateListener.of((update) => {
-            if (update.docChanged) {
-              if (state.aiSuggestion) hideReview();
-              updatePreview();
-            }
-          }),
-          EditorView.theme({
-            "&": { height: "100%", fontSize: "14px" },
-            ".cm-scroller": { fontFamily: '"Cascadia Code", Consolas, "Microsoft YaHei UI", monospace' },
-            ".cm-content": { padding: "14px 0", lineHeight: "1.65" },
-            ".cm-line": { padding: "0 16px" },
-            ".cm-gutters": { backgroundColor: "#f7f8fa", borderRight: "1px solid #d9dde5" },
-            ".cm-activeLine": { backgroundColor: "#eef5f3" },
-            ".cm-activeLineGutter": { backgroundColor: "#e5efec" }
-          })
-        ]
-      })
-    });
-    setStatus("Editor ready. Ctrl+S saves to GitHub.");
-  } catch (error) {
-    const textarea = document.createElement("textarea");
-    textarea.className = "fallback-editor";
-    textarea.spellcheck = false;
-    textarea.addEventListener("input", () => {
-      if (state.aiSuggestion) hideReview();
-      updatePreview();
-    });
-    els.editorHost.appendChild(textarea);
-    state.fallbackEditor = textarea;
-    setStatus(`CodeMirror failed to load; using textarea. ${error.message || error}`, true);
-  }
+function getDraftKey() {
+  return `blog-admin-draft:${els.pathInput.value.trim() || "new"}`;
 }
 
-function getEditorValue() {
-  if (state.editorView) return state.editorView.state.doc.toString();
-  return state.fallbackEditor?.value || "";
-}
-
-function setEditorValue(value) {
-  if (state.editorView) {
-    state.editorView.dispatch({
-      changes: { from: 0, to: state.editorView.state.doc.length, insert: value }
-    });
-    return;
-  }
-  if (state.fallbackEditor) state.fallbackEditor.value = value;
-}
-
-function getEditorSelection() {
-  if (state.editorView) {
-    const range = state.editorView.state.selection.main;
-    return {
-      from: range.from,
-      to: range.to,
-      text: state.editorView.state.doc.sliceString(range.from, range.to)
-    };
-  }
-  const el = state.fallbackEditor;
-  return {
-    from: el?.selectionStart || 0,
-    to: el?.selectionEnd || 0,
-    text: el ? el.value.slice(el.selectionStart, el.selectionEnd) : ""
-  };
-}
-
-function replaceEditorRange(range, text) {
-  if (!range) {
-    setEditorValue(text);
-    return;
-  }
-  if (state.editorView) {
-    state.editorView.dispatch({
-      changes: { from: range.from, to: range.to, insert: text },
-      selection: { anchor: range.from + text.length }
-    });
-    state.editorView.focus();
-    return;
-  }
-  const el = state.fallbackEditor;
-  const current = el.value;
-  el.value = `${current.slice(0, range.from)}${text}${current.slice(range.to)}`;
-  el.selectionStart = el.selectionEnd = range.from + text.length;
-  el.focus();
+function saveDraftSoon() {
+  clearTimeout(state.draftTimer);
+  state.draftTimer = setTimeout(() => {
+    localStorage.setItem(getDraftKey(), els.editorInput.value);
+    setStatus("Draft autosaved locally.");
+  }, 900);
 }
 
 async function api(path, options = {}) {
@@ -179,9 +73,7 @@ async function api(path, options = {}) {
     if (!response.ok) throw new Error(data.error || `Request failed: ${response.status}`);
     return data;
   } catch (error) {
-    if (error.name === "AbortError") {
-      throw new Error("Request timed out. Check Render logs or retry later.");
-    }
+    if (error.name === "AbortError") throw new Error("Request timed out. Check Render logs or retry later.");
     throw error;
   } finally {
     clearTimeout(timer);
@@ -204,15 +96,18 @@ function renderMarkdown(markdown) {
   const body = markdownBody(markdown);
   if (window.marked) {
     window.marked.setOptions({ breaks: false, gfm: true, headerIds: false, mangle: false });
-    return window.marked.parse(body);
+    try {
+      return window.marked.parse(body);
+    } catch (error) {
+      return `<pre>${escapeHtml(body)}</pre>`;
+    }
   }
   return escapeHtml(body).replace(/\n/g, "<br>");
 }
 
 let mathRenderTimer = 0;
-
 function updatePreview() {
-  const value = getEditorValue();
+  const value = els.editorInput.value;
   els.preview.innerHTML = renderMarkdown(value);
   els.editorMeta.textContent = `${value.length} 字`;
   clearTimeout(mathRenderTimer);
@@ -234,79 +129,96 @@ function hideReview() {
   els.diffSummary.textContent = "等待生成";
 }
 
+function getSelection() {
+  return {
+    from: els.editorInput.selectionStart,
+    to: els.editorInput.selectionEnd,
+    text: els.editorInput.value.slice(els.editorInput.selectionStart, els.editorInput.selectionEnd)
+  };
+}
+
+function replaceRange(range, text) {
+  if (!range) {
+    els.editorInput.value = text;
+  } else {
+    const current = els.editorInput.value;
+    els.editorInput.value = `${current.slice(0, range.from)}${text}${current.slice(range.to)}`;
+    els.editorInput.selectionStart = els.editorInput.selectionEnd = range.from + text.length;
+  }
+  els.editorInput.focus();
+  updatePreview();
+  saveDraftSoon();
+}
+
+function insertAtSelection(before, after = "", placeholder = "") {
+  const { from, to, text } = getSelection();
+  const selected = text || placeholder;
+  const insert = `${before}${selected}${after}`;
+  replaceRange({ from, to }, insert);
+  const cursorStart = from + before.length;
+  const cursorEnd = cursorStart + selected.length;
+  els.editorInput.selectionStart = cursorStart;
+  els.editorInput.selectionEnd = cursorEnd;
+}
+
+function insertBlock(block) {
+  const { from, to } = getSelection();
+  const current = els.editorInput.value;
+  const prefix = from > 0 && current[from - 1] !== "\n" ? "\n\n" : "";
+  const suffix = to < current.length && current[to] !== "\n" ? "\n" : "";
+  replaceRange({ from, to }, `${prefix}${block}${suffix}`);
+}
+
+function runTool(tool) {
+  const blocks = {
+    h2: () => insertAtSelection("## ", "", "小节标题"),
+    bold: () => insertAtSelection("**", "**", "加粗文本"),
+    italic: () => insertAtSelection("*", "*", "斜体文本"),
+    code: () => insertBlock("```cpp\n// code\n```\n"),
+    link: () => insertAtSelection("[", "](https://)", "链接文本"),
+    image: () => insertAtSelection("![", "](https://)", "图片描述"),
+    "math-inline": () => insertAtSelection("$", "$", "a+b"),
+    "math-block": () => insertBlock("$$\na^{p-1} \\equiv 1 \\pmod p\n$$\n"),
+    table: () => insertBlock("| 项目 | 说明 |\n| --- | --- |\n| A | 内容 |\n"),
+    info: () => insertBlock("::::info[提示]{open}\n这里写提示内容。\n::::\n"),
+    sample: () => insertBlock("### 样例输入\n\n```text\n\n```\n\n### 样例输出\n\n```text\n\n```\n"),
+    more: () => insertBlock("<!--more-->\n")
+  };
+  blocks[tool]?.();
+}
+
 function buildLineDiff(beforeText, afterText) {
   const before = beforeText.split("\n");
   const after = afterText.split("\n");
   const rows = Array.from({ length: before.length + 1 }, () => Array(after.length + 1).fill(0));
-
   for (let i = before.length - 1; i >= 0; i -= 1) {
     for (let j = after.length - 1; j >= 0; j -= 1) {
       rows[i][j] = before[i] === after[j] ? rows[i + 1][j + 1] + 1 : Math.max(rows[i + 1][j], rows[i][j + 1]);
     }
   }
-
   const diff = [];
   let i = 0;
   let j = 0;
   while (i < before.length && j < after.length) {
-    if (before[i] === after[j]) {
-      diff.push({ type: "same", text: before[i] });
-      i += 1;
-      j += 1;
-    } else if (rows[i + 1][j] >= rows[i][j + 1]) {
-      diff.push({ type: "remove", text: before[i] });
-      i += 1;
-    } else {
-      diff.push({ type: "add", text: after[j] });
-      j += 1;
-    }
+    if (before[i] === after[j]) diff.push({ type: "same", text: before[i++] }), j += 1;
+    else if (rows[i + 1][j] >= rows[i][j + 1]) diff.push({ type: "remove", text: before[i++] });
+    else diff.push({ type: "add", text: after[j++] });
   }
   while (i < before.length) diff.push({ type: "remove", text: before[i++] });
   while (j < after.length) diff.push({ type: "add", text: after[j++] });
   return diff;
 }
 
-function compactDiff(diff) {
-  const compacted = [];
-  let sameBuffer = [];
-  const flushSame = () => {
-    if (!sameBuffer.length) return;
-    if (sameBuffer.length <= 8) compacted.push(...sameBuffer);
-    else {
-      compacted.push(...sameBuffer.slice(0, 3));
-      compacted.push({ type: "skip", text: `${sameBuffer.length - 6} unchanged lines` });
-      compacted.push(...sameBuffer.slice(-3));
-    }
-    sameBuffer = [];
-  };
-
-  for (const part of diff) {
-    if (part.type === "same") sameBuffer.push(part);
-    else {
-      flushSame();
-      compacted.push(part);
-    }
-  }
-  flushSame();
-  return compacted;
-}
-
 function renderDiff(beforeText, afterText, scopeLabel) {
   const diff = buildLineDiff(beforeText, afterText);
   const added = diff.filter((part) => part.type === "add").length;
   const removed = diff.filter((part) => part.type === "remove").length;
-  const changed = added + removed;
-  const display = diff;
-
-  els.diffSummary.textContent = changed
+  els.diffSummary.textContent = added + removed
     ? `${scopeLabel}，新增 ${added} 行，删除 ${removed} 行`
     : `${scopeLabel}，AI 没有改动内容`;
   els.beforeView.textContent = beforeText;
   els.afterView.value = afterText;
-  els.diffView.innerHTML = display.map((part) => {
-    if (part.type === "skip") {
-      return `<div class="diff-line diff-skip"><span class="diff-mark">...</span><code>${escapeHtml(part.text)}</code></div>`;
-    }
+  els.diffView.innerHTML = diff.map((part) => {
     const mark = part.type === "add" ? "+" : part.type === "remove" ? "-" : " ";
     return `<div class="diff-line diff-${part.type}"><span class="diff-mark">${mark}</span><code>${escapeHtml(part.text || " ")}</code></div>`;
   }).join("");
@@ -318,9 +230,7 @@ function filteredPosts() {
   const posts = state.posts.filter((post) => !query || post.name.toLowerCase().includes(query) || post.path.toLowerCase().includes(query));
   const sort = els.postSortSelect.value;
   posts.sort((a, b) => {
-    if (sort === "name-desc") return b.name.localeCompare(a.name, "zh-CN");
-    if (sort === "date-desc") return b.name.localeCompare(a.name, "zh-CN");
-    if (sort === "date-asc") return a.name.localeCompare(b.name, "zh-CN");
+    if (sort === "name-desc" || sort === "date-desc") return b.name.localeCompare(a.name, "zh-CN");
     return a.name.localeCompare(b.name, "zh-CN");
   });
   return posts;
@@ -328,8 +238,7 @@ function filteredPosts() {
 
 function renderPosts() {
   els.postList.innerHTML = "";
-  const posts = filteredPosts();
-  for (const post of posts) {
+  for (const post of filteredPosts()) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `post-item${post.path === state.currentPath ? " active" : ""}`;
@@ -353,7 +262,7 @@ async function loadPost(path) {
   state.currentPath = data.path;
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
-  setEditorValue(data.content);
+  els.editorInput.value = data.content;
   hideReview();
   updatePreview();
   renderPosts();
@@ -372,28 +281,26 @@ function newPost() {
   state.currentPath = "";
   state.currentSha = "";
   els.pathInput.value = `source/_posts/${date}-${slugifyTitle(title)}.md`;
-  setEditorValue(`---\ntitle: ${title}\ndate: ${date} ${time}\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`);
+  els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${time}\nmathjax: true\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
   hideReview();
   updatePreview();
   renderPosts();
-  setStatus("Draft created. Select text for partial AI editing, or run AI on the whole post.");
+  setStatus("Draft created. The editor is plain Markdown and autosaves locally.");
 }
 
 async function polish() {
-  const fullText = getEditorValue().trim();
+  const fullText = els.editorInput.value.trim();
   if (!fullText) {
     setStatus("Current post is empty.", true);
     return;
   }
-
-  const selection = getEditorSelection();
+  const selection = getSelection();
   const hasSelection = selection.text.trim().length > 0;
   const targetText = hasSelection ? selection.text : fullText;
   const previousText = els.polishButton.textContent;
   els.polishButton.disabled = true;
   els.polishButton.textContent = "处理中...";
   setStatus(hasSelection ? "AI is processing selected text..." : "AI is processing the whole post...");
-
   try {
     const data = await api("/api/polish", {
       method: "POST",
@@ -404,7 +311,7 @@ async function polish() {
     state.aiSuggestion = data.content || "";
     state.aiRange = hasSelection ? { from: selection.from, to: selection.to } : null;
     renderDiff(state.aiOriginal, state.aiSuggestion, hasSelection ? "选中文本" : "整篇文章");
-    setStatus("AI suggestion is ready. Compare, then apply/copy/discard.");
+    setStatus("AI suggestion is ready. You can edit the suggestion before applying it.");
   } finally {
     els.polishButton.disabled = false;
     els.polishButton.textContent = previousText;
@@ -412,23 +319,22 @@ async function polish() {
 }
 
 function applyAiSuggestion() {
-  if (!state.aiSuggestion) {
+  if (!state.aiSuggestion && !els.afterView.value) {
     setStatus("No AI suggestion to apply.", true);
     return;
   }
-  const suggestion = els.afterView.value || state.aiSuggestion;
-  replaceEditorRange(state.aiRange, suggestion);
+  replaceRange(state.aiRange, els.afterView.value || state.aiSuggestion);
   hideReview();
-  updatePreview();
   setStatus("AI changes applied. Review the preview before saving.");
 }
 
 async function copyAiSuggestion() {
-  if (!state.aiSuggestion) {
+  const text = els.afterView.value || state.aiSuggestion;
+  if (!text) {
     setStatus("No AI suggestion to copy.", true);
     return;
   }
-  await navigator.clipboard.writeText(els.afterView.value || state.aiSuggestion);
+  await navigator.clipboard.writeText(text);
   setStatus("AI suggestion copied.");
 }
 
@@ -439,30 +345,24 @@ function discardAiSuggestion() {
 
 async function savePost() {
   const path = els.pathInput.value.trim();
-  const content = getEditorValue();
+  const content = els.editorInput.value;
   if (!path || !content.trim()) {
     setStatus("Path and content are required.", true);
     return;
   }
-
   const previousText = els.saveButton.textContent;
   els.saveButton.disabled = true;
   els.saveButton.textContent = "保存中...";
   setStatus("Saving to GitHub...");
-
   try {
     const data = await api("/api/post", {
       method: "PUT",
-      body: JSON.stringify({
-        path,
-        content,
-        sha: state.currentSha,
-        message: `Update ${path.replace(/^source\/_posts\//, "")}`
-      })
+      body: JSON.stringify({ path, content, sha: state.currentSha, message: `Update ${path.replace(/^source\/_posts\//, "")}` })
     });
     state.currentPath = data.path;
     state.currentSha = data.sha;
     hideReview();
+    localStorage.removeItem(getDraftKey());
     setStatus(`Committed. GitHub Actions will deploy: ${data.commit || data.path}`);
     await loadPosts();
   } finally {
@@ -495,9 +395,19 @@ els.copyAiButton.addEventListener("click", bind(copyAiSuggestion));
 els.discardAiButton.addEventListener("click", discardAiSuggestion);
 els.postSearchInput.addEventListener("input", renderPosts);
 els.postSortSelect.addEventListener("change", renderPosts);
+document.querySelectorAll("[data-tool]").forEach((button) => {
+  button.addEventListener("click", () => runTool(button.dataset.tool));
+});
+els.editorInput.addEventListener("input", () => {
+  if (state.aiSuggestion) hideReview();
+  updatePreview();
+  saveDraftSoon();
+});
+els.editorInput.addEventListener("keydown", (event) => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+    event.preventDefault();
+    savePost().catch((error) => setStatus(error.message || String(error), true));
+  }
+});
 
-await setupEditor();
 newPost();
-
-
-
