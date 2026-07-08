@@ -229,7 +229,7 @@ function hideReview() {
   state.aiRange = null;
   els.reviewPanel.hidden = true;
   els.beforeView.textContent = "";
-  els.afterView.textContent = "";
+  els.afterView.value = "";
   els.diffView.innerHTML = "";
   els.diffSummary.textContent = "等待生成";
 }
@@ -296,13 +296,13 @@ function renderDiff(beforeText, afterText, scopeLabel) {
   const added = diff.filter((part) => part.type === "add").length;
   const removed = diff.filter((part) => part.type === "remove").length;
   const changed = added + removed;
-  const display = changed ? compactDiff(diff) : diff;
+  const display = diff;
 
   els.diffSummary.textContent = changed
     ? `${scopeLabel}，新增 ${added} 行，删除 ${removed} 行`
     : `${scopeLabel}，AI 没有改动内容`;
   els.beforeView.textContent = beforeText;
-  els.afterView.textContent = afterText;
+  els.afterView.value = afterText;
   els.diffView.innerHTML = display.map((part) => {
     if (part.type === "skip") {
       return `<div class="diff-line diff-skip"><span class="diff-mark">...</span><code>${escapeHtml(part.text)}</code></div>`;
@@ -416,7 +416,8 @@ function applyAiSuggestion() {
     setStatus("No AI suggestion to apply.", true);
     return;
   }
-  replaceEditorRange(state.aiRange, state.aiSuggestion);
+  const suggestion = els.afterView.value || state.aiSuggestion;
+  replaceEditorRange(state.aiRange, suggestion);
   hideReview();
   updatePreview();
   setStatus("AI changes applied. Review the preview before saving.");
@@ -427,7 +428,7 @@ async function copyAiSuggestion() {
     setStatus("No AI suggestion to copy.", true);
     return;
   }
-  await navigator.clipboard.writeText(state.aiSuggestion);
+  await navigator.clipboard.writeText(els.afterView.value || state.aiSuggestion);
   setStatus("AI suggestion copied.");
 }
 
@@ -497,4 +498,6 @@ els.postSortSelect.addEventListener("change", renderPosts);
 
 await setupEditor();
 newPost();
+
+
 
