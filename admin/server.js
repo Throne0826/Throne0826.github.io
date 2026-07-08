@@ -94,22 +94,35 @@ function base64DecodeUtf8(value) {
 
 async function githubFetch(path, options = {}) {
   const url = `https://api.github.com/repos/${config.githubOwner}/${config.githubRepo}${path}`;
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      accept: "application/vnd.github+json",
-      authorization: `Bearer ${config.githubToken}`,
-      "content-type": "application/json",
-      "x-github-api-version": "2022-11-28",
-      ...(options.headers || {})
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 30000);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        accept: "application/vnd.github+json",
+        authorization: `Bearer ${config.githubToken}`,
+        "content-type": "application/json",
+        "x-github-api-version": "2022-11-28",
+        ...(options.headers || {})
+      }
+    });
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+    if (!response.ok) {
+      throw new Error(data.message || `GitHub request failed: ${response.status}`);
     }
-  });
-  const text = await response.text();
-  const data = text ? JSON.parse(text) : {};
-  if (!response.ok) {
-    throw new Error(data.message || `GitHub request failed: ${response.status}`);
+    return data;
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("GitHub request timed out. Render may be slow or GitHub API is unreachable.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
   }
-  return data;
 }
 
 async function listPosts() {
@@ -301,6 +314,7 @@ createServer(async (req, res) => {
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
 });
+
 
 
 

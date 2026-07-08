@@ -334,14 +334,14 @@ function renderPosts() {
     button.type = "button";
     button.className = `post-item${post.path === state.currentPath ? " active" : ""}`;
     button.textContent = post.name;
-    button.addEventListener("click", () => loadPost(post.path));
+    button.addEventListener("click", bind(() => loadPost(post.path)));
     els.postList.appendChild(button);
   }
 }
 
 async function loadPosts() {
   setStatus("Loading posts...");
-  const data = await api("/api/posts");
+  const data = await api("/api/posts", { timeoutMs: 30000 });
   state.posts = data.posts || [];
   renderPosts();
   setStatus(`Loaded ${state.posts.length} posts`);
@@ -349,7 +349,7 @@ async function loadPosts() {
 
 async function loadPost(path) {
   setStatus("Loading post...");
-  const data = await api(`/api/post?path=${encodeURIComponent(path)}`);
+  const data = await api(`/api/post?path=${encodeURIComponent(path)}`, { timeoutMs: 30000 });
   state.currentPath = data.path;
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
@@ -497,3 +497,4 @@ els.postSortSelect.addEventListener("change", renderPosts);
 
 await setupEditor();
 newPost();
+
