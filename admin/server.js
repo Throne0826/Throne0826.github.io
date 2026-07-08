@@ -167,6 +167,8 @@ function polishPrompt({ mode, markdown }) {
     "2. Preserve Hexo YAML front matter delimiters and fields.",
     "3. Do not remove code blocks or change algorithms, complexity, variable names, formulas, or technical facts.",
     "4. Use natural Chinese punctuation and spacing between Chinese and English text.",
+    "5. Preserve LaTeX math exactly when possible, including $...$, $$...$$, \\( ... \\), \\[ ... \\], \\pmod, \\varphi, and superscripts/subscripts.",
+    "6. Preserve Hexo markers such as <!--more-->.",
     "",
     markdown || ""
   ].join("\n");
@@ -299,6 +301,7 @@ createServer(async (req, res) => {
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
 });
+
 
 
 

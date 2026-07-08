@@ -55,41 +55,40 @@ async function api(path, options = {}) {
   }
 }
 
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
+function markdownBody(markdown) {
+  return markdown.replace(/^---[\s\S]*?---\s*/, "");
 }
 
 function renderMarkdown(markdown) {
-  const withoutFrontMatter = markdown.replace(/^---[\s\S]*?---\s*/, "");
-  const escaped = escapeHtml(withoutFrontMatter);
-  const withCode = escaped.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${code.trim()}</code></pre>`);
-  return withCode
-    .split(/\n{2,}/)
-    .map((block) => {
-      if (block.startsWith("<pre>")) return block;
-      if (/^###\s/.test(block)) return `<h3>${block.replace(/^###\s/, "")}</h3>`;
-      if (/^##\s/.test(block)) return `<h2>${block.replace(/^##\s/, "")}</h2>`;
-      if (/^#\s/.test(block)) return `<h1>${block.replace(/^#\s/, "")}</h1>`;
-      if (/^&gt;\s/.test(block)) return `<blockquote>${block.replace(/^&gt;\s?/gm, "")}</blockquote>`;
-      if (/^[-*]\s/m.test(block)) {
-        const items = block
-          .split("\n")
-          .map((line) => line.replace(/^[-*]\s+/, ""))
-          .map((line) => `<li>${line}</li>`)
-          .join("");
-        return `<ul>${items}</ul>`;
-      }
-      return `<p>${block.replace(/\n/g, "<br>")}</p>`;
-    })
-    .join("\n");
+  const body = markdownBody(markdown);
+  if (window.marked) {
+    window.marked.setOptions({
+      breaks: false,
+      gfm: true,
+      headerIds: false,
+      mangle: false
+    });
+    return window.marked.parse(body);
+  }
+  return body
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replace(/\n/g, "<br>");
 }
+
+let mathRenderTimer = 0;
 
 function updatePreview() {
   els.preview.innerHTML = renderMarkdown(els.editorInput.value);
+  clearTimeout(mathRenderTimer);
+  mathRenderTimer = setTimeout(() => {
+    if (window.MathJax?.typesetPromise) {
+      window.MathJax.typesetPromise([els.preview]).catch((error) => {
+        setStatus(error.message || String(error), true);
+      });
+    }
+  }, 80);
 }
 
 function renderPosts() {
@@ -231,3 +230,4 @@ els.saveButton.addEventListener("click", bind(savePost));
 els.editorInput.addEventListener("input", updatePreview);
 
 newPost();
+
