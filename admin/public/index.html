@@ -39,6 +39,17 @@
         </div>
 
         <button id="newPostButton" class="wide" type="button">新建文章</button>
+
+        <div class="list-tools">
+          <input id="postSearchInput" placeholder="搜索文章">
+          <select id="postSortSelect" title="排序">
+            <option value="name-asc">文件名 A-Z</option>
+            <option value="name-desc">文件名 Z-A</option>
+            <option value="date-desc">日期新到旧</option>
+            <option value="date-asc">日期旧到新</option>
+          </select>
+        </div>
+
         <div id="postList" class="post-list"></div>
       </aside>
 
@@ -68,15 +79,41 @@
             </div>
             <div class="review-actions">
               <button id="applyAiButton" type="button">应用修改</button>
+              <button id="copyAiButton" type="button">复制建议</button>
               <button id="discardAiButton" type="button">丢弃</button>
             </div>
           </div>
-          <div id="diffView" class="diff-view" aria-live="polite"></div>
+          <div class="review-columns">
+            <section>
+              <div class="review-label">原文</div>
+              <pre id="beforeView" class="compare-pane"></pre>
+            </section>
+            <section>
+              <div class="review-label">AI 建议</div>
+              <pre id="afterView" class="compare-pane"></pre>
+            </section>
+            <section>
+              <div class="review-label">差异</div>
+              <div id="diffView" class="diff-view" aria-live="polite"></div>
+            </section>
+          </div>
         </section>
 
         <div class="workspace">
-          <textarea id="editorInput" spellcheck="false"></textarea>
-          <article id="preview" class="preview"></article>
+          <section class="editor-pane">
+            <div class="pane-title">
+              <span>Markdown</span>
+              <span id="editorMeta">0 字</span>
+            </div>
+            <div id="editorHost" class="editor-host"></div>
+          </section>
+          <section class="preview-pane">
+            <div class="pane-title">
+              <span>预览</span>
+              <span>Markdown + LaTeX</span>
+            </div>
+            <article id="preview" class="preview"></article>
+          </section>
         </div>
 
         <footer id="status" class="status">准备就绪</footer>
