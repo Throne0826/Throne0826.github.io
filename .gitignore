@@ -11,3 +11,5 @@ public/
 .deploy*/
 _multiconfig.yml
 sudo
+!.env.example
+!admin/.env.example

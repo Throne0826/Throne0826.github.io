@@ -1,4 +1,4 @@
-import { createServer } from "node:http";
+﻿import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,7 +14,9 @@ const config = {
   githubBranch: process.env.GITHUB_BRANCH || "main",
   githubToken: process.env.GITHUB_TOKEN || "",
   openaiKey: process.env.OPENAI_API_KEY || "",
-  openaiModel: process.env.OPENAI_MODEL || "gpt-4.1-mini"
+  openaiModel: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+  openaiBaseUrl: (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, ""),
+  openaiApiStyle: process.env.OPENAI_API_STYLE || "responses"
 };
 
 const mime = {
@@ -151,25 +153,24 @@ async function savePost({ path, content, sha, message }) {
 
 function polishPrompt({ mode, markdown }) {
   const task = {
-    polish: "润色文字表达，让文章更通顺自然，同时保持作者原意和技术细节不变。",
-    format: "整理 Markdown 格式，包括标题层级、列表、代码块、空行和 front matter，但不要改动技术含义。",
-    title: "根据正文给出更清晰的标题，并同步整理 front matter 中的 title 字段。",
-    summary: "在 front matter 中补充或优化 description/摘要字段，并轻微润色正文。"
-  }[mode || "polish"] || "润色并整理 Markdown 格式。";
+    polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
+    format: "Clean up Markdown formatting, including heading levels, lists, code fences, blank lines, and Hexo front matter, without changing technical meaning.",
+    title: "Improve the title and update the title field in Hexo front matter when appropriate.",
+    summary: "Add or improve a description/summary field in Hexo front matter and lightly polish the article body."
+  }[mode || "polish"] || "Polish and clean up the Markdown article.";
 
   return [
-    "你是一个中文技术博客编辑 agent。",
+    "You are an editor for a Chinese technical blog.",
     task,
-    "要求：",
-    "1. 只输出完整 Markdown，不要解释。",
-    "2. 保留 Hexo front matter 的 YAML 分隔线和字段。",
-    "3. 不要删除代码块，不要改变算法、复杂度、变量名和公式含义。",
-    "4. 中文标点和中英文空格要自然。",
+    "Requirements:",
+    "1. Output only the complete Markdown document. Do not explain your changes.",
+    "2. Preserve Hexo YAML front matter delimiters and fields.",
+    "3. Do not remove code blocks or change algorithms, complexity, variable names, formulas, or technical facts.",
+    "4. Use natural Chinese punctuation and spacing between Chinese and English text.",
     "",
     markdown || ""
   ].join("\n");
 }
-
 function extractOpenAIText(data) {
   if (typeof data.output_text === "string") return data.output_text;
   const parts = [];
@@ -181,28 +182,53 @@ function extractOpenAIText(data) {
   return parts.join("\n").trim();
 }
 
-async function polishMarkdown(body) {
-  if (!config.openaiKey) {
-    throw new Error("OPENAI_API_KEY is not configured on the server.");
-  }
+function extractChatText(data) {
+  return data.choices?.[0]?.message?.content?.trim() || "";
+}
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
+async function callOpenAI(path, payload) {
+  const response = await fetch(`${config.openaiBaseUrl}${path}`, {
     method: "POST",
     headers: {
       authorization: `Bearer ${config.openaiKey}`,
       "content-type": "application/json"
     },
-    body: JSON.stringify({
-      model: config.openaiModel,
-      input: polishPrompt(body)
-    })
+    body: JSON.stringify(payload)
   });
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(data.error?.message || `OpenAI request failed: ${response.status}`);
+    throw new Error(data.error?.message || `OpenAI-compatible request failed: ${response.status}`);
   }
+  return data;
+}
+
+async function polishMarkdown(body) {
+  if (!config.openaiKey) {
+    throw new Error("OPENAI_API_KEY is not configured on the server.");
+  }
+
+  if (config.openaiApiStyle === "chat") {
+    const data = await callOpenAI("/chat/completions", {
+      model: config.openaiModel,
+      messages: [
+        {
+          role: "user",
+          content: polishPrompt(body)
+        }
+      ],
+      temperature: 0.3
+    });
+    const text = extractChatText(data);
+    if (!text) throw new Error("OpenAI-compatible chat API returned an empty response.");
+    return text;
+  }
+
+  const data = await callOpenAI("/responses", {
+    model: config.openaiModel,
+    input: polishPrompt(body)
+  });
   const text = extractOpenAIText(data);
-  if (!text) throw new Error("OpenAI returned an empty response.");
+  if (!text) throw new Error("OpenAI Responses API returned an empty response.");
   return text;
 }
 
@@ -273,3 +299,6 @@ createServer(async (req, res) => {
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
 });
+
+
+
