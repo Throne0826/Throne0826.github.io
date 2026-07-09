@@ -1,11 +1,11 @@
-# Hexo Configuration
+﻿# Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
 title: Throne
 subtitle: ' '
-description: 读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道
+description: 璇讳竴浜涙棤鐢ㄧ殑涔︼紝鍋氫竴浜涙棤鐢ㄧ殑浜嬶紝鑺变竴浜涙棤鐢ㄧ殑鏃堕棿锛岄兘鏄负浜嗗湪涓€鍒囧凡鐭ヤ箣澶栵紝淇濈暀涓€涓秴瓒婅嚜宸辩殑鏈轰細锛屼汉鐢熶腑涓€浜涘緢浜嗕笉璧风殑鍙樺寲锛屽氨鏄潵鑷繖绉嶆椂鍒汇€傗€斺€旀鏂囬亾
 keywords:
 author: Lxy
 language: zh-CN
@@ -43,14 +43,14 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
-syntax_highlighter: 
+syntax_highlighter: highlight.js
 highlight:
-    enable: false
+    enable: true
     line_number: true
     auto_detect: false
     tab_replace: ""
     wrap: true
-    hljs: false
+    hljs: true
 prismjs:
     enable: false
     preprocess: true
@@ -104,7 +104,7 @@ theme: particlex
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repository: https://github.com/Throne0826/Throne0826.github.io.git  #你的仓库地址
+  repository: https://github.com/Throne0826/Throne0826.github.io.git  #浣犵殑浠撳簱鍦板潃
   branch: main
 
 feed:
@@ -121,8 +121,9 @@ search:
   format: html
   limit: 10
 
-# 自动生成sitemap
+# 鑷姩鐢熸垚sitemap
 sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
+
