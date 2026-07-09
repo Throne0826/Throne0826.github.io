@@ -1,20 +1,27 @@
 :root {
   color-scheme: light;
-  --bg: #eef2f5;
+  --bg: #eef3f5;
   --panel: #ffffff;
-  --panel-soft: #f8fafb;
-  --line: #d7dde4;
-  --line-strong: #c4ccd6;
-  --text: #1f2933;
-  --muted: #667482;
-  --muted-strong: #4d5b68;
-  --accent: #176b5f;
-  --accent-strong: #0f4f47;
-  --accent-soft: #e7f3f0;
+  --panel-soft: #f7faf9;
+  --panel-tint: #f0f7f5;
+  --line: #d6dee5;
+  --line-strong: #bac7d2;
+  --text: #182530;
+  --muted: #657483;
+  --muted-strong: #43515f;
+  --accent: #137263;
+  --accent-strong: #0d554b;
+  --accent-soft: #e2f3ee;
+  --blue: #2769c8;
+  --blue-soft: #e8f0ff;
+  --amber: #b76a00;
+  --amber-soft: #fff4dc;
   --danger: #b42318;
   --danger-soft: #fff0ee;
-  --success-soft: #eaf7ef;
-  --shadow: 0 12px 34px rgba(31, 41, 51, 0.08);
+  --success: #23824d;
+  --success-soft: #e8f7ed;
+  --shadow: 0 18px 44px rgba(24, 37, 48, 0.1);
+  --shadow-soft: 0 8px 24px rgba(24, 37, 48, 0.07);
   --radius: 8px;
   font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
 }
@@ -26,8 +33,13 @@
 body {
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0)),
+    radial-gradient(circle at 18% 8%, rgba(39, 105, 200, 0.11), transparent 26rem),
+    radial-gradient(circle at 88% 16%, rgba(19, 114, 99, 0.13), transparent 28rem),
+    linear-gradient(90deg, rgba(24, 37, 48, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(24, 37, 48, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.26)),
     var(--bg);
+  background-size: auto, auto, 32px 32px, 32px 32px, auto, auto;
   color: var(--text);
 }
 
@@ -40,7 +52,7 @@ textarea {
 
 button {
   align-items: center;
-  background: var(--panel);
+  background: linear-gradient(180deg, #fff, #f8fbfb);
   border: 1px solid var(--line);
   border-radius: 7px;
   color: var(--text);
@@ -55,9 +67,9 @@ button {
 }
 
 button:hover {
-  background: #fbfdfd;
+  background: #fff;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(23, 107, 95, 0.1);
+  box-shadow: 0 0 0 3px rgba(19, 114, 99, 0.1), var(--shadow-soft);
 }
 
 button:disabled {
@@ -68,7 +80,7 @@ button:disabled {
 input,
 select,
 textarea {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--line);
   border-radius: 7px;
   color: var(--text);
@@ -85,21 +97,32 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(23, 107, 95, 0.14);
+  box-shadow: 0 0 0 3px rgba(19, 114, 99, 0.14);
   outline: none;
 }
 
 #saveButton,
 #applyAiButton {
-  background: var(--accent);
+  background: linear-gradient(180deg, #1b8473, var(--accent));
   border-color: var(--accent);
   color: #fff;
 }
 
 #saveButton:hover,
 #applyAiButton:hover {
-  background: var(--accent-strong);
+  background: linear-gradient(180deg, #176f62, var(--accent-strong));
   border-color: var(--accent-strong);
+}
+
+#polishButton {
+  background: linear-gradient(180deg, #f5f8ff, var(--blue-soft));
+  border-color: rgba(39, 105, 200, 0.28);
+  color: #1c4f9d;
+}
+
+#polishButton:hover {
+  border-color: rgba(39, 105, 200, 0.54);
+  box-shadow: 0 0 0 3px rgba(39, 105, 200, 0.11), var(--shadow-soft);
 }
 
 .shell {
@@ -109,7 +132,9 @@ textarea:focus {
 }
 
 .sidebar {
-  background: rgba(255, 255, 255, 0.92);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 249, 0.94)),
+    radial-gradient(circle at 10% 0, rgba(19, 114, 99, 0.09), transparent 16rem);
   border-right: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -119,11 +144,28 @@ textarea:focus {
 }
 
 .brand {
-  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(19, 114, 99, 0.12), rgba(39, 105, 200, 0.08)),
+    #fff;
+  border: 1px solid rgba(19, 114, 99, 0.13);
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding-bottom: 16px;
+  padding: 14px;
+  position: relative;
+}
+
+.brand::before {
+  background: linear-gradient(180deg, var(--accent), #2f86d9);
+  border-radius: 999px;
+  content: "";
+  height: 34px;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 5px;
 }
 
 .brand strong {
@@ -138,6 +180,15 @@ textarea:focus {
 .review-header span {
   color: var(--muted);
   font-size: 12px;
+}
+
+.field,
+.actions,
+.list-tools {
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(214, 222, 229, 0.72);
+  border-radius: 9px;
+  padding: 10px;
 }
 
 .field,
@@ -167,12 +218,15 @@ textarea:focus {
 }
 
 .post-list {
+  background: rgba(255, 255, 255, 0.44);
+  border: 1px solid rgba(214, 222, 229, 0.64);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   min-height: 0;
   overflow: auto;
-  padding-right: 2px;
+  padding: 8px;
 }
 
 .post-item {
@@ -188,15 +242,16 @@ textarea:focus {
 }
 
 .post-item:hover {
-  background: var(--panel-soft);
+  background: #fff;
   border-color: var(--line);
-  box-shadow: none;
+  box-shadow: var(--shadow-soft);
 }
 
 .post-item.active {
-  background: var(--accent-soft);
-  border-color: rgba(23, 107, 95, 0.34);
+  background: linear-gradient(135deg, var(--accent-soft), #f4fbff);
+  border-color: rgba(19, 114, 99, 0.34);
   color: var(--accent-strong);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .editor {
@@ -208,7 +263,9 @@ textarea:focus {
 
 .toolbar {
   align-items: end;
-  background: rgba(255, 255, 255, 0.94);
+  background:
+    linear-gradient(90deg, rgba(19, 114, 99, 0.08), rgba(39, 105, 200, 0.06) 48%, rgba(183, 106, 0, 0.08)),
+    rgba(255, 255, 255, 0.94);
   border-bottom: 1px solid var(--line);
   display: grid;
   gap: 14px;
@@ -223,7 +280,7 @@ textarea:focus {
 
 .md-toolbar {
   align-items: center;
-  background: #f8fafb;
+  background: rgba(247, 250, 249, 0.92);
   border-bottom: 1px solid var(--line);
   padding: 9px 20px;
 }
@@ -235,12 +292,31 @@ textarea:focus {
   padding: 6px 10px;
 }
 
+.md-toolbar button:nth-child(1),
+.md-toolbar button:nth-child(2) {
+  background: var(--amber-soft);
+  border-color: rgba(183, 106, 0, 0.2);
+  color: #835000;
+}
+
+.md-toolbar button:nth-child(n + 6):nth-child(-n + 8) {
+  background: var(--blue-soft);
+  border-color: rgba(39, 105, 200, 0.2);
+  color: #2459a6;
+}
+
+.md-toolbar button:nth-child(n + 9) {
+  background: var(--accent-soft);
+  border-color: rgba(19, 114, 99, 0.22);
+  color: var(--accent-strong);
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 0;
-  padding: 14px;
-  gap: 14px;
+  padding: 16px;
+  gap: 16px;
 }
 
 .editor-pane,
@@ -254,11 +330,30 @@ textarea:focus {
   min-height: 0;
   min-width: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.editor-pane::before,
+.preview-pane::before {
+  content: "";
+  height: 3px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.editor-pane::before {
+  background: linear-gradient(90deg, var(--accent), #47a68f);
+}
+
+.preview-pane::before {
+  background: linear-gradient(90deg, var(--blue), #7aa7f8);
 }
 
 .pane-title {
   align-items: center;
-  background: var(--panel-soft);
+  background: linear-gradient(180deg, #fff, var(--panel-soft));
   border-bottom: 1px solid var(--line);
   display: flex;
   font-size: 13px;
@@ -279,14 +374,14 @@ textarea:focus {
   line-height: 1.68;
   min-height: 0;
   outline: none;
-  padding: 20px;
+  padding: 22px 20px 20px;
   resize: none;
   tab-size: 4;
   width: 100%;
 }
 
 .source-editor:focus {
-  box-shadow: inset 0 0 0 2px rgba(23, 107, 95, 0.16);
+  box-shadow: inset 0 0 0 2px rgba(19, 114, 99, 0.16);
 }
 
 .preview {
@@ -313,8 +408,9 @@ textarea:focus {
 }
 
 .preview pre {
-  background: #f6f8fa;
+  background: #f5f8fb;
   border: 1px solid var(--line);
+  border-left: 4px solid var(--blue);
   border-radius: 7px;
   overflow: auto;
   padding: 13px 14px;
@@ -325,14 +421,18 @@ textarea:focus {
 }
 
 .preview blockquote {
-  border-left: 3px solid var(--line-strong);
+  background: var(--amber-soft);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 7px 7px 0;
   color: var(--muted-strong);
   margin-left: 0;
-  padding-left: 14px;
+  padding: 10px 14px;
 }
 
 .status {
-  background: rgba(255, 255, 255, 0.95);
+  background:
+    linear-gradient(90deg, rgba(19, 114, 99, 0.08), transparent 42%),
+    rgba(255, 255, 255, 0.95);
   border-top: 1px solid var(--line);
   color: var(--muted-strong);
   min-height: 38px;
@@ -346,7 +446,7 @@ textarea:focus {
 }
 
 .review-panel {
-  background: #f8fafb;
+  background: linear-gradient(180deg, #f9fbfc, #f3f7f8);
   border-bottom: 1px solid var(--line);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -359,7 +459,9 @@ textarea:focus {
 
 .review-header {
   align-items: center;
-  background: #fff;
+  background:
+    linear-gradient(90deg, rgba(39, 105, 200, 0.07), rgba(19, 114, 99, 0.08)),
+    #fff;
   border-bottom: 1px solid var(--line);
   display: flex;
   gap: 12px;
@@ -400,7 +502,10 @@ textarea:focus {
 
 .compare-pane,
 .diff-view {
-  background: #f8fafc;
+  background:
+    linear-gradient(90deg, rgba(24, 37, 48, 0.025) 1px, transparent 1px),
+    #f8fafc;
+  background-size: 28px 28px;
   font-family: "Cascadia Code", Consolas, monospace;
   font-size: 13px;
   line-height: 1.6;
@@ -450,11 +555,11 @@ textarea:focus {
 
 .diff-add {
   background: var(--success-soft);
-  border-left-color: #2f8f4e;
+  border-left-color: var(--success);
 }
 
 .diff-add .diff-mark {
-  color: #1f7a3a;
+  color: var(--success);
 }
 
 .diff-remove {
