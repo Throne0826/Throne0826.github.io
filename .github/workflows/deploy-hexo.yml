@@ -1,17 +1,9 @@
-﻿name: Deploy Hexo
+name: Deploy Hexo
 
 on:
   push:
     branches:
       - source
-    paths:
-      - source/**
-      - themes/**
-      - scaffolds/**
-      - _config*.yml
-      - package.json
-      - package-lock.json
-      - .github/workflows/deploy-hexo.yml
   workflow_dispatch:
 
 permissions:
