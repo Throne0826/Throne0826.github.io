@@ -49,6 +49,16 @@ function getDraftKey() {
   return `blog-admin-draft:${els.pathInput.value.trim() || "new"}`;
 }
 
+function formatLocalDate(date) {
+  const pad = (value) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function formatLocalTime(date) {
+  const pad = (value) => String(value).padStart(2, "0");
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
 function snapshot() {
   return { text: els.editorInput.value, start: els.editorInput.selectionStart, end: els.editorInput.selectionEnd };
 }
@@ -250,6 +260,14 @@ async function uploadImageFile(file) {
   setStatus(`Image uploaded and inserted: ${result.url}`);
 }
 function runTool(tool) {
+  if (tool === "undo") {
+    undoEdit();
+    return;
+  }
+  if (tool === "redo") {
+    redoEdit();
+    return;
+  }
   const blocks = {
     h2: () => insertAtSelection("## ", "", "小节标题"),
     bold: () => insertAtSelection("**", "**", "加粗文本"),
@@ -343,7 +361,13 @@ async function loadPost(path) {
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
   recordUndo();
-  els.editorInput.value = data.content;
+  const draft = localStorage.getItem(getDraftKey());
+  if (draft && draft !== data.content) {
+    const useDraft = window.confirm("这个浏览器里有未发布的本地草稿。是否恢复草稿？\n\n确定：恢复草稿\n取消：使用 GitHub 上的版本");
+    els.editorInput.value = useDraft ? draft : data.content;
+  } else {
+    els.editorInput.value = data.content;
+  }
   hideReview();
   updatePreview();
   renderPosts();
@@ -356,8 +380,8 @@ function slugifyTitle(title) {
 
 function newPost() {
   const now = new Date();
-  const date = now.toISOString().slice(0, 10);
-  const time = now.toTimeString().slice(0, 8);
+  const date = formatLocalDate(now);
+  const time = formatLocalTime(now);
   const title = "新文章";
   state.currentPath = "";
   state.currentSha = "";
@@ -368,6 +392,20 @@ function newPost() {
   updatePreview();
   renderPosts();
   setStatus("Draft created. The editor is plain Markdown and autosaves locally.");
+}
+
+async function waitForDeployStatus(commitUrl) {
+  for (let attempt = 1; attempt <= 8; attempt += 1) {
+    await new Promise((resolve) => setTimeout(resolve, attempt === 1 ? 5000 : 12000));
+    const data = await api("/api/deploy-status", { timeoutMs: 30000 });
+    const source = data.source;
+    const pages = data.pages;
+    const sourceText = source ? `${source.status}${source.conclusion ? `/${source.conclusion}` : ""}` : "unknown";
+    const pagesText = pages ? `${pages.status}${pages.conclusion ? `/${pages.conclusion}` : ""}` : "unknown";
+    setStatus(`Saved. Deploy status: Hexo ${sourceText}, Pages ${pagesText}. ${commitUrl || ""}`);
+    if (source?.status === "completed" && source.conclusion !== "success") return;
+    if (pages?.status === "completed") return;
+  }
 }
 
 async function polish() {
@@ -445,8 +483,9 @@ async function savePost() {
     state.currentSha = data.sha;
     hideReview();
     localStorage.removeItem(getDraftKey());
-    setStatus(`Committed. GitHub Actions will deploy: ${data.commit || data.path}`);
+    setStatus(`Committed. Waiting for GitHub Pages deploy... ${data.commit || data.path}`);
     await loadPosts();
+    waitForDeployStatus(data.commit).catch((error) => setStatus(error.message || String(error), true));
   } finally {
     els.saveButton.disabled = false;
     els.saveButton.textContent = previousText;

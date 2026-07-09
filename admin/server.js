@@ -27,6 +27,15 @@ const mime = {
   ".svg": "image/svg+xml"
 };
 
+function logApi(req, res, url) {
+  const startedAt = Date.now();
+  const safePath = `${url.pathname}${url.search ? "?..." : ""}`;
+  res.on("finish", () => {
+    const ms = Date.now() - startedAt;
+    console.log(`${new Date().toISOString()} ${req.method} ${safePath} ${res.statusCode} ${ms}ms`);
+  });
+}
+
 function sendJson(res, status, body) {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
@@ -214,6 +223,34 @@ async function uploadImage({ name, type, data }) {
     commit: result.commit?.html_url
   };
 }
+
+async function getDeployStatus() {
+  const data = await githubFetch("/actions/runs?per_page=10");
+  const runs = data.workflow_runs || [];
+  const sourceDeploy = runs.find((run) => run.name === "Deploy Hexo");
+  const pagesDeploy = runs.find((run) => run.name === "pages build and deployment");
+
+  return {
+    source: sourceDeploy ? {
+      title: sourceDeploy.display_title,
+      status: sourceDeploy.status,
+      conclusion: sourceDeploy.conclusion,
+      branch: sourceDeploy.head_branch,
+      sha: sourceDeploy.head_sha,
+      url: sourceDeploy.html_url,
+      updatedAt: sourceDeploy.updated_at
+    } : null,
+    pages: pagesDeploy ? {
+      status: pagesDeploy.status,
+      conclusion: pagesDeploy.conclusion,
+      branch: pagesDeploy.head_branch,
+      sha: pagesDeploy.head_sha,
+      url: pagesDeploy.html_url,
+      updatedAt: pagesDeploy.updated_at
+    } : null
+  };
+}
+
 function polishPrompt({ mode, markdown }) {
   const task = {
     polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
@@ -299,10 +336,16 @@ async function polishMarkdown(body) {
 }
 
 async function handleApi(req, res, url) {
+  logApi(req, res, url);
   if (!requireAdmin(req, res)) return;
   if (url.pathname !== "/api/polish" && !requireGithubConfig(res)) return;
 
   try {
+    if (req.method === "GET" && url.pathname === "/api/deploy-status") {
+      sendJson(res, 200, await getDeployStatus());
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === "/api/posts") {
       sendJson(res, 200, { posts: await listPosts() });
       return;
@@ -370,6 +413,8 @@ createServer(async (req, res) => {
   await serveStatic(req, res, url);
 }).listen(config.port, () => {
   console.log(`Blog admin is running on http://localhost:${config.port}`);
+  console.log(`GitHub target: ${config.githubOwner}/${config.githubRepo || "(missing repo)"}#${config.githubBranch}`);
+  console.log(`OpenAI style: ${config.openaiApiStyle}; model: ${config.openaiModel}; base: ${config.openaiBaseUrl}`);
 });
 
 
