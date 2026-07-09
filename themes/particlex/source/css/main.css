@@ -1074,3 +1074,52 @@ ol li {
     overflow-y: hidden;
     padding: 4px 0;
 }
+
+/* Local fallback syntax colors for generated highlight.js tokens. */
+.content pre.highlight code,
+.content .code-content.hljs {
+  color: #24292f;
+}
+.content .hljs-keyword,
+.content .hljs-selector-tag,
+.content .hljs-subst {
+  color: #cf222e;
+}
+.content .hljs-built_in,
+.content .hljs-type,
+.content .hljs-title.class_,
+.content .hljs-class .hljs-title {
+  color: #953800;
+}
+.content .hljs-title,
+.content .hljs-title.function_,
+.content .hljs-function .hljs-title {
+  color: #8250df;
+}
+.content .hljs-string,
+.content .hljs-attr,
+.content .hljs-symbol,
+.content .hljs-bullet {
+  color: #0a3069;
+}
+.content .hljs-number,
+.content .hljs-literal {
+  color: #0550ae;
+}
+.content .hljs-comment,
+.content .hljs-quote {
+  color: #6e7781;
+  font-style: italic;
+}
+.content .hljs-meta {
+  color: #57606a;
+}
+.content pre.highlight {
+  white-space: pre;
+  overflow-x: auto;
+}
+.content pre.highlight code {
+  display: block;
+  white-space: pre;
+  line-height: 1.75;
+}
