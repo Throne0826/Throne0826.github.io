@@ -1123,3 +1123,29 @@ ol li {
   white-space: pre;
   line-height: 1.75;
 }
+
+/* Keep transformed code blocks readable after the front-end highlighter wraps them. */
+.article .content pre {
+    overflow-x: auto;
+    white-space: pre;
+}
+.article .content pre .code-content,
+.article .content pre .code-content code,
+.article .content pre .hljs-ln,
+.article .content pre .hljs-ln-line {
+    white-space: pre;
+}
+.article .content pre .hljs-ln {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+}
+.article .content pre .hljs-ln td {
+    line-height: 1.85;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+}
+.article .content pre .hljs-ln-code {
+    min-width: 0;
+}
