@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>C++ 题解模板 | Throne</title>
     <meta name="author" content="Lxy" />
-    <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
+    <meta name="description" content="璇讳竴浜涙棤鐢ㄧ殑涔︼紝鍋氫竴浜涙棤鐢ㄧ殑浜嬶紝鑺变竴浜涙棤鐢ㄧ殑鏃堕棿锛岄兘鏄负浜嗗湪涓€鍒囧凡鐭ヤ箣澶栵紝淇濈暀涓€涓秴瓒婅嚜宸辩殑鏈轰細锛屼汉鐢熶腑涓€浜涘緢浜嗕笉璧风殑鍙樺寲锛屽氨鏄潵鑷繖绉嶆椂鍒汇€傗€斺€旀鏂囬亾" />
     <meta name="keywords" content="" />
     <meta
         name="viewport"
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783505449125" />
+<link rel="stylesheet" href="/css/main.css?v=1783566608402" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,14 +190,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/C/" style="color: #00bcd4">
+                <a href="/tags/C/" style="color: #ff7d73">
                     C++
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #ff7d73">
+                <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #03a9f4">
                     题解模板
                 </a>
             </span>
@@ -207,18 +207,17 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="C-题解模板"><a href="#C-题解模板" class="headerlink" title="C++ 题解模板"></a>C++ 题解模板</h1><h2 id="检查结果"><a href="#检查结果" class="headerlink" title="检查结果"></a>检查结果</h2><ul>
+        <h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1>
+<h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2>
+<ul>
 <li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li>
 <li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li>
 <li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li>
 <li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li>
 <li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li>
-<li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。<br>```cpp<br>// code<h1 id="include"><a href="#include" class="headerlink" title="include "></a>include <bits/stdc++.h></h1>using namespace std;</li>
+<li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。</li>
 </ul>
-<p>const int N = 1e5 + 7, M = 998244353;</p>
-<p>void solve() {<br>}</p>
-<p>signed main() {<br>    int T = 1;<br>    while (T—) {<br>        solve();<br>    }<br>    return 0;<br>}<br>```</p>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// code</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (T--) &#123;<br>        <span class="hljs-built_in">solve</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
     </div>
     
     
