@@ -45,25 +45,58 @@
         getLanguageLabel(language) {
             const labels = {
                 cpp: "C++",
+                c: "C",
+                java: "Java",
                 javascript: "JavaScript",
                 typescript: "TypeScript",
                 python: "Python",
                 bash: "Bash",
+                json: "JSON",
+                yaml: "YAML",
+                markdown: "Markdown",
                 plaintext: "Text",
             };
             return labels[language] || language.toUpperCase();
         },
+        getCodeElement(pre) {
+            if (pre.matches(".code-content")) return null;
+            if (pre.querySelector(".code-content")) return null;
+            return pre.querySelector("code") || pre;
+        },
+        detectLanguage(pre, codeElement) {
+            const ignored = new Set([
+                "highlight",
+                "hljs",
+                "code",
+                "code-content",
+                "line-numbers",
+                "table",
+                "gutter",
+            ]);
+            const classes = [
+                ...(codeElement ? [...codeElement.classList] : []),
+                ...[...pre.classList],
+            ].filter(Boolean);
+            const prefixed = classes.find((item) => /^lang(uage)?-/.test(item));
+            if (prefixed) return this.normalizeLanguage(prefixed);
+            const direct = classes.find(
+                (item) => !ignored.has(item) && !item.startsWith("hljs-")
+            );
+            return this.normalizeLanguage(direct || "plaintext");
+        },
         highlight() {
             let codes = document.querySelectorAll("pre");
             for (let i of codes) {
-                let code = i.textContent;
-                let classes = [...i.classList];
-                if (i.firstElementChild) classes.push(...i.firstElementChild.classList);
-                let rawLanguage = classes.find((item) => /^lang(uage)?-/.test(item)) || classes.find((item) => !["highlight", "hljs", "code", "code-content"].includes(item)) || "plaintext";
-                let language = this.normalizeLanguage(rawLanguage);
+                let codeElement = this.getCodeElement(i);
+                if (!codeElement) continue;
+                let code = codeElement.textContent.replace(/\n$/, "");
+                let language = this.detectLanguage(i, codeElement);
                 let highlighted;
+                let alreadyHighlighted = codeElement.innerHTML.includes("hljs-");
                 try {
-                    if (hljs.getLanguage(language)) {
+                    if (alreadyHighlighted) {
+                        highlighted = codeElement.innerHTML;
+                    } else if (hljs.getLanguage(language)) {
                         highlighted = hljs.highlight(code, { language }).value;
                     } else {
                         language = "plaintext";
@@ -82,7 +115,9 @@
                     </div>
                 `;
                 let content = i.querySelector(".code-content");
-                hljs.lineNumbersBlock(content, { singleLine: true });
+                if (typeof hljs.lineNumbersBlock === "function") {
+                    hljs.lineNumbersBlock(content, { singleLine: true });
+                }
                 let copycode = i.querySelector(".copycode");
                 copycode.addEventListener("click", async () => {
                     if (this.copying) return;
@@ -97,5 +132,3 @@
         },
     },
 };
-
-
