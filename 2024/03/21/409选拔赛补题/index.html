@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783566608409" />
+<link rel="stylesheet" href="/css/main.css?v=1783569167706" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,14 +190,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ff7d73">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ffa2c4">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%90%8C%E4%BD%99%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #00bcd4">
+                <a href="/tags/%E5%90%8C%E4%BD%99%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ff7d73">
                     同余最短路
                 </a>
             </span>
@@ -225,7 +225,50 @@
 <p>数位和会增加 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>。因此可以在状态图上跑 BFS。由于 BFS 按位数从小到大扩展，并且每次按数字从小到大转移，所以第一次到达状态 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> 时得到的就是最小答案。</p>
 <p>同时记录每个状态的前驱和追加的数字，最后从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> 倒推即可还原答案。</p>
 <h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs cpp">queue&gt; q;<br>bitset st[N][M];<br><span class="hljs-type">int</span> s, d;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span><br>&#123;<br>    <span class="hljs-type">short</span> x, y, z;<br>&#125; path[N][M];<br>stack stk;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    cin &gt;&gt; s &gt;&gt; d;<br>    st[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>    q.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;);<br>    path[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>&#125;;<br>    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())<br>    &#123;<br>        <span class="hljs-keyword">auto</span> [mod, sum] = q.<span class="hljs-built_in">front</span>();<br>        q.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">9</span>; i++)<br>        &#123;<br>            <span class="hljs-type">int</span> ver = (mod * <span class="hljs-number">10</span> + i) % s, su = sum + i;<br>            <span class="hljs-keyword">if</span> (su &lt;= d &amp;&amp; st[ver][su] == <span class="hljs-number">0</span>)<br>                q.<span class="hljs-built_in">push</span>(&#123;ver, su&#125;), st[ver][su] = <span class="hljs-number">1</span>, path[ver][su] = &#123;mod, sum, i&#125;;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (st[<span class="hljs-number">0</span>][d] == <span class="hljs-number">0</span>)<br>    &#123;<br>        cout &lt;&lt; <span class="hljs-number">-1</span> &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    s = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (path[s][d].x != <span class="hljs-number">-1</span>)<br>    &#123;<br>        <span class="hljs-keyword">auto</span> [x, y, z] = path[s][d];<br>        stk.<span class="hljs-built_in">push</span>(z);<br>        s = x, d = y;<br>    &#125;<br>    <span class="hljs-keyword">while</span> (stk.<span class="hljs-built_in">size</span>())<br>    &#123;<br>        cout &lt;&lt; stk.<span class="hljs-built_in">top</span>();<br>        stk.<span class="hljs-built_in">pop</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="highlight"><code class="cpp">queue&gt; q;
+bitset st[N][M];
+<span class="hljs-type">int</span> s, d;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>
+&#123;
+    <span class="hljs-type">short</span> x, y, z;
+&#125; path[N][M];
+stack stk;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; s &gt;&gt; d;
+    st[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    q.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;);
+    path[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>&#125;;
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-keyword">auto</span> [mod, sum] = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">9</span>; i++)
+        &#123;
+            <span class="hljs-type">int</span> ver = (mod * <span class="hljs-number">10</span> + i) % s, su = sum + i;
+            <span class="hljs-keyword">if</span> (su &lt;= d &amp;&amp; st[ver][su] == <span class="hljs-number">0</span>)
+                q.<span class="hljs-built_in">push</span>(&#123;ver, su&#125;), st[ver][su] = <span class="hljs-number">1</span>, path[ver][su] = &#123;mod, sum, i&#125;;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span> (st[<span class="hljs-number">0</span>][d] == <span class="hljs-number">0</span>)
+    &#123;
+        cout &lt;&lt; <span class="hljs-number">-1</span> &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        <span class="hljs-keyword">return</span>;
+    &#125;
+    s = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (path[s][d].x != <span class="hljs-number">-1</span>)
+    &#123;
+        <span class="hljs-keyword">auto</span> [x, y, z] = path[s][d];
+        stk.<span class="hljs-built_in">push</span>(z);
+        s = x, d = y;
+    &#125;
+    <span class="hljs-keyword">while</span> (stk.<span class="hljs-built_in">size</span>())
+    &#123;
+        cout &lt;&lt; stk.<span class="hljs-built_in">top</span>();
+        stk.<span class="hljs-built_in">pop</span>();
+    &#125;
+&#125;
+</code></pre>
 
     </div>
     

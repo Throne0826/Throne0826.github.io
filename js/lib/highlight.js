@@ -59,7 +59,7 @@ mixins.highlight = {
                 let code = i.textContent;
                 let classes = [...i.classList];
                 if (i.firstElementChild) classes.push(...i.firstElementChild.classList);
-                let rawLanguage = classes.find((item) => /^lang(uage)?-/.test(item)) || classes[0] || "plaintext";
+                let rawLanguage = classes.find((item) => /^lang(uage)?-/.test(item)) || classes.find((item) => !["highlight", "hljs", "code", "code-content"].includes(item)) || "plaintext";
                 let language = this.normalizeLanguage(rawLanguage);
                 let highlighted;
                 try {
@@ -97,4 +97,5 @@ mixins.highlight = {
         },
     },
 };
+
 

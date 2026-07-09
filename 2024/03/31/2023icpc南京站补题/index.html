@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783566608407" />
+<link rel="stylesheet" href="/css/main.css?v=1783569167704" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,14 +190,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00bcd4">
+                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">
                     图论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #03a9f4">
+                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #00bcd4">
                     最小环
                 </a>
             </span>
@@ -211,7 +211,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Dijkstra/" style="color: #03a9f4">
+                <a href="/tags/Dijkstra/" style="color: #00bcd4">
                     Dijkstra
                 </a>
             </span>
@@ -225,7 +225,66 @@
 <p>建图后，可以枚举每个点作为起点跑 Dijkstra。如果最短路过程中再次回到起点，就得到经过该点的一个最小环候选值；再结合题目给定的阈值判断答案。</p>
 <span id="more"></span>
 <h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2010</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;<br><br>vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt; e[N];<br><span class="hljs-type">int</span> n, m, c, minn, dist[N];<br><span class="hljs-type">bool</span> st[N];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>&#123;<br>    minn = INF;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        dist[i] = INF;<br>        st[i] = <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    priority_queue&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;, vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;, greater&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;&gt; q;<br>    dist[u] = <span class="hljs-number">0</span>;<br>    q.<span class="hljs-built_in">push</span>(&#123;dist[u], u&#125;);<br><br>    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">empty</span>()) &#123;<br>        <span class="hljs-keyword">auto</span> [dis, ver] = q.<span class="hljs-built_in">top</span>();<br>        q.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">if</span> (st[ver]) <span class="hljs-keyword">continue</span>;<br>        st[ver] = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> [v, w] : e[ver]) &#123;<br>            <span class="hljs-keyword">if</span> (v == u) minn = <span class="hljs-built_in">min</span>(minn, dis + w);<br>            <span class="hljs-keyword">if</span> (st[v]) <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">if</span> (dist[v] &gt; dis + w) &#123;<br>                dist[v] = dis + w;<br>                q.<span class="hljs-built_in">push</span>(&#123;dist[v], v&#125;);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;<br>    cin &gt;&gt; n &gt;&gt; m &gt;&gt; c;<br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;<br>        <span class="hljs-type">int</span> u, v, z;<br>        cin &gt;&gt; u &gt;&gt; v &gt;&gt; z;<br>        e[u].<span class="hljs-built_in">push_back</span>(&#123;v, z&#125;);<br>        <span class="hljs-keyword">if</span> (z &lt;= c) ans = <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        <span class="hljs-built_in">Dijkstra</span>(i);<br>        <span class="hljs-keyword">if</span> (minn &lt;= c) &#123;<br>            ans = <span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="highlight"><code class="cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2010</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
+
+vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt; e[N];
+<span class="hljs-type">int</span> n, m, c, minn, dist[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>&#123;
+    minn = INF;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;
+        dist[i] = INF;
+        st[i] = <span class="hljs-literal">false</span>;
+    &#125;
+
+    priority_queue&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;, vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;, greater&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;&gt; q;
+    dist[u] = <span class="hljs-number">0</span>;
+    q.<span class="hljs-built_in">push</span>(&#123;dist[u], u&#125;);
+
+    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">empty</span>()) &#123;
+        <span class="hljs-keyword">auto</span> [dis, ver] = q.<span class="hljs-built_in">top</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-keyword">if</span> (st[ver]) <span class="hljs-keyword">continue</span>;
+        st[ver] = <span class="hljs-literal">true</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> [v, w] : e[ver]) &#123;
+            <span class="hljs-keyword">if</span> (v == u) minn = <span class="hljs-built_in">min</span>(minn, dis + w);
+            <span class="hljs-keyword">if</span> (st[v]) <span class="hljs-keyword">continue</span>;
+            <span class="hljs-keyword">if</span> (dist[v] &gt; dis + w) &#123;
+                dist[v] = dis + w;
+                q.<span class="hljs-built_in">push</span>(&#123;dist[v], v&#125;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; c;
+    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;
+        <span class="hljs-type">int</span> u, v, z;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; z;
+        e[u].<span class="hljs-built_in">push_back</span>(&#123;v, z&#125;);
+        <span class="hljs-keyword">if</span> (z &lt;= c) ans = <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;
+        <span class="hljs-built_in">Dijkstra</span>(i);
+        <span class="hljs-keyword">if</span> (minn &lt;= c) &#123;
+            ans = <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+
+    cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+&#125;
+</code></pre>
 
     </div>
     
