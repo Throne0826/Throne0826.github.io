@@ -1149,3 +1149,47 @@ ol li {
 .article .content pre .hljs-ln-code {
     min-width: 0;
 }
+
+/* Stable article code block rendering. */
+.article .content pre.code-block,
+.article .content pre.highlight {
+    background: #f6f8fa;
+    border: 1px solid #d8dee8;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin: 18px 0 22px;
+    overflow: hidden;
+    padding: 0;
+    white-space: normal;
+}
+.article .content pre.code-block .code-content,
+.article .content pre.highlight .code-content {
+    background: #f6f8fa !important;
+    box-sizing: border-box;
+    color: #24292f;
+    display: block;
+    font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.75;
+    margin: 0;
+    overflow-x: auto;
+    padding: 52px 22px 20px;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+}
+.article .content pre.code-block .language,
+.article .content pre.highlight .language {
+    border-radius: 8px 8px 0 0;
+    left: 0;
+    top: 0;
+}
+.article .content pre.code-block .copycode,
+.article .content pre.highlight .copycode {
+    border: 0;
+    font: inherit;
+}
+.article .content pre.code-block .hljs-ln,
+.article .content pre.highlight .hljs-ln {
+    width: auto;
+}

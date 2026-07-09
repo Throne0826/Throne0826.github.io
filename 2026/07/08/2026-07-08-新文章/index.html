@@ -32,7 +32,7 @@
     rel="stylesheet"
     href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
 />
-<script src="/js/lib/highlight.js?v=1783578261157"></script>
+<script src="/js/lib/highlight.js?v=1783578895431"></script>
 
 
 <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1783578261157" />
+<link rel="stylesheet" href="/css/main.css?v=1783578895431" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -190,14 +190,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/C/" style="color: #00bcd4">
+                <a href="/tags/C/" style="color: #03a9f4">
                     C++
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #00a596">
+                <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #ffa2c4">
                     题解模板
                 </a>
             </span>
@@ -207,17 +207,33 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="C-题解模板"><a href="#C-题解模板" class="headerlink" title="C++ 题解模板"></a>C++ 题解模板</h1><h2 id="检查结果"><a href="#检查结果" class="headerlink" title="检查结果"></a>检查结果</h2><ul>
+        <h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1>
+<h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2>
+<ul>
 <li>Markdown 代码围栏语法正确，已保留 <code>cpp</code> 语言标识。</li>
 <li>Front matter 的 Hexo YAML 分隔符和字段已保留。</li>
 <li>原 <code>tags</code> 和 <code>categories</code> 存在空列表项，可能导致 Hexo 生成空标签或空分类；已补充为有效值。</li>
 <li>未发现 LaTeX 公式内容；<code>mathjax: true</code> 保留不变。</li>
 <li>标题层级基本合理，已在正文顶部添加 <code>## 检查结果</code>。</li>
-<li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。<br>```cpp<br>// code<h1 id="include"><a href="#include" class="headerlink" title="include "></a>include <bits/stdc++.h></h1>using namespace std;</li>
+<li>代码块中的算法、复杂度、变量名和技术含义未改变，仅调整了常规 C++ 代码格式与缩进。</li>
 </ul>
-<p>const int N = 1e5 + 7, M = 998244353;</p>
-<p>void solve() {<br>}</p>
-<p>signed main() {<br>    int T = 1;<br>    while (T—) {<br>        solve();<br>    }<br>    return 0;<br>}<br>```</p>
+<pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (T--) &#123;
+        <span class="hljs-built_in">solve</span>();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
 
     </div>
     

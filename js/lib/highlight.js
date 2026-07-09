@@ -24,6 +24,7 @@ mixins.highlight = {
         },
         normalizeLanguage(value) {
             const raw = (value || "")
+                .trim()
                 .toLowerCase()
                 .replace(/^language-/, "")
                 .replace(/^lang-/, "");
@@ -59,8 +60,7 @@ mixins.highlight = {
             return labels[language] || language.toUpperCase();
         },
         getCodeElement(pre) {
-            if (pre.matches(".code-content")) return null;
-            if (pre.querySelector(".code-content")) return null;
+            if (pre.dataset.highlightReady === "true") return null;
             return pre.querySelector("code") || pre;
         },
         detectLanguage(pre, codeElement) {
@@ -85,40 +85,35 @@ mixins.highlight = {
             return this.normalizeLanguage(direct || "plaintext");
         },
         highlight() {
-            let codes = document.querySelectorAll("pre");
-            for (let i of codes) {
-                let codeElement = this.getCodeElement(i);
+            let codes = document.querySelectorAll(".article .content pre");
+            for (let pre of codes) {
+                let codeElement = this.getCodeElement(pre);
                 if (!codeElement) continue;
+
                 let code = codeElement.textContent.replace(/\n$/, "");
-                let language = this.detectLanguage(i, codeElement);
+                let language = this.detectLanguage(pre, codeElement);
                 let highlighted;
                 let alreadyHighlighted = codeElement.innerHTML.includes("hljs-");
+
                 try {
                     if (alreadyHighlighted) {
-                        highlighted = codeElement.innerHTML;
+                        highlighted = codeElement.innerHTML.replace(/\n$/, "");
                     } else if (hljs.getLanguage(language)) {
                         highlighted = hljs.highlight(code, { language }).value;
-                    } else {
-                        language = "plaintext";
+                    } else if (language === "plaintext") {
                         highlighted = this.escapeHTML(code);
+                    } else {
+                        highlighted = hljs.highlightAuto(code).value || this.escapeHTML(code);
                     }
                 } catch {
-                    language = "plaintext";
                     highlighted = this.escapeHTML(code);
                 }
-                i.innerHTML = `
-                    <div class="code-content hljs">${highlighted}</div>
-                    <div class="language">${this.getLanguageLabel(language)}</div>
-                    <div class="copycode" title="复制代码">
-                        <i class="fa-solid fa-copy fa-fw"></i>
-                        <i class="fa-solid fa-check fa-fw"></i>
-                    </div>
-                `;
-                let content = i.querySelector(".code-content");
-                if (typeof hljs.lineNumbersBlock === "function") {
-                    hljs.lineNumbersBlock(content, { singleLine: true });
-                }
-                let copycode = i.querySelector(".copycode");
+
+                pre.dataset.highlightReady = "true";
+                pre.classList.add("code-block");
+                pre.innerHTML = `<code class="code-content hljs language-${language}">${highlighted}</code><span class="language">${this.getLanguageLabel(language)}</span><button class="copycode" type="button" title="复制代码" aria-label="复制代码"><i class="fa-solid fa-copy fa-fw"></i><i class="fa-solid fa-check fa-fw"></i></button>`;
+
+                let copycode = pre.querySelector(".copycode");
                 copycode.addEventListener("click", async () => {
                     if (this.copying) return;
                     this.copying = true;
