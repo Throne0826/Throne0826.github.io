@@ -124,7 +124,8 @@ async function api(path, options = {}) {
     if (!response.ok) throw new Error(data.error || `Request failed: ${response.status}`);
     return data;
   } catch (error) {
-    if (error.name === "AbortError") throw new Error("Request timed out. Check Render logs or retry later.");
+    if (error.name === "AbortError") throw new Error("请求超时。AI 处理长文时容易超过后台等待时间，建议先选中一段文字再处理。");
+    if (error instanceof TypeError) throw new Error("网络请求失败。可能是 Render 后台正在重启、AI 接口超时，或浏览器到后台的连接被中断。请稍后重试，长文建议选中一段处理。");
     throw error;
   } finally {
     clearTimeout(timer);
@@ -411,16 +412,20 @@ async function waitForDeployStatus(commitUrl) {
 async function polish() {
   const fullText = els.editorInput.value.trim();
   if (!fullText) {
-    setStatus("Current post is empty.", true);
+    setStatus("当前文章是空的。", true);
     return;
   }
   const selection = getSelection();
   const hasSelection = selection.text.trim().length > 0;
   const targetText = hasSelection ? selection.text : fullText;
+  if (!hasSelection && targetText.length > 12000) {
+    setStatus(`整篇文章约 ${targetText.length} 字符，AI 处理容易超时。请先选中要润色/检查的一小段再点 AI 处理。`, true);
+    return;
+  }
   const previousText = els.polishButton.textContent;
   els.polishButton.disabled = true;
   els.polishButton.textContent = "处理中...";
-  setStatus(hasSelection ? "AI is processing selected text..." : "AI is processing the whole post...");
+  setStatus(hasSelection ? "AI 正在处理选中文本..." : "AI 正在处理整篇文章...");
   try {
     const data = await api("/api/polish", {
       method: "POST",
@@ -431,7 +436,7 @@ async function polish() {
     state.aiSuggestion = data.content || "";
     state.aiRange = hasSelection ? { from: selection.from, to: selection.to } : null;
     renderDiff(state.aiOriginal, state.aiSuggestion, hasSelection ? "选中文本" : "整篇文章");
-    setStatus("AI suggestion is ready. You can edit the suggestion before applying it.");
+    setStatus("AI 建议已生成。你可以先修改建议内容，再应用到正文。");
   } finally {
     els.polishButton.disabled = false;
     els.polishButton.textContent = previousText;

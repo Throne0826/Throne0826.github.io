@@ -290,19 +290,32 @@ function extractChatText(data) {
 }
 
 async function callOpenAI(path, payload) {
-  const response = await fetch(`${config.openaiBaseUrl}${path}`, {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${config.openaiKey}`,
-      "content-type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(data.error?.message || `OpenAI-compatible request failed: ${response.status}`);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 85000);
+
+  try {
+    const response = await fetch(`${config.openaiBaseUrl}${path}`, {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        authorization: `Bearer ${config.openaiKey}`,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error?.message || `OpenAI-compatible request failed: ${response.status}`);
+    }
+    return data;
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("AI request timed out after 85 seconds. Try selecting a shorter section, or use a faster model/API route.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
   }
-  return data;
 }
 
 async function polishMarkdown(body) {
