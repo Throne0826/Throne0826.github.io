@@ -32,7 +32,7 @@
     rel="stylesheet"
     href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
 />
-<script src="/js/lib/highlight.js?v=1783590208219"></script>
+<script src="/js/lib/highlight.js?v=1783649681112"></script>
 
 
 <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -49,7 +49,7 @@
 
 <script src="/js/lib/home.js"></script>
 
-<link rel="stylesheet" href="/css/main.css?v=1783590208219" />
+<link rel="stylesheet" href="/css/main.css?v=1783649681112" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -187,6 +187,277 @@
         
 
 <div class="post">
+    <a href="/2026/07/09/2026-07-09ClaudeScience%E7%AC%94%E8%AE%B0/">
+        <h2 class="post-title">新文章</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/7/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="claudescience笔记"><a class="markdownIt-Anchor" href="#claudescience笔记"></a> ClaudeScience笔记</h1>
+<p>它的核心组成是：</p>
+<p>Claude 模型</p>
+<ul>
+<li>agent 调度能力</li>
+<li>本地代码执行环境</li>
+<li>科学数据库/工具连接</li>
+<li>远程算力连接</li>
+<li>结果可追溯系统</li>
+<li>权限/隐私控制<br />
+一个能帮科研人员完成一整条工作流的系统。</li>
+</ul>
+<p>第 2 步：产品壳，Project / Session / Workspace第 2 步：产品壳，Project / Session / Workspace</p>
+<p>Project<br />
+├── Sessions<br />
+├── Artifacts<br />
+├── Project instructions<br />
+├── Permissions<br />
+├── Connected folders / files<br />
+└── 可能还有 memory / specialists / settings</p>
+<p>其中最核心的是session：<br />
+Session 是“干活的过程”<br />
+一次对话<br />
+一次分析链<br />
+一次任务执行记录<br />
+一次 workspace<br />
+Workspace = 这条工作链的本地工作目录。</p>
+<p>一个project就是一个项目  ，一个项目中会有很多 session（对话和记录/推理链），一个 session中对应有一个workspace（存放）</p>
+<p>完整链路合起来是这样<br />
+第 1 步：Coordinating Agent 先理解任务</p>
+<p>总协调 agent 会先判断这个任务包含什么：</p>
+<p>这是单细胞分析任务<br />
+需要读本地数据<br />
+需要 Python 或 R 环境<br />
+可能要用 scanpy / Seurat<br />
+需要做 QC、聚类、T 细胞筛选、差异分析<br />
+最后要生成 artifact：UMAP 图、marker gene 表、分析报告</p>
+<p>它可能先给一个 plan：</p>
+<p>计划：</p>
+<ol>
+<li>读取 h5ad / mtx 数据</li>
+<li>检查 metadata 里 treatment/control 分组</li>
+<li>做 QC</li>
+<li>标准化和降维</li>
+<li>聚类并识别 T 细胞</li>
+<li>比较治疗组和对照组 T 细胞状态</li>
+<li>生成 UMAP 图和 marker gene 表</li>
+<li>保存 artifact</li>
+<li>运行 reviewer 检查结论</li>
+</ol>
+<p>然后它会问权限：</p>
+<p>是否允许读取 D:/lab/lung_cancer_scRNA/？<br />
+是否允许在本 session workspace 中写入分析文件？<br />
+是否允许运行 Python 代码？</p>
+<p>这就是 coordinating agent 在调度。</p>
+<p>———</p>
+<p>第 2 步：Delegation 拆任务</p>
+<p>如果任务复杂，它可能把任务拆成几条 track：</p>
+<p>Track A：数据读取和 QC<br />
+Track B：细胞类型注释<br />
+Track C：治疗组 vs 对照组差异分析<br />
+Track D：图表和报告生成</p>
+<p>每条 track 做不同事情。</p>
+<p>比如：</p>
+<p>Track A：</p>
+<ul>
+<li>读 h5ad</li>
+<li>检查细胞数、基因数、线粒体比例</li>
+<li>输出 QC summary</li>
+</ul>
+<p>Track B：</p>
+<ul>
+<li>聚类</li>
+<li>根据 marker gene 标注 T cell / B cell / myeloid</li>
+<li>筛出 T cell</li>
+</ul>
+<p>Track C：</p>
+<ul>
+<li>对 T cell 做 treatment vs control 比较</li>
+<li>找 exhausted T cell markers</li>
+<li>输出差异基因表</li>
+</ul>
+<p>Track D：</p>
+<ul>
+<li>生成 UMAP</li>
+<li>生成 marker gene heatmap</li>
+<li>写一段汇报解释</li>
+</ul>
+<p>Delegation 的价值是：</p>
+<p>不是一个人按顺序慢慢做，而是把任务并行拆开。</p>
+<p>———</p>
+<p>第 3 步：Specialist Agents 介入</p>
+<p>这时候 coordinating agent 可能会叫一个：</p>
+<p>single-cell specialist</p>
+<p>这个 specialist 的作用不是“另一个聊天机器人随便说”，而是带有单细胞分析 SOP。</p>
+<p>它会更偏向这样做：</p>
+<ol>
+<li>检查每个细胞的 gene count</li>
+<li>检查 mitochondrial percentage</li>
+<li>过滤低质量细胞</li>
+<li>normalize</li>
+<li>log transform</li>
+<li>找 highly variable genes</li>
+<li>PCA</li>
+<li>neighbors</li>
+<li>UMAP</li>
+<li>Leiden clustering</li>
+<li>marker gene annotation</li>
+<li>treatment/control comparison</li>
+</ol>
+<p>如果是普通模型，可能会漏步骤。<br />
+Specialist 的价值是：</p>
+<p>让任务按领域规范走，而不是临时发挥。</p>
+<p>———</p>
+<p>第 4 步：Tools / 本地执行开始干活</p>
+<p>接下来真正执行。</p>
+<p>Claude Science 会在这个 Session 的 Workspace 里写代码，比如：</p>
+<p>workspace/<br />
+├── load_data.py<br />
+├── qc_analysis.py<br />
+├── cluster_cells.py<br />
+├── tcell_analysis.py<br />
+├── figures/<br />
+│   ├── umap_treatment_control.png<br />
+│   └── tcell_markers_heatmap.png<br />
+└── outputs/<br />
+├── marker_genes.csv<br />
+└── qc_summary.csv</p>
+<p>然后它会在本机 Python kernel 里跑：</p>
+<p>import scanpy as sc</p>
+<p>adata = sc.read_h5ad(“input/lung_cancer.h5ad”)<br />
+sc.pp.filter_cells(adata, min_genes=200)<br />
+sc.pp.normalize_total(adata)<br />
+sc.pp.log1p(adata)<br />
+sc.pp.highly_variable_genes(adata)<br />
+sc.tl.pca(adata)<br />
+sc.pp.neighbors(adata)<br />
+sc.tl.umap(adata)<br />
+sc.tl.leiden(adata)</p>
+<p>这里它已经不是聊天了，而是在实际执行代码。</p>
+<p>———</p>
+<p>第 5 步：如果需要查外部知识，调用 connector</p>
+<p>比如它要确认 T 细胞 marker gene：</p>
+<p>CD3D<br />
+CD3E<br />
+TRAC<br />
+PDCD1<br />
+CTLA4<br />
+LAG3<br />
+HAVCR2<br />
+GZMB<br />
+IFNG</p>
+<p>它可能会调用公共数据库 connector：</p>
+<p>UniProt<br />
+Reactome<br />
+OpenAlex / PubMed<br />
+其他生命科学数据库</p>
+<p>用途是：</p>
+<p>确认 marker gene 含义<br />
+补充 pathway 解释<br />
+查 exhaustion markers 的文献依据</p>
+<p>也就是说：</p>
+<p>本地数据分析 + 外部知识查询</p>
+<p>结合起来。</p>
+<p>———</p>
+<p>第 6 步：生成 Artifacts</p>
+<p>跑完以后，它不会只说“分析完成”。</p>
+<p>它会保存几个正式结果对象：</p>
+<p>Artifact 1：UMAP 图<br />
+Artifact 2：T cell marker gene 表<br />
+Artifact 3：QC summary 表<br />
+Artifact 4：简短分析报告</p>
+<p>这些 artifact 和普通文件的区别是：</p>
+<p>可以直接查看<br />
+有版本<br />
+知道是哪些代码生成的<br />
+知道运行环境<br />
+知道执行日志<br />
+可以被 reviewer 检查</p>
+<p>比如 UMAP 图的 provenance 里可能有：</p>
+<p>生成它的用户请求<br />
+生成它的 Python 代码<br />
+运行日志<br />
+scanpy 版本<br />
+输入数据路径<br />
+生成时间<br />
+reviewer 检查结果</p>
+<p>———</p>
+<p>第 7 步：Reviewer 检查</p>
+<p>最后 reviewer 来检查 Claude 的结论。</p>
+<p>Claude 可能写：</p>
+<p>治疗组 T 细胞显示更强的 exhaustion 特征，<br />
+PDCD1、CTLA4、LAG3 在治疗组中上调。</p>
+<p>Reviewer 会看：</p>
+<p>代码是否真的做了 treatment vs control？<br />
+metadata 里是否真的有 treatment/control？<br />
+PDCD1、CTLA4、LAG3 是否真的上调？<br />
+p 值和 logFC 是否支持？<br />
+图表是否对应正确分组？<br />
+有没有代码报错？</p>
+<p>如果发现问题，它可能指出：</p>
+<p>Warning:<br />
+结论中说 LAG3 显著上调，但 marker_genes.csv 中 adjusted p-value = 0.12，<br />
+不应称为显著上调。</p>
+<p>这时候 Claude 应该改成：</p>
+<p>PDCD1 和 CTLA4 在治疗组显著上调；<br />
+LAG3 有上调趋势，但未达到显著性。</p>
+<p>这就是 reviewer 的价值。<br />
+————---------------------------<br />
+用户：<br />
+帮我分析肺癌单细胞数据</p>
+<p>↓<br />
+Coordinating Agent：<br />
+理解任务，制定计划，请求权限</p>
+<p>↓<br />
+Delegation：<br />
+如果任务复杂，它可能把任务拆成几条 track：<br />
+（把可上一层给他的可认为并发的任务拆出来）<br />
+拆成 QC、注释、差异分析、图表报告几条线</p>
+<p>↓<br />
+Specialist Agent：<br />
+↓<br />
+Specialist Agents 介入</p>
+<p>这时候 coordinating agent 可能会叫一个：<br />
+如果是普通模型，可能会漏步骤。<br />
+Specialist 的价值是：</p>
+<p>让任务按领域规范走，而不是临时发挥。<br />
+Tools / Runtime：<br />
+在本地 workspace 里写 Python/R，跑 scanpy/Seurat</p>
+<p>↓<br />
+Connectors：<br />
+必要时查 marker gene、pathway、文献数据库</p>
+<p>↓<br />
+Artifacts：<br />
+保存 UMAP 图、marker 表、QC 报告、分析报告</p>
+<p>↓<br />
+Reviewer：<br />
+检查文字结论是否被代码、表格、图表和执行日志支持</p>
+<p>↓<br />
+用户：<br />
+查看结果、要求改图、继续追问</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2026/07/09/2026-07-09ClaudeScience%E7%AC%94%E8%AE%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2026/07/08/2026-07-08-%E6%96%B0%E6%96%87%E7%AB%A0/">
         <h2 class="post-title">C++ 题解模板</h2>
     </a>
@@ -246,12 +517,12 @@
         
         <span class="tag">
             
-            <a href="/tags/C/" style="color: #03a9f4">C++</a>
+            <a href="/tags/C/" style="color: #ff7d73">C++</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #00a596">题解模板</a>
+            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #03a9f4">题解模板</a>
         </span>
         
     </div>
@@ -400,17 +671,17 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #ffa2c4">期望</a>
+            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #03a9f4">期望</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #00a596">概率论</a>
+            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #ffa2c4">概率论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #00bcd4">根号思想</a>
+            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #ff7d73">根号思想</a>
         </span>
         
     </div>
@@ -489,17 +760,17 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #03a9f4">数论</a>
+            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #00bcd4">数论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="color: #00a596">欧拉定理</a>
+            <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="color: #03a9f4">欧拉定理</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #ff7d73">费马小定理</a>
+            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #ffa2c4">费马小定理</a>
         </span>
         
     </div>
@@ -547,22 +818,22 @@
         
         <span class="tag">
             
-            <a href="/tags/dfs/" style="color: #00a596">dfs</a>
+            <a href="/tags/dfs/" style="color: #ffa2c4">dfs</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ffa2c4">强连通分量</a>
+            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #00a596">强连通分量</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/tarjan/" style="color: #00bcd4">tarjan</a>
+            <a href="/tags/tarjan/" style="color: #ffa2c4">tarjan</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ff7d73">拓扑</a>
+            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #03a9f4">拓扑</a>
         </span>
         
     </div>
@@ -610,17 +881,17 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00a596">图论</a>
+            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00bcd4">图论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%91%E8%AE%BA/" style="color: #03a9f4">树论</a>
+            <a href="/tags/%E6%A0%91%E8%AE%BA/" style="color: #00a596">树论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/LCA/" style="color: #00a596">LCA</a>
+            <a href="/tags/LCA/" style="color: #ffa2c4">LCA</a>
         </span>
         
         <span class="tag">
@@ -630,7 +901,7 @@
         
         <span class="tag">
             
-            <a href="/tags/st%E8%A1%A8/" style="color: #ff7d73">st表</a>
+            <a href="/tags/st%E8%A1%A8/" style="color: #ffa2c4">st表</a>
         </span>
         
         <span class="tag">
@@ -640,74 +911,26 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #00a596">并查集</a>
+            <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #ffa2c4">并查集</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #ff7d73">线段树</a>
+            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #00a596">线段树</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/dfs/" style="color: #00a596">dfs</a>
+            <a href="/tags/dfs/" style="color: #03a9f4">dfs</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/bfs/" style="color: #ff7d73">bfs</a>
+            <a href="/tags/bfs/" style="color: #00bcd4">bfs</a>
         </span>
         
     </div>
     <a href="/2024/05/26/lca%E4%B8%8E%E6%A0%91%E4%B8%8A%EF%BC%88%E8%B7%AF%E5%BE%84%E4%BA%A4%E3%80%81%E5%B9%B6%EF%BC%8C%E7%9B%B4%E5%BE%84%EF%BC%89%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/">
-        <h2 class="post-title">2023 Hubei Provincial Collegiate Programming Contest</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E8%A1%A5%E9%A2%98/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                补题
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p><a target="_blank" rel="noopener" href="https://codeforces.com/gym/104337/problem/I">Problem I - Step</a></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="color: #ff7d73">扩展欧几里得</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -719,6 +942,10 @@
         2
     </a>
     
+    
+    <a class="page-num" href="/page/3">
+        3
+    </a>
     
     
     
