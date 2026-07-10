@@ -201,7 +201,9 @@ textarea:focus {
 .actions,
 .toolbar-actions,
 .review-actions,
-.md-toolbar {
+.md-toolbar,
+.tool-group,
+.more-tool-menu {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -282,30 +284,92 @@ textarea:focus {
   align-items: center;
   background: rgba(247, 250, 249, 0.92);
   border-bottom: 1px solid var(--line);
+  justify-content: space-between;
   padding: 9px 20px;
+  position: relative;
 }
 
-.md-toolbar button {
+.tool-group,
+.more-tool-menu {
+  align-items: center;
+}
+
+.md-toolbar button,
+.more-tools summary {
   background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  cursor: pointer;
   font-size: 13px;
+  font-weight: 600;
   min-height: 32px;
   padding: 6px 10px;
 }
 
-.md-toolbar button:nth-child(1),
-.md-toolbar button:nth-child(2) {
+.more-tools {
+  position: relative;
+}
+
+.more-tools summary {
+  align-items: center;
+  display: inline-flex;
+  list-style: none;
+}
+
+.more-tools summary::-webkit-details-marker {
+  display: none;
+}
+
+.more-tools summary::after {
+  color: var(--muted);
+  content: "⌄";
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.more-tools[open] summary {
+  background: var(--accent-soft);
+  border-color: rgba(19, 114, 99, 0.28);
+  color: var(--accent-strong);
+}
+
+.more-tools[open] summary::after {
+  content: "⌃";
+}
+
+.more-tool-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  box-shadow: var(--shadow);
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 320px;
+  z-index: 20;
+}
+
+.primary-tools button[data-tool="undo"],
+.primary-tools button[data-tool="redo"] {
   background: var(--amber-soft);
   border-color: rgba(183, 106, 0, 0.2);
   color: #835000;
 }
 
-.md-toolbar button:nth-child(n + 6):nth-child(-n + 8) {
+.primary-tools button[data-tool="link"],
+.primary-tools button[data-tool="image"] {
   background: var(--blue-soft);
   border-color: rgba(39, 105, 200, 0.2);
   color: #2459a6;
 }
 
-.md-toolbar button:nth-child(n + 9) {
+.primary-tools button[data-tool="math-inline"],
+.more-tool-menu button[data-tool="math-block"],
+.more-tool-menu button[data-tool="info"],
+.more-tool-menu button[data-tool="sample"],
+.more-tool-menu button[data-tool="more"] {
   background: var(--accent-soft);
   border-color: rgba(19, 114, 99, 0.22);
   color: var(--accent-strong);
@@ -594,6 +658,20 @@ textarea:focus {
 
   .toolbar-actions {
     justify-content: flex-start;
+  }
+
+  .md-toolbar {
+    align-items: flex-start;
+  }
+
+  .more-tools {
+    width: 100%;
+  }
+
+  .more-tool-menu {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
   }
 
   .workspace {

@@ -75,20 +75,31 @@
         </header>
 
         <nav class="md-toolbar" aria-label="Markdown tools">
-          <button type="button" data-tool="undo" title="撤销工具栏/AI 修改" aria-label="撤销">↶</button>
-          <button type="button" data-tool="redo" title="重做工具栏/AI 修改" aria-label="重做">↷</button>
-          <button type="button" data-tool="h2" title="二级标题" aria-label="二级标题">H2</button>
-          <button type="button" data-tool="bold" title="加粗选中文本" aria-label="加粗">B</button>
-          <button type="button" data-tool="italic" title="斜体选中文本" aria-label="斜体">I</button>
-          <button type="button" data-tool="code" title="插入 fenced code block" aria-label="代码块">代码</button>
-          <button type="button" data-tool="link" title="插入 Markdown 链接" aria-label="链接">链接</button>
-          <button type="button" data-tool="image" title="插入 Markdown 图片" aria-label="图片">图片</button>
-          <button type="button" data-tool="math-inline" title="插入 $...$ 行内公式" aria-label="行内公式">行内公式</button>
-          <button type="button" data-tool="math-block" title="插入 $$...$$ 块级公式" aria-label="块公式">块公式</button>
-          <button type="button" data-tool="table" title="插入 Markdown 表格" aria-label="表格">表格</button>
-          <button type="button" data-tool="info" title="插入 Luogu 风格 info 提示块模板" aria-label="提示块">提示块</button>
-          <button type="button" data-tool="sample" title="插入样例输入/输出代码块" aria-label="样例块">样例块</button>
-          <button type="button" data-tool="more" title="插入 Hexo 摘要分隔 <!--more-->" aria-label="摘要分隔">摘要分隔</button>
+          <div class="tool-group primary-tools">
+            <button type="button" data-tool="undo" title="撤销工具栏/AI 修改" aria-label="撤销">↶</button>
+            <button type="button" data-tool="redo" title="重做工具栏/AI 修改" aria-label="重做">↷</button>
+            <button type="button" data-tool="h2" title="二级标题" aria-label="二级标题">H2</button>
+            <button type="button" data-tool="bold" title="加粗选中文本" aria-label="加粗">B</button>
+            <button type="button" data-tool="italic" title="斜体选中文本" aria-label="斜体">I</button>
+            <button type="button" data-tool="code" title="插入 fenced code block" aria-label="代码块">代码</button>
+            <button type="button" data-tool="link" title="插入 Markdown 链接" aria-label="链接">链接</button>
+            <button type="button" data-tool="image" title="上传并插入图片" aria-label="图片">图片</button>
+            <button type="button" data-tool="math-inline" title="插入 $...$ 行内公式" aria-label="行内公式">行内公式</button>
+          </div>
+          <details class="more-tools">
+            <summary title="更多 Markdown 工具">更多</summary>
+            <div class="more-tool-menu">
+              <button type="button" data-tool="h3" title="三级标题" aria-label="三级标题">H3</button>
+              <button type="button" data-tool="quote" title="引用块" aria-label="引用">引用</button>
+              <button type="button" data-tool="ul" title="无序列表" aria-label="无序列表">列表</button>
+              <button type="button" data-tool="ol" title="有序列表" aria-label="有序列表">编号</button>
+              <button type="button" data-tool="math-block" title="插入 $$...$$ 块级公式" aria-label="块公式">块公式</button>
+              <button type="button" data-tool="table" title="插入 Markdown 表格" aria-label="表格">表格</button>
+              <button type="button" data-tool="info" title="插入 Luogu 风格 info 提示块模板" aria-label="提示块">提示块</button>
+              <button type="button" data-tool="sample" title="插入样例输入/输出代码块" aria-label="样例块">样例块</button>
+              <button type="button" data-tool="more" title="插入 Hexo 摘要分隔 <!--more-->" aria-label="摘要分隔">摘要分隔</button>
+            </div>
+          </details>
         </nav>
 
         <section id="reviewPanel" class="review-panel" hidden>

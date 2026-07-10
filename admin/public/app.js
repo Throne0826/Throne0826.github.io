@@ -74,8 +74,16 @@ function restoreSnapshot(item) {
 }
 
 function recordUndo() {
-  state.undoStack.push(snapshot());
+  const item = snapshot();
+  const last = state.undoStack[state.undoStack.length - 1];
+  if (last && last.text === item.text && last.start === item.start && last.end === item.end) return;
+  state.undoStack.push(item);
   if (state.undoStack.length > 80) state.undoStack.shift();
+  state.redoStack = [];
+}
+
+function resetUndoHistory() {
+  state.undoStack = [];
   state.redoStack = [];
 }
 
@@ -235,6 +243,39 @@ function insertBlock(block) {
   replaceRange({ from, to }, `${prefix}${block}${suffix}`);
 }
 
+function currentSectionRange(maxLength = 9000) {
+  const text = els.editorInput.value;
+  const cursor = els.editorInput.selectionStart || 0;
+  const headingPattern = /^#{1,3}\s.+$/gm;
+  const headings = [];
+  let match;
+  while ((match = headingPattern.exec(text))) {
+    headings.push({ start: match.index, end: headingPattern.lastIndex });
+  }
+
+  let from = 0;
+  let to = text.length;
+  for (let i = 0; i < headings.length; i += 1) {
+    const current = headings[i];
+    const next = headings[i + 1];
+    if (cursor >= current.start && (!next || cursor < next.start)) {
+      from = current.start;
+      to = next ? next.start : text.length;
+      break;
+    }
+  }
+
+  if (to - from <= maxLength) return { from, to, text: text.slice(from, to) };
+
+  const half = Math.floor(maxLength / 2);
+  from = Math.max(0, cursor - half);
+  to = Math.min(text.length, from + maxLength);
+  from = text.lastIndexOf("\n\n", from) + 2 || from;
+  const nextBreak = text.indexOf("\n\n", to);
+  if (nextBreak !== -1 && nextBreak - from <= maxLength + 1200) to = nextBreak;
+  return { from, to, text: text.slice(from, to) };
+}
+
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -271,11 +312,15 @@ function runTool(tool) {
   }
   const blocks = {
     h2: () => insertAtSelection("## ", "", "小节标题"),
+    h3: () => insertAtSelection("### ", "", "小标题"),
     bold: () => insertAtSelection("**", "**", "加粗文本"),
     italic: () => insertAtSelection("*", "*", "斜体文本"),
     code: () => insertBlock("```cpp\n// code\n```\n"),
     link: () => insertAtSelection("[", "](https://)", "链接文本"),
     image: () => els.imageFileInput.click(),
+    quote: () => insertBlock("> 引用内容\n"),
+    ul: () => insertBlock("- 第一项\n- 第二项\n"),
+    ol: () => insertBlock("1. 第一项\n2. 第二项\n"),
     "math-inline": () => insertAtSelection("$", "$", "a+b"),
     "math-block": () => insertBlock("$$\na^{p-1} \\equiv 1 \\pmod p\n$$\n"),
     table: () => insertBlock("| 项目 | 说明 |\n| --- | --- |\n| A | 内容 |\n"),
@@ -361,7 +406,6 @@ async function loadPost(path) {
   state.currentPath = data.path;
   state.currentSha = data.sha;
   els.pathInput.value = data.path;
-  recordUndo();
   const draft = localStorage.getItem(getDraftKey());
   if (draft && draft !== data.content) {
     const useDraft = window.confirm("这个浏览器里有未发布的本地草稿。是否恢复草稿？\n\n确定：恢复草稿\n取消：使用 GitHub 上的版本");
@@ -369,6 +413,7 @@ async function loadPost(path) {
   } else {
     els.editorInput.value = data.content;
   }
+  resetUndoHistory();
   hideReview();
   updatePreview();
   renderPosts();
@@ -387,8 +432,8 @@ function newPost() {
   state.currentPath = "";
   state.currentSha = "";
   els.pathInput.value = `source/_posts/${date}-${slugifyTitle(title)}.md`;
-  recordUndo();
   els.editorInput.value = `---\ntitle: ${title}\ndate: ${date} ${time}\nmathjax: true\ntags:\n  - \ncategories:\n  - \n---\n\n# ${title}\n\n`;
+  resetUndoHistory();
   hideReview();
   updatePreview();
   renderPosts();
@@ -410,22 +455,29 @@ async function waitForDeployStatus(commitUrl) {
 }
 
 async function polish() {
-  const fullText = els.editorInput.value.trim();
+  const fullText = els.editorInput.value;
   if (!fullText) {
     setStatus("当前文章是空的。", true);
     return;
   }
   const selection = getSelection();
   const hasSelection = selection.text.trim().length > 0;
-  const targetText = hasSelection ? selection.text : fullText;
-  if (!hasSelection && targetText.length > 12000) {
-    setStatus(`整篇文章约 ${targetText.length} 字符，AI 处理容易超时。请先选中要润色/检查的一小段再点 AI 处理。`, true);
+  const target = hasSelection
+    ? { from: selection.from, to: selection.to, text: selection.text, label: "选中文本" }
+    : fullText.length > 12000
+      ? { ...currentSectionRange(), label: "光标所在小节" }
+      : { from: 0, to: fullText.length, text: fullText, label: "整篇文章" };
+  const targetText = target.text.trim();
+  if (!targetText) {
+    setStatus("当前光标附近没有可处理的正文。", true);
     return;
   }
   const previousText = els.polishButton.textContent;
   els.polishButton.disabled = true;
   els.polishButton.textContent = "处理中...";
-  setStatus(hasSelection ? "AI 正在处理选中文本..." : "AI 正在处理整篇文章...");
+  setStatus(fullText.length > 12000 && !hasSelection
+    ? `文章较长，AI 正在处理${target.label}（约 ${targetText.length} 字符）...`
+    : `AI 正在处理${target.label}...`);
   try {
     const data = await api("/api/polish", {
       method: "POST",
@@ -434,8 +486,8 @@ async function polish() {
     });
     state.aiOriginal = targetText;
     state.aiSuggestion = data.content || "";
-    state.aiRange = hasSelection ? { from: selection.from, to: selection.to } : null;
-    renderDiff(state.aiOriginal, state.aiSuggestion, hasSelection ? "选中文本" : "整篇文章");
+    state.aiRange = target.from === 0 && target.to === fullText.length ? null : { from: target.from, to: target.to };
+    renderDiff(state.aiOriginal, state.aiSuggestion, target.label);
     setStatus("AI 建议已生成。你可以先修改建议内容，再应用到正文。");
   } finally {
     els.polishButton.disabled = false;
@@ -553,17 +605,6 @@ els.editorInput.addEventListener("drop", (event) => {
 });
 
 els.editorInput.addEventListener("keydown", (event) => {
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
-    event.preventDefault();
-    if (event.shiftKey) redoEdit();
-    else undoEdit();
-    return;
-  }
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "y") {
-    event.preventDefault();
-    redoEdit();
-    return;
-  }
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
     event.preventDefault();
     savePost().catch((error) => setStatus(error.message || String(error), true));
