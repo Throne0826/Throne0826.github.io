@@ -9,7 +9,7 @@
     <atom:link href="https://lifexoryoung.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道</description>
-    <pubDate>Wed, 29 Jul 2026 09:17:34 GMT</pubDate>
+    <pubDate>Wed, 29 Jul 2026 09:25:42 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -18,16 +18,11 @@
       <guid>https://lifexoryoung.cn/2026/07/29/2026-07-29-AdaptiveReasoner%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E9%9A%BE%E5%BA%A6%E9%87%87%E6%A0%B7%E4%B8%8E%E5%A4%B1%E8%B4%A5%E5%9B%9E%E6%94%BE%E7%9A%84%E5%8F%AF%E9%AA%8C%E8%AF%81%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86%E5%90%8E%E8%AE%AD%E7%BB%83%E7%B3%BB%E7%BB%9F/</guid>
       <pubDate>Wed, 29 Jul 2026 06:45:31 GMT</pubDate>
       
-        
-        
-      <description>&lt;h1 id=&quot;新文章&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#新文章&quot;&gt;&lt;/a&gt; 新文章&lt;/h1&gt;
-&lt;p&gt;基础知识：&lt;/p&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;text&quot;&gt;训练代码 / PyTorch / </description>
-        
+      <description>代码/PyTorch/verl→NCCL→CUDA运行时→驱动→GPU；Docker封装系统/框架/依赖，GPU宿主机须装英伟达容器工具包。NCCL支持全归约/全聚合/归约散射/广播；DDP各Rank</description>
       
       
       
-      <content:encoded><![CDATA[<h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1><p>基础知识：</p><pre class="highlight"><code class="text">训练代码 / PyTorch / verl          ↓NCCL：多张 GPU 之间通信          ↓CUDA Runtime：让程序调用 GPU          ↓NVIDIA 驱动：操作系统控制 GPU          ↓GPU 硬件Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境</code></pre><p><strong>cuda：</strong> CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p><p><strong>Doker：</strong> Docker 可以理解为一个隔离的程序运行环境。<br />一个 Docker 镜像通常包含：</p><pre class="highlight"><code class="cpp">UbuntuPythonPyTorchCUDA RuntimeNCCLverl项目依赖</code></pre><p>Docker 本身不能直接使用 GPU，还需要宿主机安装 NVIDIA Container Toolkit。</p><p><strong>NCCL：</strong> NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p><p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p><p>常见通信操作：</p><pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPUAllGather：收集每张 GPU 上的数据ReduceScatter：先汇总，再把不同部分分给各 GPUBroadcast：从一张 GPU 向其他 GPU广播数据</code></pre><p><strong>DDP 训练时发生了什么</strong>:<br />假设全局 Batch Size 为 128，4 张 GPU，每张卡处理 32 条数据：<br />rank 0：读取样本 0～31<br />rank 1：读取样本 32～63<br />rank 2：读取样本 64～95<br />rank 3：读取样本 96～127<br />每个 Rank 独立执行：<br />读取自己的数据<br />→ 前向传播<br />→ 计算自己的 Loss<br />→ 反向传播<br />→ 得到本卡梯度<br />反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：<br />GPU 0 梯度 ┐<br />GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度<br />GPU 2 梯度 ┤<br />GPU 3 梯度 ┘<br />然后每个进程独立执行：<br />optimizer.step()<br />因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。<br />DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比手工同步更高效的原因。</p>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1><h2 id="基础知识"><a class="markdownIt-Anchor" href="#基础知识"></a> 基础知识</h2><pre class="highlight"><code class="text">训练代码 / PyTorch / verl          ↓NCCL：多张 GPU 之间通信          ↓CUDA Runtime：让程序调用 GPU          ↓NVIDIA 驱动：操作系统控制 GPU          ↓GPU 硬件Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境</code></pre><h3 id="cuda"><a class="markdownIt-Anchor" href="#cuda"></a> CUDA</h3><p>CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p><h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h3><p>Docker 可以理解为一个隔离的程序运行环境。</p><p>一个 Docker 镜像通常包含：</p><pre class="highlight"><code class="cpp">UbuntuPythonPyTorchCUDA RuntimeNCCLverl项目依赖</code></pre><p>Docker 本身不能直接使用 GPU，还需要宿主机安装 <strong>NVIDIA Container Toolkit</strong>。</p><h3 id="nccl"><a class="markdownIt-Anchor" href="#nccl"></a> NCCL</h3><p>NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p><p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p><h4 id="常见通信操作"><a class="markdownIt-Anchor" href="#常见通信操作"></a> 常见通信操作</h4><pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPUAllGather：收集每张 GPU 上的数据ReduceScatter：先汇总，再把不同部分分给各 GPUBroadcast：从一张 GPU 向其他 GPU广播数据</code></pre><h2 id="ddp-训练时发生了什么"><a class="markdownIt-Anchor" href="#ddp-训练时发生了什么"></a> DDP 训练时发生了什么</h2><p>假设全局 Batch Size 为 128，共有 4 张 GPU，每张卡处理 32 条数据：</p><ul><li><strong>Rank 0</strong>：读取样本 0～31</li><li><strong>Rank 1</strong>：读取样本 32～63</li><li><strong>Rank 2</strong>：读取样本 64～95</li><li><strong>Rank 3</strong>：读取样本 96～127</li></ul><p>每个 Rank 独立执行：</p><ol><li>读取自己的数据；</li><li>前向传播；</li><li>计算自己的 Loss；</li><li>反向传播；</li><li>得到本卡梯度。</li></ol><p>反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：</p><pre class="highlight"><code class="text">GPU 0 梯度 ┐GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度GPU 2 梯度 ┤GPU 3 梯度 ┘</code></pre><p>然后，每个进程独立执行：</p><p><code>optimizer.step()</code></p><p>因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。</p><p>DDP 会尽量让<mark>梯度通信和后续反向计算重叠</mark>，这也是它通常比手工同步更高效的原因。</p>]]></content:encoded>
       
       
       
