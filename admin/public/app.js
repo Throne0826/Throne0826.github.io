@@ -214,8 +214,14 @@ function replaceRange(range, text, options = {}) {
   if (!options.skipUndo) recordUndo();
   const from = range ? range.from : 0;
   const to = range ? range.to : els.editorInput.value.length;
-  els.editorInput.setRangeText(text, from, to, "end");
   els.editorInput.focus();
+  els.editorInput.selectionStart = from;
+  els.editorInput.selectionEnd = to;
+  const insertedWithNativeUndo = typeof document.execCommand === "function"
+    && document.execCommand("insertText", false, text);
+  if (!insertedWithNativeUndo) {
+    els.editorInput.setRangeText(text, from, to, "end");
+  }
   updatePreview();
   saveDraftSoon();
 }
@@ -277,6 +283,16 @@ function currentSectionRange(maxLength = 9000) {
   const nextBreak = text.indexOf("\n\n", to);
   if (nextBreak !== -1 && nextBreak - from <= maxLength + 1200) to = nextBreak;
   return { from, to, text: text.slice(from, to) };
+}
+
+function articleOpeningRange(maxLength = 9000) {
+  const text = els.editorInput.value;
+  let to = Math.min(text.length, maxLength);
+  if (to < text.length) {
+    const paragraphEnd = text.lastIndexOf("\n\n", to);
+    if (paragraphEnd > Math.floor(maxLength * 0.65)) to = paragraphEnd + 2;
+  }
+  return { from: 0, to, text: text.slice(0, to) };
 }
 
 function fileToDataUrl(file) {
@@ -465,11 +481,18 @@ async function polish() {
   }
   const selection = getSelection();
   const hasSelection = selection.text.trim().length > 0;
-  const target = hasSelection
-    ? { from: selection.from, to: selection.to, text: selection.text, label: "选中文本" }
-    : fullText.length > 12000
-      ? { ...currentSectionRange(), label: "光标所在小节" }
-      : { from: 0, to: fullText.length, text: fullText, label: "整篇文章" };
+  const mode = els.modeSelect.value;
+  const needsArticleOpening = mode === "title" || mode === "summary";
+  const target = needsArticleOpening
+    ? {
+        ...articleOpeningRange(),
+        label: mode === "title" ? "文章标题与开头" : "Front Matter 与文章开头"
+      }
+    : hasSelection
+      ? { from: selection.from, to: selection.to, text: selection.text, label: "选中文本" }
+      : fullText.length > 12000
+        ? { ...currentSectionRange(), label: "光标所在小节" }
+        : { from: 0, to: fullText.length, text: fullText, label: "整篇文章" };
   const targetText = target.text.trim();
   if (!targetText) {
     setStatus("当前光标附近没有可处理的正文。", true);
@@ -485,7 +508,7 @@ async function polish() {
     const data = await api("/api/polish", {
       method: "POST",
       timeoutMs: 120000,
-      body: JSON.stringify({ mode: els.modeSelect.value, markdown: targetText })
+      body: JSON.stringify({ mode, markdown: targetText })
     });
     state.aiOriginal = targetText;
     state.aiSuggestion = data.content || "";

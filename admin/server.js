@@ -255,8 +255,8 @@ function polishPrompt({ mode, markdown }) {
   const task = {
     polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
     format: "Strictly repair Markdown structure. Fix heading levels, missing blank lines, broken lists, malformed tables, unclosed code fences, malformed LaTeX delimiters, misplaced Hexo front matter, and inconsistent sample input/output blocks. Preserve technical meaning.",
-    title: "Improve the title and update the title field in Hexo front matter when appropriate.",
-    summary: "Add or improve a description/summary field in Hexo front matter and lightly polish the article body.",
+    title: "Improve the article title. Update the title field in Hexo front matter and the first H1 consistently. Keep all other content unchanged.",
+    summary: "Add or improve a concise description field in Hexo front matter based on the supplied article opening. Keep the article body and all other front matter fields unchanged.",
     check: "Audit the Markdown article for problems. At the top, add a section named ## 检查结果 listing detected issues, then output a corrected complete Markdown version below. Check Markdown syntax, LaTeX delimiters, code fences, heading structure, front matter, tags/categories, and possible technical inconsistencies."
   }[mode || "polish"] || "Polish and clean up the Markdown article.";
 
