@@ -19,6 +19,7 @@
       };
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
@@ -39,6 +40,21 @@
           <button id="saveTokenButton" type="button">保存令牌</button>
           <button id="loadPostsButton" type="button">刷新文章</button>
         </div>
+
+        <details class="ai-connection" open>
+          <summary>AI 连接</summary>
+          <div class="ai-connection-fields">
+            <label class="field compact-field">
+              <span>API 地址</span>
+              <input id="aiBaseUrlInput" value="https://api.ssstoken.net/v1" spellcheck="false">
+            </label>
+            <label class="field compact-field">
+              <span>API Key（当前标签页）</span>
+              <input id="aiKeyInput" type="password" autocomplete="off">
+            </label>
+            <button id="testAiButton" type="button" class="wide">测试 AI 连接</button>
+          </div>
+        </details>
 
         <button id="newPostButton" class="wide" type="button">新建文章</button>
 

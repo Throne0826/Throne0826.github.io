@@ -11,8 +11,13 @@
   redoStack: []
 };
 
+import { buildAiPrompt } from "./ai-prompt.js";
+
 const els = {
   tokenInput: document.querySelector("#tokenInput"),
+  aiBaseUrlInput: document.querySelector("#aiBaseUrlInput"),
+  aiKeyInput: document.querySelector("#aiKeyInput"),
+  testAiButton: document.querySelector("#testAiButton"),
   saveTokenButton: document.querySelector("#saveTokenButton"),
   loadPostsButton: document.querySelector("#loadPostsButton"),
   newPostButton: document.querySelector("#newPostButton"),
@@ -44,6 +49,8 @@ const els = {
 
 els.tokenInput.value = state.token;
 els.modelInput.value = localStorage.getItem("blog-admin-ai-model") || "gpt-5.6-sol";
+els.aiBaseUrlInput.value = localStorage.getItem("blog-admin-ai-base-url") || "https://api.ssstoken.net/v1";
+els.aiKeyInput.value = sessionStorage.getItem("blog-admin-ai-key") || "";
 
 function setStatus(message, isError = false) {
   els.status.textContent = message;
@@ -176,7 +183,8 @@ function renderMarkdown(markdown) {
       }
     });
     try {
-      return window.marked.parse(body);
+      const rendered = window.marked.parse(body);
+      return window.DOMPurify ? window.DOMPurify.sanitize(rendered) : rendered;
     } catch (error) {
       return `<pre>${escapeHtml(body)}</pre>`;
     }
@@ -281,6 +289,12 @@ function splitMarkdown(markdown, maxLength = 3800) {
 }
 
 async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
+  const directKey = els.aiKeyInput.value.trim();
+  if (directKey) {
+    const prompt = buildAiPrompt({ mode, markdown, chunkIndex, chunkCount });
+    return { content: await callDirectChat(prompt) };
+  }
+
   const options = {
     method: "POST",
     timeoutMs: 120000,
@@ -300,6 +314,86 @@ async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
     setStatus("连接中断，正在自动重试一次...");
     await new Promise((resolve) => setTimeout(resolve, 1800));
     return api("/api/polish", options);
+  }
+}
+
+function directAiSettings() {
+  return {
+    baseUrl: els.aiBaseUrlInput.value.trim().replace(/["']+$/, "").replace(/\/+$/, ""),
+    key: els.aiKeyInput.value.trim(),
+    model: els.modelInput.value.trim() || "gpt-5.6-sol"
+  };
+}
+
+function extractDirectChatText(data) {
+  const content = data.choices?.[0]?.message?.content;
+  if (typeof content === "string") return content.trim();
+  if (Array.isArray(content)) {
+    return content.map((part) => part?.text || part?.content || "").join("\n").trim();
+  }
+  return String(data.choices?.[0]?.text || "").trim();
+}
+
+async function callDirectChat(prompt) {
+  const { baseUrl, key, model } = directAiSettings();
+  if (!key) throw new Error("请先在左侧 AI 连接中填写 API Key。");
+  if (!/^https:\/\//i.test(baseUrl)) throw new Error("AI API 地址必须以 https:// 开头。");
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 90000);
+    try {
+      const response = await fetch(`${baseUrl}/chat/completions`, {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          authorization: `Bearer ${key}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const responseText = await response.text();
+      let data = {};
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        data = {};
+      }
+      if (!response.ok) {
+        const detail = data.error?.message || data.message || responseText.slice(0, 300);
+        const requestError = new Error(detail || `中转站请求失败：${response.status}`);
+        requestError.status = response.status;
+        throw requestError;
+      }
+      const content = extractDirectChatText(data);
+      if (!content) throw new Error("中转站返回了空内容。");
+      return content;
+    } catch (error) {
+      if (error.name === "AbortError") throw new Error("浏览器直连中转站超时（90 秒）。");
+      const retryable = error instanceof TypeError || [502, 503, 504].includes(error.status);
+      if (!retryable || attempt === 2) throw error;
+      setStatus("浏览器直连中断，正在重试一次...");
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  throw new Error("浏览器直连中转站失败。");
+}
+
+async function testAiConnection() {
+  const previousText = els.testAiButton.textContent;
+  els.testAiButton.disabled = true;
+  els.testAiButton.textContent = "测试中...";
+  try {
+    const result = await callDirectChat("只回复 OK。");
+    setStatus(`AI 直连成功：${directAiSettings().model} · ${result.slice(0, 30)}`);
+  } finally {
+    els.testAiButton.disabled = false;
+    els.testAiButton.textContent = previousText;
   }
 }
 
@@ -569,10 +663,15 @@ async function polish() {
   els.polishButton.disabled = true;
   els.polishButton.textContent = "检查配置...";
   try {
-    const aiConfig = await api("/api/ai-config", { timeoutMs: 15000 });
-    if (!aiConfig.configured) throw new Error("Render 尚未配置 OPENAI_API_KEY。请先在服务环境变量中填写。");
-    const requestedModel = els.modelInput.value.trim() || aiConfig.model;
-    setStatus(`正在连接 AI：${requestedModel} · chat · ${aiConfig.provider}`);
+    const directSettings = directAiSettings();
+    if (directSettings.key) {
+      setStatus(`浏览器直连 AI：${directSettings.model} · ${directSettings.baseUrl}`);
+    } else {
+      const aiConfig = await api("/api/ai-config", { timeoutMs: 15000 });
+      if (!aiConfig.configured) throw new Error("请在左侧 AI 连接中填写 API Key。");
+      const requestedModel = els.modelInput.value.trim() || aiConfig.model;
+      setStatus(`正在连接 AI：${requestedModel} · chat · ${aiConfig.provider}`);
+    }
     els.polishButton.textContent = "处理中...";
     let suggestion;
     if (mode === "summary") {
@@ -671,6 +770,15 @@ els.modelInput.addEventListener("change", () => {
   localStorage.setItem("blog-admin-ai-model", model);
   setStatus(`AI 模型已切换为 ${model}`);
 });
+els.aiBaseUrlInput.addEventListener("change", () => {
+  const baseUrl = els.aiBaseUrlInput.value.trim().replace(/["']+$/, "").replace(/\/+$/, "") || "https://api.ssstoken.net/v1";
+  els.aiBaseUrlInput.value = baseUrl;
+  localStorage.setItem("blog-admin-ai-base-url", baseUrl);
+});
+els.aiKeyInput.addEventListener("input", () => {
+  sessionStorage.setItem("blog-admin-ai-key", els.aiKeyInput.value.trim());
+});
+els.testAiButton.addEventListener("click", bind(testAiConnection));
 els.loadPostsButton.addEventListener("click", bind(loadPosts));
 els.newPostButton.addEventListener("click", newPost);
 els.polishButton.addEventListener("click", bind(polish));

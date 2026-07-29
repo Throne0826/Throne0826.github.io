@@ -194,11 +194,31 @@ textarea:focus {
 
 .field,
 .actions,
-.list-tools {
+.list-tools,
+.ai-connection {
   background: rgba(255, 255, 255, 0.56);
   border: 1px solid rgba(214, 222, 229, 0.72);
   border-radius: 9px;
   padding: 10px;
+}
+
+.ai-connection summary {
+  color: var(--muted-strong);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ai-connection-fields {
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.compact-field {
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
 
 .field,
