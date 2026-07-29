@@ -252,47 +252,82 @@ function insertBlock(block) {
   replaceRange({ from, to }, `${prefix}${block}${suffix}`);
 }
 
-function currentSectionRange(maxLength = 9000) {
-  const text = els.editorInput.value;
-  const cursor = els.editorInput.selectionStart || 0;
-  const headingPattern = /^#{1,3}\s.+$/gm;
-  const headings = [];
-  let match;
-  while ((match = headingPattern.exec(text))) {
-    headings.push({ start: match.index, end: headingPattern.lastIndex });
-  }
+function splitMarkdown(markdown, maxLength = 6500) {
+  const lines = markdown.match(/[^\n]*\n|[^\n]+$/g) || [];
+  const chunks = [];
+  let current = "";
+  let fence = "";
 
-  let from = 0;
-  let to = text.length;
-  for (let i = 0; i < headings.length; i += 1) {
-    const current = headings[i];
-    const next = headings[i + 1];
-    if (cursor >= current.start && (!next || cursor < next.start)) {
-      from = current.start;
-      to = next ? next.start : text.length;
-      break;
+  for (const line of lines) {
+    const marker = line.trimStart().match(/^(```|~~~)/)?.[1] || "";
+    current += line;
+    if (marker) fence = fence ? (marker === fence ? "" : fence) : marker;
+    if (!fence && current.length >= maxLength && (line.trim() === "" || current.length >= maxLength * 1.25)) {
+      chunks.push(current);
+      current = "";
     }
   }
-
-  if (to - from <= maxLength) return { from, to, text: text.slice(from, to) };
-
-  const half = Math.floor(maxLength / 2);
-  from = Math.max(0, cursor - half);
-  to = Math.min(text.length, from + maxLength);
-  from = text.lastIndexOf("\n\n", from) + 2 || from;
-  const nextBreak = text.indexOf("\n\n", to);
-  if (nextBreak !== -1 && nextBreak - from <= maxLength + 1200) to = nextBreak;
-  return { from, to, text: text.slice(from, to) };
+  if (current) chunks.push(current);
+  return chunks.length ? chunks : [markdown];
 }
 
-function articleOpeningRange(maxLength = 9000) {
-  const text = els.editorInput.value;
-  let to = Math.min(text.length, maxLength);
-  if (to < text.length) {
-    const paragraphEnd = text.lastIndexOf("\n\n", to);
-    if (paragraphEnd > Math.floor(maxLength * 0.65)) to = paragraphEnd + 2;
+async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
+  return api("/api/polish", {
+    method: "POST",
+    timeoutMs: 120000,
+    body: JSON.stringify({ mode, markdown, chunkIndex, chunkCount })
+  });
+}
+
+async function processMarkdownChunks(mode, markdown, actionLabel) {
+  const chunks = splitMarkdown(markdown);
+  const results = [];
+  for (let index = 0; index < chunks.length; index += 1) {
+    setStatus(`AI 正在${actionLabel}：第 ${index + 1}/${chunks.length} 部分...`);
+    const data = await requestAi(mode, chunks[index], index, chunks.length);
+    if (!data.content?.trim()) throw new Error(`AI 处理第 ${index + 1} 部分时返回了空内容。`);
+    results.push(data.content.trim());
   }
-  return { from: 0, to, text: text.slice(0, to) };
+  return results.join("\n\n");
+}
+
+function cleanSummary(value) {
+  const summary = String(value || "")
+    .replace(/^["'“”\s]*(?:摘要|description)\s*[:：]\s*/i, "")
+    .replace(/["'“”\s]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return Array.from(summary).slice(0, 100).join("");
+}
+
+function upsertDescription(markdown, summary) {
+  const escaped = summary.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+  const field = `description: "${escaped}"`;
+  const frontMatter = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!frontMatter) return `---\n${field}\n---\n\n${markdown}`;
+
+  const body = frontMatter[1];
+  const descriptionPattern = /^description\s*:[^\n]*(?:\n[ \t]+[^\n]*)*/m;
+  const nextBody = descriptionPattern.test(body)
+    ? body.replace(descriptionPattern, field)
+    : `${body}\n${field}`;
+  return `---\n${nextBody}\n---${markdown.slice(frontMatter[0].length)}`;
+}
+
+async function buildArticleSummary(markdown) {
+  const chunks = splitMarkdown(markdown);
+  const notes = [];
+  for (let index = 0; index < chunks.length; index += 1) {
+    setStatus(`AI 正在阅读全文并提炼摘要：第 ${index + 1}/${chunks.length} 部分...`);
+    const data = await requestAi("summary_part", chunks[index], index, chunks.length);
+    if (!data.content?.trim()) throw new Error(`AI 阅读第 ${index + 1} 部分时返回了空内容。`);
+    notes.push(data.content.trim());
+  }
+  setStatus("AI 正在合并全文摘要...");
+  const finalResult = await requestAi("summary", notes.join("\n"), 0, 1);
+  const summary = cleanSummary(finalResult.content);
+  if (!summary) throw new Error("AI 没有生成有效摘要。");
+  return summary;
 }
 
 function fileToDataUrl(file) {
@@ -482,17 +517,11 @@ async function polish() {
   const selection = getSelection();
   const hasSelection = selection.text.trim().length > 0;
   const mode = els.modeSelect.value;
-  const needsArticleOpening = mode === "title" || mode === "summary";
-  const target = needsArticleOpening
-    ? {
-        ...articleOpeningRange(),
-        label: mode === "title" ? "文章标题与开头" : "Front Matter 与文章开头"
-      }
-    : hasSelection
-      ? { from: selection.from, to: selection.to, text: selection.text, label: "选中文本" }
-      : fullText.length > 12000
-        ? { ...currentSectionRange(), label: "光标所在小节" }
-        : { from: 0, to: fullText.length, text: fullText, label: "整篇文章" };
+  const actionLabels = { polish: "润色", format: "整理格式", check: "检查问题" };
+  const useSelection = hasSelection && mode !== "check" && mode !== "summary";
+  const target = useSelection
+    ? { from: selection.from, to: selection.to, text: selection.text, label: "选中文本" }
+    : { from: 0, to: fullText.length, text: fullText, label: "整篇文章" };
   const targetText = target.text.trim();
   if (!targetText) {
     setStatus("当前光标附近没有可处理的正文。", true);
@@ -501,17 +530,17 @@ async function polish() {
   const previousText = els.polishButton.textContent;
   els.polishButton.disabled = true;
   els.polishButton.textContent = "处理中...";
-  setStatus(fullText.length > 12000 && !hasSelection
-    ? `文章较长，AI 正在处理${target.label}（约 ${targetText.length} 字符）...`
-    : `AI 正在处理${target.label}...`);
   try {
-    const data = await api("/api/polish", {
-      method: "POST",
-      timeoutMs: 120000,
-      body: JSON.stringify({ mode, markdown: targetText })
-    });
-    state.aiOriginal = targetText;
-    state.aiSuggestion = data.content || "";
+    let suggestion;
+    if (mode === "summary") {
+      const summary = await buildArticleSummary(fullText);
+      suggestion = upsertDescription(fullText, summary);
+      setStatus(`摘要已生成，共 ${Array.from(summary).length} 字。`);
+    } else {
+      suggestion = await processMarkdownChunks(mode, targetText, actionLabels[mode] || "处理");
+    }
+    state.aiOriginal = target.text;
+    state.aiSuggestion = suggestion;
     state.aiRange = target.from === 0 && target.to === fullText.length ? null : { from: target.from, to: target.to };
     renderDiff(state.aiOriginal, state.aiSuggestion, target.label);
     setStatus("AI 建议已生成。你可以先修改建议内容，再应用到正文。");

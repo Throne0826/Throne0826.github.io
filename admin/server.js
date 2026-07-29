@@ -251,25 +251,36 @@ async function getDeployStatus() {
   };
 }
 
-function polishPrompt({ mode, markdown }) {
+function polishPrompt({ mode, markdown, chunkIndex = 0, chunkCount = 1 }) {
   const task = {
-    polish: "Improve the Chinese wording so the article reads naturally while preserving the author's meaning and all technical details.",
-    format: "Strictly repair Markdown structure. Fix heading levels, missing blank lines, broken lists, malformed tables, unclosed code fences, malformed LaTeX delimiters, misplaced Hexo front matter, and inconsistent sample input/output blocks. Preserve technical meaning.",
-    title: "Improve the article title. Update the title field in Hexo front matter and the first H1 consistently. Keep all other content unchanged.",
-    summary: "Add or improve a concise description field in Hexo front matter based on the supplied article opening. Keep the article body and all other front matter fields unchanged.",
-    check: "Audit the Markdown article for problems. At the top, add a section named ## 检查结果 listing detected issues, then output a corrected complete Markdown version below. Check Markdown syntax, LaTeX delimiters, code fences, heading structure, front matter, tags/categories, and possible technical inconsistencies."
+    polish: "Polish the article language so it is fluent, professional, and easy to understand. Preserve meaning, technical facts, structure, Markdown, LaTeX, and all code exactly.",
+    format: "Adjust formatting based on content without broadly rewriting it. Improve heading levels, bold, italic, underline with <u>, highlight with <mark>, lists, quotes, tables, whitespace, Markdown structure, and LaTeX delimiters. Apply formatting only where semantically useful.",
+    check: "Verify the language and factual content for accuracy and correct detected problems directly. Never modify any content inside fenced code blocks. You may correct Markdown syntax, LaTeX syntax, mathematical formulas, headings, punctuation, and inaccurate prose.",
+    summary_part: "Read this article part and output only concise Chinese notes covering its key ideas and conclusions in no more than 180 Chinese characters.",
+    summary: "Using all supplied part notes, output only one coherent Chinese article summary of no more than 100 Chinese characters. Do not add a label, quotes, Markdown, or explanation."
   }[mode || "polish"] || "Polish and clean up the Markdown article.";
+
+  if (mode === "summary_part" || mode === "summary") {
+    return [
+      "You are an editor for a Chinese technical blog.",
+      task,
+      "Cover the supplied content as a whole and do not invent information.",
+      "",
+      markdown || ""
+    ].join("\n");
+  }
 
   return [
     "You are an editor for a Chinese technical blog.",
     task,
+    chunkCount > 1 ? `This is part ${chunkIndex + 1} of ${chunkCount}. Edit this part independently and do not add chunk labels.` : "",
     "Requirements:",
-    "1. Output only the complete Markdown document. Do not wrap it in backticks.",
-    "2. Preserve Hexo YAML front matter delimiters and fields.",
-    "3. Do not remove code blocks or change algorithms, complexity, variable names, formulas, or technical facts.",
-    "4. Use natural Chinese punctuation and spacing between Chinese and English text.",
-    "5. Preserve LaTeX math exactly when possible, including $...$, $$...$$, \\( ... \\), \\[ ... \\], \\pmod, \\varphi, and superscripts/subscripts.",
-    "6. Preserve Hexo markers such as <!--more-->.",
+    "1. Output only the edited Markdown part. Do not wrap the entire result in backticks and do not explain your changes.",
+    "2. Preserve Hexo YAML front matter delimiters and all existing fields when present.",
+    "3. Preserve fenced code blocks byte-for-byte. Do not remove, rewrite, reformat, or correct code.",
+    "4. Preserve algorithms, complexity, variable names, citations, links, images, and Hexo markers such as <!--more-->.",
+    "5. Use natural Chinese punctuation and spacing between Chinese and English text.",
+    "6. Keep valid LaTeX unchanged; only repair LaTeX or formulas when the selected task permits it.",
     "",
     markdown || ""
   ].join("\n");
@@ -303,9 +314,18 @@ async function callOpenAI(path, payload) {
       },
       body: JSON.stringify(payload)
     });
-    const data = await response.json().catch(() => ({}));
+    const responseText = await response.text();
+    let data = {};
+    try {
+      data = responseText ? JSON.parse(responseText) : {};
+    } catch {
+      data = {};
+    }
     if (!response.ok) {
-      throw new Error(data.error?.message || `OpenAI-compatible request failed: ${response.status}`);
+      const detail = data.error?.message || data.message || responseText.slice(0, 300);
+      const requestError = new Error(detail || `OpenAI-compatible request failed: ${response.status}`);
+      requestError.status = response.status;
+      throw requestError;
     }
     return data;
   } catch (error) {
@@ -323,29 +343,39 @@ async function polishMarkdown(body) {
     throw new Error("OPENAI_API_KEY is not configured on the server.");
   }
 
-  if (config.openaiApiStyle === "chat") {
+  const prompt = polishPrompt(body);
+  const callChat = async () => {
     const data = await callOpenAI("/chat/completions", {
       model: config.openaiModel,
       messages: [
         {
           role: "user",
-          content: polishPrompt(body)
+          content: prompt
         }
-      ],
-      temperature: 0.3
+      ]
     });
     const text = extractChatText(data);
     if (!text) throw new Error("OpenAI-compatible chat API returned an empty response.");
     return text;
+  };
+
+  if (config.openaiApiStyle === "chat") {
+    return callChat();
   }
 
-  const data = await callOpenAI("/responses", {
-    model: config.openaiModel,
-    input: polishPrompt(body)
-  });
-  const text = extractOpenAIText(data);
-  if (!text) throw new Error("OpenAI Responses API returned an empty response.");
-  return text;
+  try {
+    const data = await callOpenAI("/responses", {
+      model: config.openaiModel,
+      input: prompt
+    });
+    const text = extractOpenAIText(data);
+    if (!text) throw new Error("OpenAI Responses API returned an empty response.");
+    return text;
+  } catch (error) {
+    if (![400, 404, 405, 422].includes(error.status)) throw error;
+    console.warn(`Responses API failed with ${error.status}; retrying with chat completions.`);
+    return callChat();
+  }
 }
 
 async function handleApi(req, res, url) {
