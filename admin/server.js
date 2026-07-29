@@ -306,41 +306,47 @@ function extractChatText(data) {
 }
 
 async function callOpenAI(path, payload) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 85000);
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 85000);
 
-  try {
-    const response = await fetch(`${config.openaiBaseUrl}${path}`, {
-      method: "POST",
-      signal: controller.signal,
-      headers: {
-        authorization: `Bearer ${config.openaiKey}`,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    const responseText = await response.text();
-    let data = {};
     try {
-      data = responseText ? JSON.parse(responseText) : {};
-    } catch {
-      data = {};
+      const response = await fetch(`${config.openaiBaseUrl}${path}`, {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          authorization: `Bearer ${config.openaiKey}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const responseText = await response.text();
+      let data = {};
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        data = {};
+      }
+      if (!response.ok) {
+        const detail = data.error?.message || data.message || responseText.slice(0, 300);
+        const requestError = new Error(detail || `OpenAI-compatible request failed: ${response.status}`);
+        requestError.status = response.status;
+        throw requestError;
+      }
+      return data;
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("AI request timed out after 85 seconds.");
+      }
+      const retryable = error instanceof TypeError || [502, 503, 504].includes(error.status);
+      if (!retryable || attempt === 2) throw error;
+      console.warn(`AI provider request failed on attempt ${attempt}; retrying once.`);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+    } finally {
+      clearTimeout(timer);
     }
-    if (!response.ok) {
-      const detail = data.error?.message || data.message || responseText.slice(0, 300);
-      const requestError = new Error(detail || `OpenAI-compatible request failed: ${response.status}`);
-      requestError.status = response.status;
-      throw requestError;
-    }
-    return data;
-  } catch (error) {
-    if (error.name === "AbortError") {
-      throw new Error("AI request timed out after 85 seconds. Try selecting a shorter section, or use a faster model/API route.");
-    }
-    throw error;
-  } finally {
-    clearTimeout(timer);
   }
+  throw new Error("AI provider request failed after retry.");
 }
 
 async function polishMarkdown(body) {

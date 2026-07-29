@@ -142,7 +142,7 @@ async function api(path, options = {}) {
     return data;
   } catch (error) {
     if (error.name === "AbortError") throw new Error("请求超时。AI 处理长文时容易超过后台等待时间，建议先选中一段文字再处理。");
-    if (error instanceof TypeError) throw new Error("网络请求失败。可能是 Render 后台正在重启、AI 接口超时，或浏览器到后台的连接被中断。请稍后重试，长文建议选中一段处理。");
+    if (error instanceof TypeError) throw new Error("网络请求失败：浏览器与 Render 后台的连接被中断。");
     throw error;
   } finally {
     clearTimeout(timer);
@@ -281,7 +281,7 @@ function splitMarkdown(markdown, maxLength = 3800) {
 }
 
 async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
-  return api("/api/polish", {
+  const options = {
     method: "POST",
     timeoutMs: 120000,
     body: JSON.stringify({
@@ -292,7 +292,15 @@ async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
       model: els.modelInput.value.trim() || "gpt-5.6-sol",
       apiStyle: "chat"
     })
-  });
+  };
+  try {
+    return await api("/api/polish", options);
+  } catch (error) {
+    if (!String(error.message || error).startsWith("网络请求失败")) throw error;
+    setStatus("连接中断，正在自动重试一次...");
+    await new Promise((resolve) => setTimeout(resolve, 1800));
+    return api("/api/polish", options);
+  }
 }
 
 async function processMarkdownChunks(mode, markdown, actionLabel) {
