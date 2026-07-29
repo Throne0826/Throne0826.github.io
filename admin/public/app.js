@@ -35,7 +35,10 @@ const els = {
   imageFileInput: document.querySelector("#imageFileInput"),
   editorMeta: document.querySelector("#editorMeta"),
   preview: document.querySelector("#preview"),
-  status: document.querySelector("#status")
+  status: document.querySelector("#status"),
+  errorNotice: document.querySelector("#errorNotice"),
+  errorNoticeText: document.querySelector("#errorNoticeText"),
+  closeErrorNotice: document.querySelector("#closeErrorNotice")
 };
 
 els.tokenInput.value = state.token;
@@ -43,6 +46,10 @@ els.tokenInput.value = state.token;
 function setStatus(message, isError = false) {
   els.status.textContent = message;
   els.status.classList.toggle("error", isError);
+  if (isError) {
+    els.errorNoticeText.textContent = message;
+    els.errorNotice.hidden = false;
+  }
 }
 
 function getDraftKey() {
@@ -252,7 +259,7 @@ function insertBlock(block) {
   replaceRange({ from, to }, `${prefix}${block}${suffix}`);
 }
 
-function splitMarkdown(markdown, maxLength = 6500) {
+function splitMarkdown(markdown, maxLength = 3800) {
   const lines = markdown.match(/[^\n]*\n|[^\n]+$/g) || [];
   const chunks = [];
   let current = "";
@@ -284,7 +291,13 @@ async function processMarkdownChunks(mode, markdown, actionLabel) {
   const results = [];
   for (let index = 0; index < chunks.length; index += 1) {
     setStatus(`AI 正在${actionLabel}：第 ${index + 1}/${chunks.length} 部分...`);
-    const data = await requestAi(mode, chunks[index], index, chunks.length);
+    els.polishButton.textContent = `处理中 ${index + 1}/${chunks.length}`;
+    let data;
+    try {
+      data = await requestAi(mode, chunks[index], index, chunks.length);
+    } catch (error) {
+      throw new Error(`AI ${actionLabel}第 ${index + 1}/${chunks.length} 部分失败：${error.message || String(error)}`);
+    }
     if (!data.content?.trim()) throw new Error(`AI 处理第 ${index + 1} 部分时返回了空内容。`);
     results.push(data.content.trim());
   }
@@ -319,11 +332,18 @@ async function buildArticleSummary(markdown) {
   const notes = [];
   for (let index = 0; index < chunks.length; index += 1) {
     setStatus(`AI 正在阅读全文并提炼摘要：第 ${index + 1}/${chunks.length} 部分...`);
-    const data = await requestAi("summary_part", chunks[index], index, chunks.length);
+    els.polishButton.textContent = `阅读 ${index + 1}/${chunks.length}`;
+    let data;
+    try {
+      data = await requestAi("summary_part", chunks[index], index, chunks.length);
+    } catch (error) {
+      throw new Error(`AI 阅读第 ${index + 1}/${chunks.length} 部分失败：${error.message || String(error)}`);
+    }
     if (!data.content?.trim()) throw new Error(`AI 阅读第 ${index + 1} 部分时返回了空内容。`);
     notes.push(data.content.trim());
   }
   setStatus("AI 正在合并全文摘要...");
+  els.polishButton.textContent = "合并摘要...";
   const finalResult = await requestAi("summary", notes.join("\n"), 0, 1);
   const summary = cleanSummary(finalResult.content);
   if (!summary) throw new Error("AI 没有生成有效摘要。");
@@ -527,10 +547,15 @@ async function polish() {
     setStatus("当前光标附近没有可处理的正文。", true);
     return;
   }
+  els.errorNotice.hidden = true;
   const previousText = els.polishButton.textContent;
   els.polishButton.disabled = true;
-  els.polishButton.textContent = "处理中...";
+  els.polishButton.textContent = "检查配置...";
   try {
+    const aiConfig = await api("/api/ai-config", { timeoutMs: 15000 });
+    if (!aiConfig.configured) throw new Error("Render 尚未配置 OPENAI_API_KEY。请先在服务环境变量中填写。");
+    setStatus(`正在连接 AI：${aiConfig.model} · ${aiConfig.apiStyle} · ${aiConfig.provider}`);
+    els.polishButton.textContent = "处理中...";
     let suggestion;
     if (mode === "summary") {
       const summary = await buildArticleSummary(fullText);
@@ -618,6 +643,9 @@ els.saveTokenButton.addEventListener("click", () => {
   state.token = els.tokenInput.value.trim();
   localStorage.setItem("blog-admin-token", state.token);
   setStatus("Token saved in this browser.");
+});
+els.closeErrorNotice.addEventListener("click", () => {
+  els.errorNotice.hidden = true;
 });
 els.loadPostsButton.addEventListener("click", bind(loadPosts));
 els.newPostButton.addEventListener("click", newPost);

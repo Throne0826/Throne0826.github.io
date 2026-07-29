@@ -297,7 +297,12 @@ function extractOpenAIText(data) {
 }
 
 function extractChatText(data) {
-  return data.choices?.[0]?.message?.content?.trim() || "";
+  const content = data.choices?.[0]?.message?.content;
+  if (typeof content === "string") return content.trim();
+  if (Array.isArray(content)) {
+    return content.map((part) => part?.text || part?.content || "").join("\n").trim();
+  }
+  return String(data.choices?.[0]?.text || "").trim();
 }
 
 async function callOpenAI(path, payload) {
@@ -381,9 +386,26 @@ async function polishMarkdown(body) {
 async function handleApi(req, res, url) {
   logApi(req, res, url);
   if (!requireAdmin(req, res)) return;
-  if (url.pathname !== "/api/polish" && !requireGithubConfig(res)) return;
+  const aiRoute = url.pathname === "/api/polish" || url.pathname === "/api/ai-config";
+  if (!aiRoute && !requireGithubConfig(res)) return;
 
   try {
+    if (req.method === "GET" && url.pathname === "/api/ai-config") {
+      let provider = config.openaiBaseUrl;
+      try {
+        provider = new URL(config.openaiBaseUrl).host;
+      } catch {
+        provider = "无效地址";
+      }
+      sendJson(res, 200, {
+        configured: Boolean(config.openaiKey),
+        model: config.openaiModel,
+        apiStyle: config.openaiApiStyle,
+        provider
+      });
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === "/api/deploy-status") {
       sendJson(res, 200, await getDeployStatus());
       return;
@@ -425,7 +447,12 @@ async function handleApi(req, res, url) {
 
     sendJson(res, 404, { error: "Not found." });
   } catch (error) {
-    sendJson(res, 500, { error: error.message || String(error) });
+    const message = error.message || String(error);
+    console.error(`[api] ${req.method} ${url.pathname} failed:`, message);
+    const detail = url.pathname === "/api/polish"
+      ? `AI 请求失败 [${config.openaiModel} / ${config.openaiApiStyle}]：${message}`
+      : message;
+    sendJson(res, 500, { error: detail });
   }
 }
 

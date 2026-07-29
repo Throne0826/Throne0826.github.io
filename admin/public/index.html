@@ -101,6 +101,8 @@
           </details>
         </nav>
 
+        <div id="status" class="status" role="status" aria-live="polite">准备就绪</div>
+
         <section id="reviewPanel" class="review-panel" hidden>
           <div class="review-header">
             <div>
@@ -147,9 +149,12 @@
           </section>
         </div>
 
-        <footer id="status" class="status">准备就绪</footer>
       </section>
     </main>
+    <aside id="errorNotice" class="error-notice" role="alert" hidden>
+      <span id="errorNoticeText"></span>
+      <button id="closeErrorNotice" type="button" title="关闭错误提示" aria-label="关闭错误提示">×</button>
+    </aside>
     <script src="/app.js" type="module"></script>
   </body>
 </html>
