@@ -20,6 +20,7 @@ const els = {
   postSortSelect: document.querySelector("#postSortSelect"),
   postList: document.querySelector("#postList"),
   pathInput: document.querySelector("#pathInput"),
+  modelInput: document.querySelector("#modelInput"),
   modeSelect: document.querySelector("#modeSelect"),
   polishButton: document.querySelector("#polishButton"),
   saveButton: document.querySelector("#saveButton"),
@@ -42,6 +43,7 @@ const els = {
 };
 
 els.tokenInput.value = state.token;
+els.modelInput.value = localStorage.getItem("blog-admin-ai-model") || "gpt-5.6-sol";
 
 function setStatus(message, isError = false) {
   els.status.textContent = message;
@@ -282,7 +284,14 @@ async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
   return api("/api/polish", {
     method: "POST",
     timeoutMs: 120000,
-    body: JSON.stringify({ mode, markdown, chunkIndex, chunkCount })
+    body: JSON.stringify({
+      mode,
+      markdown,
+      chunkIndex,
+      chunkCount,
+      model: els.modelInput.value.trim() || "gpt-5.6-sol",
+      apiStyle: "chat"
+    })
   });
 }
 
@@ -554,7 +563,8 @@ async function polish() {
   try {
     const aiConfig = await api("/api/ai-config", { timeoutMs: 15000 });
     if (!aiConfig.configured) throw new Error("Render 尚未配置 OPENAI_API_KEY。请先在服务环境变量中填写。");
-    setStatus(`正在连接 AI：${aiConfig.model} · ${aiConfig.apiStyle} · ${aiConfig.provider}`);
+    const requestedModel = els.modelInput.value.trim() || aiConfig.model;
+    setStatus(`正在连接 AI：${requestedModel} · chat · ${aiConfig.provider}`);
     els.polishButton.textContent = "处理中...";
     let suggestion;
     if (mode === "summary") {
@@ -646,6 +656,12 @@ els.saveTokenButton.addEventListener("click", () => {
 });
 els.closeErrorNotice.addEventListener("click", () => {
   els.errorNotice.hidden = true;
+});
+els.modelInput.addEventListener("change", () => {
+  const model = els.modelInput.value.trim() || "gpt-5.6-sol";
+  els.modelInput.value = model;
+  localStorage.setItem("blog-admin-ai-model", model);
+  setStatus(`AI 模型已切换为 ${model}`);
 });
 els.loadPostsButton.addEventListener("click", bind(loadPosts));
 els.newPostButton.addEventListener("click", newPost);

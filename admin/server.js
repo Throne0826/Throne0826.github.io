@@ -14,9 +14,9 @@ const config = {
   githubBranch: process.env.GITHUB_BRANCH || "main",
   githubToken: process.env.GITHUB_TOKEN || "",
   openaiKey: process.env.OPENAI_API_KEY || "",
-  openaiModel: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+  openaiModel: process.env.OPENAI_MODEL || "gpt-5.6-sol",
   openaiBaseUrl: (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, ""),
-  openaiApiStyle: process.env.OPENAI_API_STYLE || "responses"
+  openaiApiStyle: process.env.OPENAI_API_STYLE || "chat"
 };
 
 const mime = {
@@ -348,10 +348,15 @@ async function polishMarkdown(body) {
     throw new Error("OPENAI_API_KEY is not configured on the server.");
   }
 
+  const requestedModel = String(body.model || config.openaiModel).trim();
+  if (!/^[a-zA-Z0-9._:/-]{1,100}$/.test(requestedModel)) {
+    throw new Error("Invalid AI model ID.");
+  }
+  const apiStyle = body.apiStyle === "responses" ? "responses" : body.apiStyle === "chat" ? "chat" : config.openaiApiStyle;
   const prompt = polishPrompt(body);
   const callChat = async () => {
     const data = await callOpenAI("/chat/completions", {
-      model: config.openaiModel,
+      model: requestedModel,
       messages: [
         {
           role: "user",
@@ -364,22 +369,26 @@ async function polishMarkdown(body) {
     return text;
   };
 
-  if (config.openaiApiStyle === "chat") {
-    return callChat();
-  }
-
   try {
-    const data = await callOpenAI("/responses", {
-      model: config.openaiModel,
-      input: prompt
-    });
-    const text = extractOpenAIText(data);
-    if (!text) throw new Error("OpenAI Responses API returned an empty response.");
-    return text;
+    if (apiStyle === "chat") return await callChat();
+
+    try {
+      const data = await callOpenAI("/responses", {
+        model: requestedModel,
+        input: prompt
+      });
+      const text = extractOpenAIText(data);
+      if (!text) throw new Error("OpenAI Responses API returned an empty response.");
+      return text;
+    } catch (error) {
+      if (![400, 404, 405, 422].includes(error.status)) throw error;
+      console.warn(`Responses API failed with ${error.status}; retrying with chat completions.`);
+      return await callChat();
+    }
   } catch (error) {
-    if (![400, 404, 405, 422].includes(error.status)) throw error;
-    console.warn(`Responses API failed with ${error.status}; retrying with chat completions.`);
-    return callChat();
+    error.model = requestedModel;
+    error.apiStyle = apiStyle;
+    throw error;
   }
 }
 
@@ -450,7 +459,7 @@ async function handleApi(req, res, url) {
     const message = error.message || String(error);
     console.error(`[api] ${req.method} ${url.pathname} failed:`, message);
     const detail = url.pathname === "/api/polish"
-      ? `AI 请求失败 [${config.openaiModel} / ${config.openaiApiStyle}]：${message}`
+      ? `AI 请求失败 [${error.model || config.openaiModel} / ${error.apiStyle || config.openaiApiStyle}]：${message}`
       : message;
     sendJson(res, 500, { error: detail });
   }

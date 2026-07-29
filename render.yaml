@@ -28,8 +28,8 @@
       - key: OPENAI_BASE_URL
         value: https://api.openai.com/v1
       - key: OPENAI_API_STYLE
-        value: responses
+        value: chat
       - key: OPENAI_MODEL
-        value: gpt-4.1-mini
+        value: gpt-5.6-sol
 
 

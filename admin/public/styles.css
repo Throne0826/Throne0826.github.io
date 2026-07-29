@@ -294,6 +294,10 @@ textarea:focus {
   justify-content: flex-end;
 }
 
+.model-input {
+  width: 150px;
+}
+
 .md-toolbar {
   align-items: center;
   background: rgba(247, 250, 249, 0.92);
