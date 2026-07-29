@@ -71,109 +71,122 @@ GPU 3 梯度 ┘
   <entry>
     <title>新文章</title>
     <url>/2026/07/09/2026-07-09ClaudeScience%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="claudescience笔记"><a class="markdownIt-Anchor" href="#claudescience笔记"></a> ClaudeScience笔记</h1>
-<p>它的核心组成是：</p>
-<p>Claude 模型</p>
+    <content><![CDATA[<h1 id="claudescience-笔记"><a class="markdownIt-Anchor" href="#claudescience-笔记"></a> ClaudeScience 笔记</h1>
+<p>它的核心组成包括：</p>
 <ul>
-<li>agent 调度能力</li>
+<li>Claude 模型</li>
+<li>Agent 调度能力</li>
 <li>本地代码执行环境</li>
 <li>科学数据库/工具连接</li>
 <li>远程算力连接</li>
 <li>结果可追溯系统</li>
-<li>权限/隐私控制<br />
-一个能帮科研人员完成一整条工作流的系统。</li>
+<li>权限与隐私控制</li>
 </ul>
-<p>第 2 步：产品壳，Project / Session / Workspace第 2 步：产品壳，Project / Session / Workspace</p>
-<p>Project<br />
-├── Sessions<br />
-├── Artifacts<br />
-├── Project instructions<br />
-├── Permissions<br />
-├── Connected folders / files<br />
-└── 可能还有 memory / specialists / settings</p>
-<p>其中最核心的是session：<br />
-Session 是“干活的过程”<br />
-一次对话<br />
-一次分析链<br />
-一次任务执行记录<br />
-一次 workspace<br />
-Workspace = 这条工作链的本地工作目录。</p>
-<p>一个project就是一个项目  ，一个项目中会有很多 session（对话和记录/推理链），一个 session中对应有一个workspace（存放）</p>
-<p>完整链路合起来是这样<br />
-第 1 步：Coordinating Agent 先理解任务</p>
-<p>总协调 agent 会先判断这个任务包含什么：</p>
-<p>这是单细胞分析任务<br />
-需要读本地数据<br />
-需要 Python 或 R 环境<br />
-可能要用 scanpy / Seurat<br />
-需要做 QC、聚类、T 细胞筛选、差异分析<br />
-最后要生成 artifact：UMAP 图、marker gene 表、分析报告</p>
-<p>它可能先给一个 plan：</p>
-<p>计划：</p>
+<p>这是一个能够帮助科研人员完成整套工作流的系统。</p>
+<h2 id="第-2-步产品外壳project-session-workspace"><a class="markdownIt-Anchor" href="#第-2-步产品外壳project-session-workspace"></a> 第 2 步：产品外壳——Project / Session / Workspace</h2>
+<pre class="highlight"><code class="text">Project
+├── Sessions
+├── Artifacts
+├── Project instructions
+├── Permissions
+├── Connected folders / files
+└── 可能还包括 memory / specialists / settings
+</code></pre>
+<p>其中，最核心的是 <strong>Session</strong>。</p>
+<p>Session 是“执行任务的过程”，包括：</p>
+<ul>
+<li>一次对话</li>
+<li>一次分析链</li>
+<li>一次任务执行记录</li>
+<li>一个 Workspace</li>
+</ul>
+<p><strong>Workspace</strong> 是这条工作链对应的本地工作目录。</p>
+<p>一个 <strong>Project</strong> 就是一个项目。一个项目中可以包含多个 Session，用于保存不同的对话、记录和推理链；每个 Session 都对应一个 Workspace，用于存放相关文件。</p>
+<h2 id="完整链路"><a class="markdownIt-Anchor" href="#完整链路"></a> 完整链路</h2>
+<h3 id="第-1-步coordinating-agent-首先理解任务"><a class="markdownIt-Anchor" href="#第-1-步coordinating-agent-首先理解任务"></a> 第 1 步：Coordinating Agent 首先理解任务</h3>
+<p>总协调 Agent 会先判断任务包含哪些内容：</p>
+<ul>
+<li>这是一个单细胞分析任务</li>
+<li>需要读取本地数据</li>
+<li>需要 Python 或 R 环境</li>
+<li>可能需要使用 scanpy / Seurat</li>
+<li>需要完成 QC、聚类、T 细胞筛选和差异分析</li>
+<li>最后需要生成 Artifact，例如 UMAP 图、marker gene 表和分析报告</li>
+</ul>
+<p>它可能会先给出一个 plan：</p>
+<h4 id="计划"><a class="markdownIt-Anchor" href="#计划"></a> 计划</h4>
 <ol>
 <li>读取 h5ad / mtx 数据</li>
-<li>检查 metadata 里 treatment/control 分组</li>
-<li>做 QC</li>
-<li>标准化和降维</li>
+<li>检查 metadata 中的 treatment/control 分组</li>
+<li>执行 QC</li>
+<li>进行标准化和降维</li>
 <li>聚类并识别 T 细胞</li>
-<li>比较治疗组和对照组 T 细胞状态</li>
+<li>比较治疗组与对照组的 T 细胞状态</li>
 <li>生成 UMAP 图和 marker gene 表</li>
 <li>保存 artifact</li>
-<li>运行 reviewer 检查结论</li>
+<li>运行 reviewer，检查分析结论</li>
 </ol>
-<p>然后它会问权限：</p>
-<p>是否允许读取 D:/lab/lung_cancer_scRNA/？<br />
-是否允许在本 session workspace 中写入分析文件？<br />
-是否允许运行 Python 代码？</p>
-<p>这就是 coordinating agent 在调度。</p>
-<p>———</p>
-<p>第 2 步：Delegation 拆任务</p>
-<p>如果任务复杂，它可能把任务拆成几条 track：</p>
-<p>Track A：数据读取和 QC<br />
-Track B：细胞类型注释<br />
-Track C：治疗组 vs 对照组差异分析<br />
-Track D：图表和报告生成</p>
-<p>每条 track 做不同事情。</p>
-<p>比如：</p>
-<p>Track A：</p>
+<p>然后，它会请求权限：</p>
+<blockquote>
+<p>是否允许读取 <code>D:/lab/lung_cancer_scRNA/</code>？</p>
+<p>是否允许在当前 Session Workspace 中写入分析文件？</p>
+<p>是否允许运行 Python 代码？</p>
+</blockquote>
+<p>这就是 coordinating agent 的调度过程。</p>
+<hr />
+<h3 id="第-2-步delegation-拆分任务"><a class="markdownIt-Anchor" href="#第-2-步delegation-拆分任务"></a> 第 2 步：Delegation 拆分任务</h3>
+<p>如果任务较为复杂，它可能会将任务拆分成多条 track：</p>
 <ul>
-<li>读 h5ad</li>
-<li>检查细胞数、基因数、线粒体比例</li>
+<li><strong>Track A：</strong> 数据读取和 QC</li>
+<li><strong>Track B：</strong> 细胞类型注释</li>
+<li><strong>Track C：</strong> 治疗组 vs 对照组差异分析</li>
+<li><strong>Track D：</strong> 图表和报告生成</li>
+</ul>
+<p>每条 track 负责不同的任务。</p>
+<p>例如：</p>
+<h4 id="track-a"><a class="markdownIt-Anchor" href="#track-a"></a> Track A</h4>
+<ul>
+<li>读取 h5ad</li>
+<li>检查细胞数、基因数和线粒体比例</li>
 <li>输出 QC summary</li>
 </ul>
-<p>Track B：</p>
+<h4 id="track-b"><a class="markdownIt-Anchor" href="#track-b"></a> Track B</h4>
 <ul>
-<li>聚类</li>
+<li>进行聚类</li>
 <li>根据 marker gene 标注 T cell / B cell / myeloid</li>
-<li>筛出 T cell</li>
+<li>筛选出 T cell</li>
 </ul>
-<p>Track C：</p>
+<h4 id="track-c"><a class="markdownIt-Anchor" href="#track-c"></a> Track C</h4>
 <ul>
-<li>对 T cell 做 treatment vs control 比较</li>
-<li>找 exhausted T cell markers</li>
+<li>对 T cell 进行 treatment vs control 比较</li>
+<li>查找 exhausted T cell markers</li>
 <li>输出差异基因表</li>
 </ul>
-<p>Track D：</p>
+<h4 id="track-d"><a class="markdownIt-Anchor" href="#track-d"></a> Track D</h4>
 <ul>
 <li>生成 UMAP</li>
 <li>生成 marker gene heatmap</li>
-<li>写一段汇报解释</li>
+<li>撰写一段汇报说明</li>
 </ul>
-<p>Delegation 的价值是：</p>
-<p>不是一个人按顺序慢慢做，而是把任务并行拆开。</p>
-<p>———</p>
-<p>第 3 步：Specialist Agents 介入</p>
-<p>这时候 coordinating agent 可能会叫一个：</p>
-<p>single-cell specialist</p>
-<p>这个 specialist 的作用不是“另一个聊天机器人随便说”，而是带有单细胞分析 SOP。</p>
-<p>它会更偏向这样做：</p>
+<p><strong>Delegation 的价值在于：</strong></p>
+<blockquote>
+<p>不再由一个人按顺序逐项完成，而是将任务拆分后并行处理。</p>
+</blockquote>
+<hr />
+<h3 id="第-3-步specialist-agents-介入"><a class="markdownIt-Anchor" href="#第-3-步specialist-agents-介入"></a> 第 3 步：Specialist Agents 介入</h3>
+<p>此时，coordinating agent 可能会调用一个：</p>
+<blockquote>
+<p><strong>single-cell specialist</strong></p>
+</blockquote>
+<p>这个 specialist 并不是“另一个聊天机器人随便说说”，而是遵循单细胞分析 SOP 的领域专家。</p>
+<p>它更倾向于按照以下流程开展分析：</p>
 <ol>
 <li>检查每个细胞的 gene count</li>
 <li>检查 mitochondrial percentage</li>
 <li>过滤低质量细胞</li>
 <li>normalize</li>
 <li>log transform</li>
-<li>找 highly variable genes</li>
+<li>查找 highly variable genes</li>
 <li>PCA</li>
 <li>neighbors</li>
 <li>UMAP</li>
@@ -181,137 +194,171 @@ Track D：图表和报告生成</p>
 <li>marker gene annotation</li>
 <li>treatment/control comparison</li>
 </ol>
-<p>如果是普通模型，可能会漏步骤。<br />
-Specialist 的价值是：</p>
-<p>让任务按领域规范走，而不是临时发挥。</p>
-<p>———</p>
-<p>第 4 步：Tools / 本地执行开始干活</p>
-<p>接下来真正执行。</p>
-<p>Claude Science 会在这个 Session 的 Workspace 里写代码，比如：</p>
-<p>workspace/<br />
-├── load_data.py<br />
-├── qc_analysis.py<br />
-├── cluster_cells.py<br />
-├── tcell_analysis.py<br />
-├── figures/<br />
-│   ├── umap_treatment_control.png<br />
-│   └── tcell_markers_heatmap.png<br />
-└── outputs/<br />
-├── marker_genes.csv<br />
-└── qc_summary.csv</p>
-<p>然后它会在本机 Python kernel 里跑：</p>
-<p>import scanpy as sc</p>
-<p>adata = sc.read_h5ad(“input/lung_cancer.h5ad”)<br />
-sc.pp.filter_cells(adata, min_genes=200)<br />
-sc.pp.normalize_total(adata)<br />
-sc.pp.log1p(adata)<br />
-sc.pp.highly_variable_genes(adata)<br />
-sc.tl.pca(adata)<br />
-sc.pp.neighbors(adata)<br />
-sc.tl.umap(adata)<br />
-sc.tl.leiden(adata)</p>
-<p>这里它已经不是聊天了，而是在实际执行代码。</p>
-<p>———</p>
-<p>第 5 步：如果需要查外部知识，调用 connector</p>
-<p>比如它要确认 T 细胞 marker gene：</p>
-<p>CD3D<br />
-CD3E<br />
-TRAC<br />
-PDCD1<br />
-CTLA4<br />
-LAG3<br />
-HAVCR2<br />
-GZMB<br />
-IFNG</p>
-<p>它可能会调用公共数据库 connector：</p>
-<p>UniProt<br />
-Reactome<br />
-OpenAlex / PubMed<br />
-其他生命科学数据库</p>
-<p>用途是：</p>
-<p>确认 marker gene 含义<br />
-补充 pathway 解释<br />
-查 exhaustion markers 的文献依据</p>
-<p>也就是说：</p>
-<p>本地数据分析 + 外部知识查询</p>
+<p>普通模型可能会遗漏其中的某些步骤。</p>
+<p><strong>Specialist 的价值在于：</strong></p>
+<blockquote>
+<p>让任务遵循领域规范，而不是临时发挥。</p>
+</blockquote>
+<hr />
+<h3 id="第-4-步tools-本地执行开始工作"><a class="markdownIt-Anchor" href="#第-4-步tools-本地执行开始工作"></a> 第 4 步：Tools / 本地执行开始工作</h3>
+<p>接下来进入实际执行阶段。</p>
+<p>Claude Science 会在当前 Session 的 Workspace 中编写代码，例如：</p>
+<pre class="highlight"><code class="text">workspace/
+├── load_data.py
+├── qc_analysis.py
+├── cluster_cells.py
+├── tcell_analysis.py
+├── figures/
+│   ├── umap_treatment_control.png
+│   └── tcell_markers_heatmap.png
+└── outputs/
+    ├── marker_genes.csv
+    └── qc_summary.csv
+</code></pre>
+<p>然后，它会在本机 Python kernel 中运行：</p>
+<pre class="highlight"><code class="python"><span class="hljs-keyword">import</span> scanpy <span class="hljs-keyword">as</span> sc
+
+adata = sc.read_h5ad(<span class="hljs-string">&quot;input/lung_cancer.h5ad&quot;</span>)
+sc.pp.filter_cells(adata, min_genes=<span class="hljs-number">200</span>)
+sc.pp.normalize_total(adata)
+sc.pp.log1p(adata)
+sc.pp.highly_variable_genes(adata)
+sc.tl.pca(adata)
+sc.pp.neighbors(adata)
+sc.tl.umap(adata)
+sc.tl.leiden(adata)
+</code></pre>
+<p>此时，它已经不再只是聊天，而是在实际执行代码。</p>
+<hr />
+<h2 id="第-5-步如需查询外部知识调用-connector"><a class="markdownIt-Anchor" href="#第-5-步如需查询外部知识调用-connector"></a> 第 5 步：如需查询外部知识，调用 Connector</h2>
+<p>例如，它需要确认 T 细胞的 marker gene：</p>
+<ul>
+<li><code>CD3D</code></li>
+<li><code>CD3E</code></li>
+<li><code>TRAC</code></li>
+<li><code>PDCD1</code></li>
+<li><code>CTLA4</code></li>
+<li><code>LAG3</code></li>
+<li><code>HAVCR2</code></li>
+<li><code>GZMB</code></li>
+<li><code>IFNG</code></li>
+</ul>
+<p>它可能会调用公共数据库连接器，包括：</p>
+<ul>
+<li>UniProt</li>
+<li>Reactome</li>
+<li>OpenAlex / PubMed</li>
+<li>其他生命科学数据库</li>
+</ul>
+<p>用途包括：</p>
+<ul>
+<li>确认 marker gene 的含义</li>
+<li>补充 pathway 解释</li>
+<li>查找 exhaustion marker 的文献依据</li>
+</ul>
+<p>也就是说，将：</p>
+<blockquote>
+<p><strong>本地数据分析 + 外部知识查询</strong></p>
+</blockquote>
 <p>结合起来。</p>
-<p>———</p>
-<p>第 6 步：生成 Artifacts</p>
-<p>跑完以后，它不会只说“分析完成”。</p>
-<p>它会保存几个正式结果对象：</p>
-<p>Artifact 1：UMAP 图<br />
-Artifact 2：T cell marker gene 表<br />
-Artifact 3：QC summary 表<br />
-Artifact 4：简短分析报告</p>
-<p>这些 artifact 和普通文件的区别是：</p>
-<p>可以直接查看<br />
-有版本<br />
-知道是哪些代码生成的<br />
-知道运行环境<br />
-知道执行日志<br />
-可以被 reviewer 检查</p>
-<p>比如 UMAP 图的 provenance 里可能有：</p>
-<p>生成它的用户请求<br />
-生成它的 Python 代码<br />
-运行日志<br />
-scanpy 版本<br />
-输入数据路径<br />
-生成时间<br />
-reviewer 检查结果</p>
-<p>———</p>
-<p>第 7 步：Reviewer 检查</p>
-<p>最后 reviewer 来检查 Claude 的结论。</p>
-<p>Claude 可能写：</p>
-<p>治疗组 T 细胞显示更强的 exhaustion 特征，<br />
-PDCD1、CTLA4、LAG3 在治疗组中上调。</p>
-<p>Reviewer 会看：</p>
-<p>代码是否真的做了 treatment vs control？<br />
-metadata 里是否真的有 treatment/control？<br />
-PDCD1、CTLA4、LAG3 是否真的上调？<br />
-p 值和 logFC 是否支持？<br />
-图表是否对应正确分组？<br />
-有没有代码报错？</p>
-<p>如果发现问题，它可能指出：</p>
-<p>Warning:<br />
-结论中说 LAG3 显著上调，但 marker_genes.csv 中 adjusted p-value = 0.12，<br />
-不应称为显著上调。</p>
-<p>这时候 Claude 应该改成：</p>
-<p>PDCD1 和 CTLA4 在治疗组显著上调；<br />
-LAG3 有上调趋势，但未达到显著性。</p>
-<p>这就是 reviewer 的价值。<br />
-————---------------------------<br />
-用户：<br />
-帮我分析肺癌单细胞数据</p>
-<p>↓<br />
-Coordinating Agent：<br />
-理解任务，制定计划，请求权限</p>
-<p>↓<br />
-Delegation：<br />
-如果任务复杂，它可能把任务拆成几条 track：<br />
-（把可上一层给他的可认为并发的任务拆出来）<br />
-拆成 QC、注释、差异分析、图表报告几条线</p>
-<p>↓<br />
-Specialist Agent：<br />
-↓<br />
-Specialist Agents 介入</p>
-<p>这时候 coordinating agent 可能会叫一个：<br />
-如果是普通模型，可能会漏步骤。<br />
-Specialist 的价值是：</p>
-<p>让任务按领域规范走，而不是临时发挥。<br />
-Tools / Runtime：<br />
-在本地 workspace 里写 Python/R，跑 scanpy/Seurat</p>
-<p>↓<br />
-Connectors：<br />
-必要时查 marker gene、pathway、文献数据库</p>
-<p>↓<br />
-Artifacts：<br />
-保存 UMAP 图、marker 表、QC 报告、分析报告</p>
-<p>↓<br />
-Reviewer：<br />
-检查文字结论是否被代码、表格、图表和执行日志支持</p>
-<p>↓<br />
-用户：<br />
-查看结果、要求改图、继续追问</p>
+<hr />
+<h2 id="第-6-步生成-artifacts"><a class="markdownIt-Anchor" href="#第-6-步生成-artifacts"></a> 第 6 步：生成 Artifacts</h2>
+<p>运行完成后，它不会只提示“分析完成”。</p>
+<p>它还会保存以下正式结果对象：</p>
+<ol>
+<li><strong>Artifact 1：</strong> UMAP 图</li>
+<li><strong>Artifact 2：</strong> T cell marker gene 表</li>
+<li><strong>Artifact 3：</strong> QC summary 表</li>
+<li><strong>Artifact 4：</strong> 简短的分析报告</li>
+</ol>
+<p>这些 artifact 与普通文件的区别在于：</p>
+<ul>
+<li>可以直接查看</li>
+<li>具有版本信息</li>
+<li>能够追溯生成它们的代码</li>
+<li>能够记录运行环境</li>
+<li>能够查看执行日志</li>
+<li>可以由 reviewer 检查</li>
+</ul>
+<p>例如，UMAP 图的 provenance 中可能包含：</p>
+<ul>
+<li>生成该图的用户请求</li>
+<li>生成该图的 Python 代码</li>
+<li>运行日志</li>
+<li>scanpy 版本</li>
+<li>输入数据路径</li>
+<li>生成时间</li>
+<li>reviewer 检查结果</li>
+</ul>
+<hr />
+<h2 id="第-7-步reviewer-检查"><a class="markdownIt-Anchor" href="#第-7-步reviewer-检查"></a> 第 7 步：Reviewer 检查</h2>
+<p>最后，由 reviewer 检查 Claude 得出的结论。</p>
+<p>Claude 可能会写：</p>
+<blockquote>
+<p>治疗组 T 细胞表现出更强的 exhaustion 特征，<br />
+<code>PDCD1</code>、<code>CTLA4</code>、<code>LAG3</code> 在治疗组中上调。</p>
+</blockquote>
+<p>Reviewer 会检查：</p>
+<ul>
+<li>代码是否确实执行了 <code>treatment vs control</code> 的比较？</li>
+<li>metadata 中是否确实包含 <code>treatment/control</code>？</li>
+<li><code>PDCD1</code>、<code>CTLA4</code>、<code>LAG3</code> 是否确实上调？</li>
+<li>p 值和 logFC 是否支持这一结论？</li>
+<li>图表是否对应正确的分组？</li>
+<li>代码执行过程中是否出现错误？</li>
+</ul>
+<p>如果发现问题，它可能会指出：</p>
+<blockquote>
+<p><strong>Warning：</strong></p>
+<p>结论中称 <code>LAG3</code> 显著上调，但 <code>marker_genes.csv</code> 中的 <code>adjusted p-value = 0.12</code>，因此不应称其显著上调。</p>
+</blockquote>
+<p>这时，Claude 应将结论修改为：</p>
+<blockquote>
+<p><code>PDCD1</code> 和 <code>CTLA4</code> 在治疗组中显著上调；<br />
+<code>LAG3</code> 呈上调趋势，但未达到统计学显著性。</p>
+</blockquote>
+<p>这就是 <strong>reviewer</strong> 的价值。</p>
+<hr />
+<h2 id="完整工作流"><a class="markdownIt-Anchor" href="#完整工作流"></a> 完整工作流</h2>
+<h3 id="用户"><a class="markdownIt-Anchor" href="#用户"></a> 用户</h3>
+<blockquote>
+<p>帮我分析肺癌单细胞数据</p>
+</blockquote>
+<p>↓</p>
+<h3 id="coordinating-agent"><a class="markdownIt-Anchor" href="#coordinating-agent"></a> Coordinating Agent</h3>
+<p>理解任务、制定计划并请求权限。</p>
+<p>↓</p>
+<h3 id="delegation"><a class="markdownIt-Anchor" href="#delegation"></a> Delegation</h3>
+<p>如果任务较为复杂，它可能会将任务拆分为多条 track：</p>
+<ul>
+<li>将上层交给它的任务拆分为可并发执行的子任务</li>
+<li>例如，拆分为 QC、注释、差异分析和图表报告等多条任务线</li>
+</ul>
+<p>↓</p>
+<h3 id="specialist-agent"><a class="markdownIt-Anchor" href="#specialist-agent"></a> Specialist Agent</h3>
+<p>↓</p>
+<h3 id="specialist-agents-介入"><a class="markdownIt-Anchor" href="#specialist-agents-介入"></a> Specialist Agents 介入</h3>
+<p>这时，Coordinating Agent 可能会调用一个 Specialist Agent。<br />
+普通模型可能会遗漏部分步骤。</p>
+<p>Specialist 的价值在于：</p>
+<blockquote>
+<p>确保任务遵循领域规范执行，而不是临时发挥。</p>
+</blockquote>
+<p>↓</p>
+<h3 id="tools-runtime"><a class="markdownIt-Anchor" href="#tools-runtime"></a> Tools / Runtime</h3>
+<p>在本地 workspace 中编写 Python / R 代码，并运行 scanpy / Seurat。</p>
+<p>↓</p>
+<h3 id="connectors"><a class="markdownIt-Anchor" href="#connectors"></a> Connectors</h3>
+<p>必要时查询 marker gene、pathway 和文献数据库。</p>
+<p>↓</p>
+<h3 id="artifacts"><a class="markdownIt-Anchor" href="#artifacts"></a> Artifacts</h3>
+<p>保存 UMAP 图、marker 表、QC 报告和分析报告。</p>
+<p>↓</p>
+<h3 id="reviewer"><a class="markdownIt-Anchor" href="#reviewer"></a> Reviewer</h3>
+<p>检查文字结论是否有代码、表格、图表和执行日志的支持。</p>
+<p>↓</p>
+<h3 id="用户-2"><a class="markdownIt-Anchor" href="#用户-2"></a> 用户</h3>
+<p>查看结果、要求修改图表，并继续追问。</p>
 ]]></content>
   </entry>
   <entry>
