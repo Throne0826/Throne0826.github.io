@@ -32,7 +32,7 @@
     rel="stylesheet"
     href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
 />
-<script src="/js/lib/highlight.js?v=1783671334677"></script>
+<script src="/js/lib/highlight.js?v=1785310475303"></script>
 
 
 <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -49,7 +49,7 @@
 
 <script src="/js/lib/home.js"></script>
 
-<link rel="stylesheet" href="/css/main.css?v=1783671334677" />
+<link rel="stylesheet" href="/css/main.css?v=1785310475304" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -185,6 +185,91 @@
 >
     <div id="home-posts">
         
+
+<div class="post">
+    <a href="/2026/07/29/2026-07-29-AdaptiveReasoner%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E9%9A%BE%E5%BA%A6%E9%87%87%E6%A0%B7%E4%B8%8E%E5%A4%B1%E8%B4%A5%E5%9B%9E%E6%94%BE%E7%9A%84%E5%8F%AF%E9%AA%8C%E8%AF%81%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86%E5%90%8E%E8%AE%AD%E7%BB%83%E7%B3%BB%E7%BB%9F/">
+        <h2 class="post-title">新文章</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/7/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1>
+<p>基础知识：</p>
+<pre class="highlight"><code class="text">训练代码 / PyTorch / verl
+          ↓
+NCCL：多张 GPU 之间通信
+          ↓
+CUDA Runtime：让程序调用 GPU
+          ↓
+NVIDIA 驱动：操作系统控制 GPU
+          ↓
+GPU 硬件
+
+Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境
+</code></pre>
+<p><strong>cuda：</strong> CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p>
+<p><strong>Doker：</strong> Docker 可以理解为一个隔离的程序运行环境。<br />
+一个 Docker 镜像通常包含：</p>
+<pre class="highlight"><code class="cpp">Ubuntu
+Python
+PyTorch
+CUDA Runtime
+NCCL
+verl
+项目依赖
+</code></pre>
+<p>Docker 本身不能直接使用 GPU，还需要宿主机安装 NVIDIA Container Toolkit。</p>
+<p><strong>NCCL：</strong> NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p>
+<p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p>
+<p>常见通信操作：</p>
+<pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPU
+AllGather：收集每张 GPU 上的数据
+ReduceScatter：先汇总，再把不同部分分给各 GPU
+Broadcast：从一张 GPU 向其他 GPU广播数据
+</code></pre>
+<p><strong>DDP 训练时发生了什么</strong>:<br />
+假设全局 Batch Size 为 128，4 张 GPU，每张卡处理 32 条数据：<br />
+rank 0：读取样本 0～31<br />
+rank 1：读取样本 32～63<br />
+rank 2：读取样本 64～95<br />
+rank 3：读取样本 96～127<br />
+每个 Rank 独立执行：<br />
+读取自己的数据<br />
+→ 前向传播<br />
+→ 计算自己的 Loss<br />
+→ 反向传播<br />
+→ 得到本卡梯度<br />
+反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：<br />
+GPU 0 梯度 ┐<br />
+GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度<br />
+GPU 2 梯度 ┤<br />
+GPU 3 梯度 ┘<br />
+然后每个进程独立执行：<br />
+optimizer.step()<br />
+因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。<br />
+DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比手工同步更高效的原因。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2026/07/29/2026-07-29-AdaptiveReasoner%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E9%9A%BE%E5%BA%A6%E9%87%87%E6%A0%B7%E4%B8%8E%E5%A4%B1%E8%B4%A5%E5%9B%9E%E6%94%BE%E7%9A%84%E5%8F%AF%E9%AA%8C%E8%AF%81%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86%E5%90%8E%E8%AE%AD%E7%BB%83%E7%B3%BB%E7%BB%9F/" class="go-post">阅读全文</a>
+</div>
 
 <div class="post">
     <a href="/2026/07/09/2026-07-09ClaudeScience%E7%AC%94%E8%AE%B0/">
@@ -517,12 +602,12 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/C/" style="color: #ffa2c4">C++</a>
+            <a href="/tags/C/" style="color: #00bcd4">C++</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #ff7d73">题解模板</a>
+            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #00a596">题解模板</a>
         </span>
         
     </div>
@@ -671,7 +756,7 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #00a596">期望</a>
+            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #03a9f4">期望</a>
         </span>
         
         <span class="tag">
@@ -681,7 +766,7 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #03a9f4">根号思想</a>
+            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #00a596">根号思想</a>
         </span>
         
     </div>
@@ -760,7 +845,7 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #03a9f4">数论</a>
+            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #ffa2c4">数论</a>
         </span>
         
         <span class="tag">
@@ -770,7 +855,7 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #ffa2c4">费马小定理</a>
+            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #00bcd4">费马小定理</a>
         </span>
         
     </div>
@@ -818,17 +903,17 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/dfs/" style="color: #00a596">dfs</a>
+            <a href="/tags/dfs/" style="color: #00bcd4">dfs</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #00bcd4">强连通分量</a>
+            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ff7d73">强连通分量</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/tarjan/" style="color: #03a9f4">tarjan</a>
+            <a href="/tags/tarjan/" style="color: #00bcd4">tarjan</a>
         </span>
         
         <span class="tag">
@@ -838,99 +923,6 @@ Reviewer：<br />
         
     </div>
     <a href="/2024/06/09/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F-scc%E7%BC%A9%E7%82%B9-tarjan/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/05/26/lca%E4%B8%8E%E6%A0%91%E4%B8%8A%EF%BC%88%E8%B7%AF%E5%BE%84%E4%BA%A4%E3%80%81%E5%B9%B6%EF%BC%8C%E7%9B%B4%E5%BE%84%EF%BC%89%E9%97%AE%E9%A2%98/">
-        <h2 class="post-title">lca与树上（路径交、并，直径）问题</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                笔记
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/5/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>最近的一些比赛中经常用到树上 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">LCA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">A</span></span></span></span> 的常见模型，这里整理一下几种做法和应用场景。</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #ff7d73">图论</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%A0%91%E8%AE%BA/" style="color: #00a596">树论</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/LCA/" style="color: #00bcd4">LCA</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/Tarjan/" style="color: #ffa2c4">Tarjan</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/st%E8%A1%A8/" style="color: #00a596">st表</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="color: #03a9f4">数据结构</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="color: #00bcd4">并查集</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" style="color: #00a596">线段树</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/dfs/" style="color: #ff7d73">dfs</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/bfs/" style="color: #00bcd4">bfs</a>
-        </span>
-        
-    </div>
-    <a href="/2024/05/26/lca%E4%B8%8E%E6%A0%91%E4%B8%8A%EF%BC%88%E8%B7%AF%E5%BE%84%E4%BA%A4%E3%80%81%E5%B9%B6%EF%BC%8C%E7%9B%B4%E5%BE%84%EF%BC%89%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
 </div>
 
 

@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>2023icpc南京站补题 | Throne</title>
+    <title>新文章 | Throne</title>
     <meta name="author" content="Lxy" />
     <meta name="description" content="读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道" />
     <meta name="keywords" content="" />
@@ -32,7 +32,7 @@
     rel="stylesheet"
     href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
 />
-<script src="/js/lib/highlight.js?v=1785310475280"></script>
+<script src="/js/lib/highlight.js?v=1785310475274"></script>
 
 
 <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/css/main.css?v=1785310475280" />
+<link rel="stylesheet" href="/css/main.css?v=1785310475274" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -162,129 +162,75 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>2023icpc南京站补题</h1>
+        <h1>新文章</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/4/1
+            2026/7/29
         </span>
         
-        <span class="category">
-            <a href="/categories/%E8%A1%A5%E9%A2%98/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                补题
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="color: #00bcd4">
-                    图论
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/" style="color: #ff7d73">
-                    最小环
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" style="color: #ffa2c4">
-                    最短路
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/Dijkstra/" style="color: #ff7d73">
-                    Dijkstra
-                </a>
-            </span>
-            
-        </span>
         
     </div>
     
     <div class="content" v-pre>
-        <h2 id="思路简记"><a class="markdownIt-Anchor" href="#思路简记"></a> 思路简记</h2>
-<p>建图后，可以枚举每个点作为起点跑 Dijkstra。如果最短路过程中再次回到起点，就得到经过该点的一个最小环候选值；再结合题目给定的阈值判断答案。</p>
-<span id="more"></span>
-<h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
-<pre class="highlight"><code class="cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+        <h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1>
+<p>基础知识：</p>
+<pre class="highlight"><code class="text">训练代码 / PyTorch / verl
+          ↓
+NCCL：多张 GPU 之间通信
+          ↓
+CUDA Runtime：让程序调用 GPU
+          ↓
+NVIDIA 驱动：操作系统控制 GPU
+          ↓
+GPU 硬件
 
-<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2010</span>;
-<span class="hljs-type">const</span> <span class="hljs-type">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
-
-vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt; e[N];
-<span class="hljs-type">int</span> n, m, c, minn, dist[N];
-<span class="hljs-type">bool</span> st[N];
-
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>&#123;
-    minn = INF;
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;
-        dist[i] = INF;
-        st[i] = <span class="hljs-literal">false</span>;
-    &#125;
-
-    priority_queue&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;, vector&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;, greater&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt;&gt; q;
-    dist[u] = <span class="hljs-number">0</span>;
-    q.<span class="hljs-built_in">push</span>(&#123;dist[u], u&#125;);
-
-    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">empty</span>()) &#123;
-        <span class="hljs-keyword">auto</span> [dis, ver] = q.<span class="hljs-built_in">top</span>();
-        q.<span class="hljs-built_in">pop</span>();
-        <span class="hljs-keyword">if</span> (st[ver]) <span class="hljs-keyword">continue</span>;
-        st[ver] = <span class="hljs-literal">true</span>;
-
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> [v, w] : e[ver]) &#123;
-            <span class="hljs-keyword">if</span> (v == u) minn = <span class="hljs-built_in">min</span>(minn, dis + w);
-            <span class="hljs-keyword">if</span> (st[v]) <span class="hljs-keyword">continue</span>;
-            <span class="hljs-keyword">if</span> (dist[v] &gt; dis + w) &#123;
-                dist[v] = dis + w;
-                q.<span class="hljs-built_in">push</span>(&#123;dist[v], v&#125;);
-            &#125;
-        &#125;
-    &#125;
-&#125;
-
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;
-    cin &gt;&gt; n &gt;&gt; m &gt;&gt; c;
-    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;
-
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;
-        <span class="hljs-type">int</span> u, v, z;
-        cin &gt;&gt; u &gt;&gt; v &gt;&gt; z;
-        e[u].<span class="hljs-built_in">push_back</span>(&#123;v, z&#125;);
-        <span class="hljs-keyword">if</span> (z &lt;= c) ans = <span class="hljs-number">1</span>;
-    &#125;
-
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;
-        <span class="hljs-built_in">Dijkstra</span>(i);
-        <span class="hljs-keyword">if</span> (minn &lt;= c) &#123;
-            ans = <span class="hljs-number">2</span>;
-            <span class="hljs-keyword">break</span>;
-        &#125;
-    &#125;
-
-    cout &lt;&lt; ans &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-&#125;
+Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境
 </code></pre>
+<p><strong>cuda：</strong> CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p>
+<p><strong>Doker：</strong> Docker 可以理解为一个隔离的程序运行环境。<br />
+一个 Docker 镜像通常包含：</p>
+<pre class="highlight"><code class="cpp">Ubuntu
+Python
+PyTorch
+CUDA Runtime
+NCCL
+verl
+项目依赖
+</code></pre>
+<p>Docker 本身不能直接使用 GPU，还需要宿主机安装 NVIDIA Container Toolkit。</p>
+<p><strong>NCCL：</strong> NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p>
+<p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p>
+<p>常见通信操作：</p>
+<pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPU
+AllGather：收集每张 GPU 上的数据
+ReduceScatter：先汇总，再把不同部分分给各 GPU
+Broadcast：从一张 GPU 向其他 GPU广播数据
+</code></pre>
+<p><strong>DDP 训练时发生了什么</strong>:<br />
+假设全局 Batch Size 为 128，4 张 GPU，每张卡处理 32 条数据：<br />
+rank 0：读取样本 0～31<br />
+rank 1：读取样本 32～63<br />
+rank 2：读取样本 64～95<br />
+rank 3：读取样本 96～127<br />
+每个 Rank 独立执行：<br />
+读取自己的数据<br />
+→ 前向传播<br />
+→ 计算自己的 Loss<br />
+→ 反向传播<br />
+→ 得到本卡梯度<br />
+反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：<br />
+GPU 0 梯度 ┐<br />
+GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度<br />
+GPU 2 梯度 ┤<br />
+GPU 3 梯度 ┘<br />
+然后每个进程独立执行：<br />
+optimizer.step()<br />
+因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。<br />
+DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比手工同步更高效的原因。</p>
 
     </div>
     
