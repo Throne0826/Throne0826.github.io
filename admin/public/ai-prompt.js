@@ -3,11 +3,10 @@ export function buildAiPrompt({ mode, markdown, chunkIndex = 0, chunkCount = 1 }
     polish: "Polish the article language so it is fluent, professional, and easy to understand. Preserve meaning, technical facts, structure, Markdown, LaTeX, and all code exactly.",
     format: "Adjust formatting based on content without broadly rewriting it. Improve heading levels, bold, italic, underline with <u>, highlight with <mark>, lists, quotes, tables, whitespace, Markdown structure, and LaTeX delimiters. Apply formatting only where semantically useful.",
     check: "Verify the language and factual content for accuracy and correct detected problems directly. Never modify any content inside fenced code blocks. You may correct Markdown syntax, LaTeX syntax, mathematical formulas, headings, punctuation, and inaccurate prose.",
-    summary_part: "Read this article part and output only concise Chinese notes covering its key ideas and conclusions in no more than 180 Chinese characters.",
-    summary: "Using all supplied part notes, output only one coherent Chinese article summary of no more than 100 Chinese characters. Do not add a label, quotes, Markdown, or explanation."
+    summary: "Read the complete Markdown article, ignore any existing YAML description, and output only one coherent Chinese summary of no more than 100 Chinese characters. Do not add a label, quotes, Markdown, or explanation."
   }[mode || "polish"] || "Polish and clean up the Markdown article.";
 
-  if (mode === "summary_part" || mode === "summary") {
+  if (mode === "summary") {
     return [
       "You are an editor for a Chinese technical blog.",
       task,

@@ -288,12 +288,12 @@ async function requestAi(mode, markdown, chunkIndex = 0, chunkCount = 1) {
   const directKey = els.aiKeyInput.value.trim();
   if (directKey) {
     const prompt = buildAiPrompt({ mode, markdown, chunkIndex, chunkCount });
-    return { content: await callDirectChat(prompt) };
+    return { content: await callDirectChat(prompt, mode === "summary" ? 180000 : 90000) };
   }
 
   const options = {
     method: "POST",
-    timeoutMs: 120000,
+    timeoutMs: mode === "summary" ? 195000 : 120000,
     body: JSON.stringify({
       mode,
       markdown,
@@ -330,14 +330,14 @@ function extractDirectChatText(data) {
   return String(data.choices?.[0]?.text || "").trim();
 }
 
-async function callDirectChat(prompt) {
+async function callDirectChat(prompt, timeoutMs = 90000) {
   const { baseUrl, key, model } = directAiSettings();
   if (!key) throw new Error("请先在左侧 AI 连接中填写 API Key。");
   if (!/^https:\/\//i.test(baseUrl)) throw new Error("AI API 地址必须以 https:// 开头。");
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 90000);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
       const response = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
@@ -368,7 +368,7 @@ async function callDirectChat(prompt) {
       if (!content) throw new Error("中转站返回了空内容。");
       return content;
     } catch (error) {
-      if (error.name === "AbortError") throw new Error("浏览器直连中转站超时（90 秒）。");
+      if (error.name === "AbortError") throw new Error(`浏览器直连中转站超时（${Math.round(timeoutMs / 1000)} 秒）。`);
       const retryable = error instanceof TypeError || [502, 503, 504].includes(error.status);
       if (!retryable || attempt === 2) throw error;
       setStatus("浏览器直连中断，正在重试一次...");
@@ -435,23 +435,9 @@ function upsertDescription(markdown, summary) {
 }
 
 async function buildArticleSummary(markdown) {
-  const chunks = splitMarkdown(markdown);
-  const notes = [];
-  for (let index = 0; index < chunks.length; index += 1) {
-    setStatus(`AI 正在阅读全文并提炼摘要：第 ${index + 1}/${chunks.length} 部分...`);
-    els.polishButton.textContent = `阅读 ${index + 1}/${chunks.length}`;
-    let data;
-    try {
-      data = await requestAi("summary_part", chunks[index], index, chunks.length);
-    } catch (error) {
-      throw new Error(`AI 阅读第 ${index + 1}/${chunks.length} 部分失败：${error.message || String(error)}`);
-    }
-    if (!data.content?.trim()) throw new Error(`AI 阅读第 ${index + 1} 部分时返回了空内容。`);
-    notes.push(data.content.trim());
-  }
-  setStatus("AI 正在合并全文摘要...");
-  els.polishButton.textContent = "合并摘要...";
-  const finalResult = await requestAi("summary", notes.join("\n"), 0, 1);
+  setStatus(`AI 正在一次性阅读全文并生成摘要，共 ${markdown.length} 字符...`);
+  els.polishButton.textContent = "生成摘要...";
+  const finalResult = await requestAi("summary", markdown, 0, 1);
   const summary = cleanSummary(finalResult.content);
   if (!summary) throw new Error("AI 没有生成有效摘要。");
   return summary;

@@ -272,10 +272,10 @@ function extractChatText(data) {
   return String(data.choices?.[0]?.text || "").trim();
 }
 
-async function callOpenAI(path, payload) {
+async function callOpenAI(path, payload, timeoutMs = 85000) {
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 85000);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
       const response = await fetch(`${config.openaiBaseUrl}${path}`, {
@@ -303,7 +303,7 @@ async function callOpenAI(path, payload) {
       return data;
     } catch (error) {
       if (error.name === "AbortError") {
-        throw new Error("AI request timed out after 85 seconds.");
+        throw new Error(`AI request timed out after ${Math.round(timeoutMs / 1000)} seconds.`);
       }
       const retryable = error instanceof TypeError || [502, 503, 504].includes(error.status);
       if (!retryable || attempt === 2) throw error;
@@ -327,6 +327,7 @@ async function polishMarkdown(body) {
   }
   const apiStyle = body.apiStyle === "responses" ? "responses" : body.apiStyle === "chat" ? "chat" : config.openaiApiStyle;
   const prompt = buildAiPrompt(body);
+  const timeoutMs = body.mode === "summary" ? 175000 : 85000;
   const callChat = async () => {
     const data = await callOpenAI("/chat/completions", {
       model: requestedModel,
@@ -336,7 +337,7 @@ async function polishMarkdown(body) {
           content: prompt
         }
       ]
-    });
+    }, timeoutMs);
     const text = extractChatText(data);
     if (!text) throw new Error("OpenAI-compatible chat API returned an empty response.");
     return text;
@@ -349,7 +350,7 @@ async function polishMarkdown(body) {
       const data = await callOpenAI("/responses", {
         model: requestedModel,
         input: prompt
-      });
+      }, timeoutMs);
       const text = extractOpenAIText(data);
       if (!text) throw new Error("OpenAI Responses API returned an empty response.");
       return text;
