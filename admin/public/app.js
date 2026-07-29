@@ -34,8 +34,6 @@ const els = {
   discardAiButton: document.querySelector("#discardAiButton"),
   reviewPanel: document.querySelector("#reviewPanel"),
   diffSummary: document.querySelector("#diffSummary"),
-  beforeView: document.querySelector("#beforeView"),
-  afterView: document.querySelector("#afterView"),
   diffView: document.querySelector("#diffView"),
   editorInput: document.querySelector("#editorInput"),
   imageFileInput: document.querySelector("#imageFileInput"),
@@ -213,8 +211,6 @@ function hideReview() {
   state.aiSuggestion = "";
   state.aiRange = null;
   els.reviewPanel.hidden = true;
-  els.beforeView.textContent = "";
-  els.afterView.value = "";
   els.diffView.innerHTML = "";
   els.diffSummary.textContent = "等待生成";
 }
@@ -545,8 +541,6 @@ function renderDiff(beforeText, afterText, scopeLabel) {
   els.diffSummary.textContent = added + removed
     ? `${scopeLabel}，新增 ${added} 行，删除 ${removed} 行`
     : `${scopeLabel}，AI 没有改动内容`;
-  els.beforeView.textContent = beforeText;
-  els.afterView.value = afterText;
   els.diffView.innerHTML = diff.map((part) => {
     const mark = part.type === "add" ? "+" : part.type === "remove" ? "-" : " ";
     return `<div class="diff-line diff-${part.type}"><span class="diff-mark">${mark}</span><code>${escapeHtml(part.text || " ")}</code></div>`;
@@ -685,7 +679,7 @@ async function polish() {
     state.aiSuggestion = suggestion;
     state.aiRange = target.from === 0 && target.to === fullText.length ? null : { from: target.from, to: target.to };
     renderDiff(state.aiOriginal, state.aiSuggestion, target.label);
-    setStatus("AI 建议已生成。你可以先修改建议内容，再应用到正文。");
+    setStatus("AI 建议已生成。请检查完整差异后应用到正文。");
   } finally {
     els.polishButton.disabled = false;
     els.polishButton.textContent = previousText;
@@ -693,17 +687,17 @@ async function polish() {
 }
 
 function applyAiSuggestion() {
-  if (!state.aiSuggestion && !els.afterView.value) {
+  if (!state.aiSuggestion) {
     setStatus("No AI suggestion to apply.", true);
     return;
   }
-  replaceRange(state.aiRange, els.afterView.value || state.aiSuggestion);
+  replaceRange(state.aiRange, state.aiSuggestion);
   hideReview();
   setStatus("AI changes applied. Review the preview before saving.");
 }
 
 async function copyAiSuggestion() {
-  const text = els.afterView.value || state.aiSuggestion;
+  const text = state.aiSuggestion;
   if (!text) {
     setStatus("No AI suggestion to copy.", true);
     return;

@@ -41,7 +41,7 @@
           <button id="loadPostsButton" type="button">刷新文章</button>
         </div>
 
-        <details class="ai-connection" open>
+        <details class="ai-connection">
           <summary>AI 连接</summary>
           <div class="ai-connection-fields">
             <label class="field compact-field">
@@ -133,14 +133,6 @@
             </div>
           </div>
           <div class="review-columns">
-            <section>
-              <div class="review-label">原文</div>
-              <pre id="beforeView" class="compare-pane"></pre>
-            </section>
-            <section>
-              <div class="review-label">AI 建议，可直接修改</div>
-              <textarea id="afterView" class="compare-pane suggestion-editor" spellcheck="false"></textarea>
-            </section>
             <section>
               <div class="review-label">完整差异</div>
               <div id="diffView" class="diff-view" aria-live="polite"></div>
