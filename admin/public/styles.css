@@ -30,6 +30,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   background:
@@ -41,6 +46,7 @@ body {
     var(--bg);
   background-size: auto, auto, 32px 32px, 32px 32px, auto, auto;
   color: var(--text);
+  overflow: hidden;
 }
 
 button,
@@ -128,7 +134,9 @@ textarea:focus {
 .shell {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -139,7 +147,9 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  height: 100dvh;
   min-height: 0;
+  overflow: hidden;
   padding: 20px;
 }
 
@@ -225,6 +235,7 @@ textarea:focus {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   gap: 5px;
   min-height: 0;
   overflow: auto;
@@ -259,8 +270,10 @@ textarea:focus {
 .editor {
   display: grid;
   grid-template-rows: auto auto auto minmax(0, 1fr) auto;
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .toolbar {
@@ -379,6 +392,7 @@ textarea:focus {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 0;
+  overflow: hidden;
   padding: 16px;
   gap: 16px;
 }
@@ -438,6 +452,7 @@ textarea:focus {
   line-height: 1.68;
   min-height: 0;
   outline: none;
+  overflow: auto;
   padding: 22px 20px 20px;
   resize: none;
   tab-size: 4;
@@ -640,14 +655,29 @@ textarea:focus {
 }
 
 @media (max-width: 980px) {
+  body {
+    overflow: auto;
+  }
+
   .shell {
     grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .sidebar {
     border-bottom: 1px solid var(--line);
     border-right: 0;
+    height: auto;
     max-height: 42vh;
+    overflow: hidden;
+  }
+
+  .editor {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .toolbar,
@@ -675,6 +705,7 @@ textarea:focus {
   }
 
   .workspace {
+    overflow: visible;
     padding: 10px;
   }
 

@@ -212,13 +212,9 @@ function getSelection() {
 
 function replaceRange(range, text, options = {}) {
   if (!options.skipUndo) recordUndo();
-  if (!range) {
-    els.editorInput.value = text;
-  } else {
-    const current = els.editorInput.value;
-    els.editorInput.value = `${current.slice(0, range.from)}${text}${current.slice(range.to)}`;
-    els.editorInput.selectionStart = els.editorInput.selectionEnd = range.from + text.length;
-  }
+  const from = range ? range.from : 0;
+  const to = range ? range.to : els.editorInput.value.length;
+  els.editorInput.setRangeText(text, from, to, "end");
   els.editorInput.focus();
   updatePreview();
   saveDraftSoon();
@@ -226,13 +222,20 @@ function replaceRange(range, text, options = {}) {
 
 function insertAtSelection(before, after = "", placeholder = "") {
   const { from, to, text } = getSelection();
+  const hadSelection = to > from;
   const selected = text || placeholder;
   const insert = `${before}${selected}${after}`;
   replaceRange({ from, to }, insert);
-  const cursorStart = from + before.length;
-  const cursorEnd = cursorStart + selected.length;
-  els.editorInput.selectionStart = cursorStart;
-  els.editorInput.selectionEnd = cursorEnd;
+  if (hadSelection) {
+    const cursor = from + insert.length;
+    els.editorInput.selectionStart = cursor;
+    els.editorInput.selectionEnd = cursor;
+  } else {
+    const cursorStart = from + before.length;
+    const cursorEnd = cursorStart + selected.length;
+    els.editorInput.selectionStart = cursorStart;
+    els.editorInput.selectionEnd = cursorEnd;
+  }
 }
 
 function insertBlock(block) {
@@ -579,6 +582,7 @@ els.imageFileInput.addEventListener("change", bind(async () => {
   els.imageFileInput.value = "";
 }));
 document.querySelectorAll("[data-tool]").forEach((button) => {
+  button.addEventListener("mousedown", (event) => event.preventDefault());
   button.addEventListener("click", () => runTool(button.dataset.tool));
 });
 els.editorInput.addEventListener("input", () => {
