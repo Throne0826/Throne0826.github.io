@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://lifexoryoung.cn/tags/</loc>
+    <loc>https://lifexoryoung.cn/resources/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/resources/</loc>
+    <loc>https://lifexoryoung.cn/tags/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -29,43 +29,16 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/06/10/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86-%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86-%E6%89%A9%E5%B1%95%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/</loc>
-    
-    <lastmod>2026-07-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/2024/03/19/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/</loc>
-    
-    <lastmod>2026-07-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/categories/</loc>
-    
-    <lastmod>2026-07-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/about/</loc>
-    
-    <lastmod>2026-07-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://lifexoryoung.cn/2024/09/12/%E6%95%B0%E4%BD%8DDP/</loc>
+    
+    <lastmod>2026-07-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/2024/06/10/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86-%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86-%E6%89%A9%E5%B1%95%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -101,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/05/26/lca%E4%B8%8E%E6%A0%91%E4%B8%8A%EF%BC%88%E8%B7%AF%E5%BE%84%E4%BA%A4%E3%80%81%E5%B9%B6%EF%BC%8C%E7%9B%B4%E5%BE%84%EF%BC%89%E9%97%AE%E9%A2%98/</loc>
+    <loc>https://lifexoryoung.cn/2024/03/19/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -110,7 +83,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/04/02/Codeforces%20Round%20942%20(Div.%202)/</loc>
+    <loc>https://lifexoryoung.cn/categories/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -119,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/03/31/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/</loc>
+    <loc>https://lifexoryoung.cn/about/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -182,6 +155,15 @@
   </url>
   
   <url>
+    <loc>https://lifexoryoung.cn/2024/05/26/lca%E4%B8%8E%E6%A0%91%E4%B8%8A%EF%BC%88%E8%B7%AF%E5%BE%84%E4%BA%A4%E3%80%81%E5%B9%B6%EF%BC%8C%E7%9B%B4%E5%BE%84%EF%BC%89%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2026-07-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lifexoryoung.cn/2024/04/02/2023%20Hubei%20Provincial%20Collegiate%20Programming%20Contest/</loc>
     
     <lastmod>2026-07-29</lastmod>
@@ -200,6 +182,15 @@
   </url>
   
   <url>
+    <loc>https://lifexoryoung.cn/2024/04/02/Codeforces%20Round%20942%20(Div.%202)/</loc>
+    
+    <lastmod>2026-07-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lifexoryoung.cn/2024/03/31/2023icpc%E5%8D%97%E4%BA%AC%E7%AB%99%E8%A1%A5%E9%A2%98/</loc>
     
     <lastmod>2026-07-29</lastmod>
@@ -210,6 +201,15 @@
   
   <url>
     <loc>https://lifexoryoung.cn/2024/03/31/Codeforces%20Round%20936%20(Div.%202)D.%20Birthday%20Gift/</loc>
+    
+    <lastmod>2026-07-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/2024/03/31/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E6%B5%81%E7%A8%8B/</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -357,41 +357,6 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/tags/hexo/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/next/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/vercel/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/cloudflare/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/cdn/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lifexoryoung.cn/tags/%E6%A0%91%E8%AE%BA/</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -449,6 +414,41 @@
   
   <url>
     <loc>https://lifexoryoung.cn/tags/bfs/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/hexo/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/next/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/vercel/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/cloudflare/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/cdn/</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
