@@ -32,7 +32,7 @@
     rel="stylesheet"
     href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
 />
-<script src="/js/lib/highlight.js?v=1785312082188"></script>
+<script src="/js/lib/highlight.js?v=1785313317114"></script>
 
 
 <script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -49,7 +49,7 @@
 
 <script src="/js/lib/home.js"></script>
 
-<link rel="stylesheet" href="/css/main.css?v=1785312082188" />
+<link rel="stylesheet" href="/css/main.css?v=1785313317114" />
 
 <meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/rss2.xml" title="Throne" type="application/rss+xml">
 </head>
@@ -204,9 +204,8 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1>
-<p>基础知识：</p>
-<pre class="highlight"><code class="text">训练代码 / PyTorch / verl
+            <h1 id="新文章"><a href="#新文章" class="headerlink" title="新文章"></a>新文章</h1><p>基础知识：</p>
+<pre><code class="lang-text">训练代码 / PyTorch / verl
           ↓
 NCCL：多张 GPU 之间通信
           ↓
@@ -219,9 +218,8 @@ GPU 硬件
 Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境
 </code></pre>
 <p><strong>cuda：</strong> CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p>
-<p><strong>Doker：</strong> Docker 可以理解为一个隔离的程序运行环境。<br />
-一个 Docker 镜像通常包含：</p>
-<pre class="highlight"><code class="cpp">Ubuntu
+<p><strong>Doker：</strong> Docker 可以理解为一个隔离的程序运行环境。<br>一个 Docker 镜像通常包含：</p>
+<pre><code class="lang-cpp">Ubuntu
 Python
 PyTorch
 CUDA Runtime
@@ -233,32 +231,12 @@ verl
 <p><strong>NCCL：</strong> NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p>
 <p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p>
 <p>常见通信操作：</p>
-<pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPU
+<pre><code class="lang-cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPU
 AllGather：收集每张 GPU 上的数据
 ReduceScatter：先汇总，再把不同部分分给各 GPU
 Broadcast：从一张 GPU 向其他 GPU广播数据
 </code></pre>
-<p><strong>DDP 训练时发生了什么</strong>:<br />
-假设全局 Batch Size 为 128，4 张 GPU，每张卡处理 32 条数据：<br />
-rank 0：读取样本 0～31<br />
-rank 1：读取样本 32～63<br />
-rank 2：读取样本 64～95<br />
-rank 3：读取样本 96～127<br />
-每个 Rank 独立执行：<br />
-读取自己的数据<br />
-→ 前向传播<br />
-→ 计算自己的 Loss<br />
-→ 反向传播<br />
-→ 得到本卡梯度<br />
-反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：<br />
-GPU 0 梯度 ┐<br />
-GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度<br />
-GPU 2 梯度 ┤<br />
-GPU 3 梯度 ┘<br />
-然后每个进程独立执行：<br />
-optimizer.step()<br />
-因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。<br />
-DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比手工同步更高效的原因。</p>
+<p><strong>DDP 训练时发生了什么</strong>:<br>假设全局 Batch Size 为 128，4 张 GPU，每张卡处理 32 条数据：<br>rank 0：读取样本 0～31<br>rank 1：读取样本 32～63<br>rank 2：读取样本 64～95<br>rank 3：读取样本 96～127<br>每个 Rank 独立执行：<br>读取自己的数据<br>→ 前向传播<br>→ 计算自己的 Loss<br>→ 反向传播<br>→ 得到本卡梯度<br>反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：<br>GPU 0 梯度 ┐<br>GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度<br>GPU 2 梯度 ┤<br>GPU 3 梯度 ┘<br>然后每个进程独立执行：<br>optimizer.step()<br>因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。<br>DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比手工同步更高效的原因。</p>
 
             
         </div>
@@ -289,247 +267,143 @@ DDP 会尽量让梯度通信和后续反向计算重叠，这也是它通常比�
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="claudescience笔记"><a class="markdownIt-Anchor" href="#claudescience笔记"></a> ClaudeScience笔记</h1>
-<p>它的核心组成是：</p>
-<p>Claude 模型</p>
+            <h1 id="ClaudeScience笔记"><a href="#ClaudeScience笔记" class="headerlink" title="ClaudeScience笔记"></a>ClaudeScience笔记</h1><p>它的核心组成是：                                                                                                         </p>
+<p>  Claude 模型                                                                                                              </p>
 <ul>
-<li>agent 调度能力</li>
-<li>本地代码执行环境</li>
-<li>科学数据库/工具连接</li>
-<li>远程算力连接</li>
-<li>结果可追溯系统</li>
-<li>权限/隐私控制<br />
-一个能帮科研人员完成一整条工作流的系统。</li>
+<li>agent 调度能力                                                                                                         </li>
+<li>本地代码执行环境                                                                                                       </li>
+<li>科学数据库/工具连接                                                                                                    </li>
+<li>远程算力连接                                                                                                           </li>
+<li>结果可追溯系统                                                                                                         </li>
+<li>权限/隐私控制<br>一个能帮科研人员完成一整条工作流的系统。</li>
 </ul>
 <p>第 2 步：产品壳，Project / Session / Workspace第 2 步：产品壳，Project / Session / Workspace</p>
-<p>Project<br />
-├── Sessions<br />
-├── Artifacts<br />
-├── Project instructions<br />
-├── Permissions<br />
-├── Connected folders / files<br />
-└── 可能还有 memory / specialists / settings</p>
-<p>其中最核心的是session：<br />
-Session 是“干活的过程”<br />
-一次对话<br />
-一次分析链<br />
-一次任务执行记录<br />
-一次 workspace<br />
-Workspace = 这条工作链的本地工作目录。</p>
-<p>一个project就是一个项目  ，一个项目中会有很多 session（对话和记录/推理链），一个 session中对应有一个workspace（存放）</p>
-<p>完整链路合起来是这样<br />
-第 1 步：Coordinating Agent 先理解任务</p>
-<p>总协调 agent 会先判断这个任务包含什么：</p>
-<p>这是单细胞分析任务<br />
-需要读本地数据<br />
-需要 Python 或 R 环境<br />
-可能要用 scanpy / Seurat<br />
-需要做 QC、聚类、T 细胞筛选、差异分析<br />
-最后要生成 artifact：UMAP 图、marker gene 表、分析报告</p>
-<p>它可能先给一个 plan：</p>
-<p>计划：</p>
+<p>Project<br>  ├── Sessions<br>  ├── Artifacts<br>  ├── Project instructions<br>  ├── Permissions<br>  ├── Connected folders / files<br>  └── 可能还有 memory / specialists / settings   </p>
+<p>其中最核心的是session：<br>Session 是“干活的过程”<br>  一次对话<br>  一次分析链<br>  一次任务执行记录<br>  一次 workspace<br>Workspace = 这条工作链的本地工作目录。</p>
+<p>  一个project就是一个项目  ，一个项目中会有很多 session（对话和记录/推理链），一个 session中对应有一个workspace（存放）</p>
+<p>完整链路合起来是这样<br>     第 1 步：Coordinating Agent 先理解任务                                                                                   </p>
+<p>  总协调 agent 会先判断这个任务包含什么：                                                                                  </p>
+<p>  这是单细胞分析任务<br>  需要读本地数据<br>  需要 Python 或 R 环境<br>  可能要用 scanpy / Seurat<br>  需要做 QC、聚类、T 细胞筛选、差异分析<br>  最后要生成 artifact：UMAP 图、marker gene 表、分析报告                                                                   </p>
+<p>  它可能先给一个 plan：                                                                                                    </p>
+<p>  计划：                                                                                                                   </p>
 <ol>
-<li>读取 h5ad / mtx 数据</li>
-<li>检查 metadata 里 treatment/control 分组</li>
-<li>做 QC</li>
-<li>标准化和降维</li>
-<li>聚类并识别 T 细胞</li>
-<li>比较治疗组和对照组 T 细胞状态</li>
-<li>生成 UMAP 图和 marker gene 表</li>
-<li>保存 artifact</li>
-<li>运行 reviewer 检查结论</li>
+<li>读取 h5ad / mtx 数据                                                                                                  </li>
+<li>检查 metadata 里 treatment/control 分组                                                                               </li>
+<li>做 QC                                                                                                                 </li>
+<li>标准化和降维                                                                                                          </li>
+<li>聚类并识别 T 细胞                                                                                                     </li>
+<li>比较治疗组和对照组 T 细胞状态                                                                                         </li>
+<li>生成 UMAP 图和 marker gene 表                                                                                         </li>
+<li>保存 artifact                                                                                                         </li>
+<li><p>运行 reviewer 检查结论                                                                                                </p>
+<p>然后它会问权限：                                                                                                         </p>
+<p>是否允许读取 D:/lab/lung_cancer_scRNA/？<br>是否允许在本 session workspace 中写入分析文件？<br>是否允许运行 Python 代码？                                                                                               </p>
+<p>这就是 coordinating agent 在调度。                                                                                       </p>
+<p>———                                                                                                                      </p>
+<p>第 2 步：Delegation 拆任务                                                                                               </p>
+<p>如果任务复杂，它可能把任务拆成几条 track：                                                                               </p>
+<p>Track A：数据读取和 QC<br>Track B：细胞类型注释<br>Track C：治疗组 vs 对照组差异分析<br>Track D：图表和报告生成                                                                                                  </p>
+<p>每条 track 做不同事情。                                                                                                  </p>
+<p>比如：                                                                                                                   </p>
+<p>Track A：                                                                                                                </p>
+</li>
 </ol>
-<p>然后它会问权限：</p>
-<p>是否允许读取 D:/lab/lung_cancer_scRNA/？<br />
-是否允许在本 session workspace 中写入分析文件？<br />
-是否允许运行 Python 代码？</p>
-<p>这就是 coordinating agent 在调度。</p>
-<p>———</p>
-<p>第 2 步：Delegation 拆任务</p>
-<p>如果任务复杂，它可能把任务拆成几条 track：</p>
-<p>Track A：数据读取和 QC<br />
-Track B：细胞类型注释<br />
-Track C：治疗组 vs 对照组差异分析<br />
-Track D：图表和报告生成</p>
-<p>每条 track 做不同事情。</p>
-<p>比如：</p>
-<p>Track A：</p>
 <ul>
-<li>读 h5ad</li>
-<li>检查细胞数、基因数、线粒体比例</li>
-<li>输出 QC summary</li>
-</ul>
-<p>Track B：</p>
-<ul>
-<li>聚类</li>
-<li>根据 marker gene 标注 T cell / B cell / myeloid</li>
-<li>筛出 T cell</li>
-</ul>
-<p>Track C：</p>
-<ul>
-<li>对 T cell 做 treatment vs control 比较</li>
-<li>找 exhausted T cell markers</li>
-<li>输出差异基因表</li>
-</ul>
-<p>Track D：</p>
-<ul>
-<li>生成 UMAP</li>
-<li>生成 marker gene heatmap</li>
-<li>写一段汇报解释</li>
-</ul>
-<p>Delegation 的价值是：</p>
-<p>不是一个人按顺序慢慢做，而是把任务并行拆开。</p>
-<p>———</p>
-<p>第 3 步：Specialist Agents 介入</p>
-<p>这时候 coordinating agent 可能会叫一个：</p>
-<p>single-cell specialist</p>
+<li>读 h5ad                                                                                                                </li>
+<li>检查细胞数、基因数、线粒体比例                                                                                         </li>
+<li><p>输出 QC summary                                                                                                        </p>
+<p>Track B：                                                                                                                </p>
+</li>
+<li>聚类                                                                                                                   </li>
+<li>根据 marker gene 标注 T cell / B cell / myeloid                                                                        </li>
+<li><p>筛出 T cell                                                                                                            </p>
+<p>Track C：                                                                                                                </p>
+</li>
+<li>对 T cell 做 treatment vs control 比较                                                                                 </li>
+<li>找 exhausted T cell markers                                                                                            </li>
+<li><p>输出差异基因表                                                                                                         </p>
+<p>Track D：                                                                                                                </p>
+</li>
+<li>生成 UMAP                                                                                                              </li>
+<li>生成 marker gene heatmap                                                                                               </li>
+<li><p>写一段汇报解释                                                                                                         </p>
+<p>Delegation 的价值是：                                                                                                    </p>
+<p>不是一个人按顺序慢慢做，而是把任务并行拆开。                                                                             </p>
+<p>———                                                                                                                      </p>
+<p>第 3 步：Specialist Agents 介入                                                                                          </p>
+<p>这时候 coordinating agent 可能会叫一个：                                                                                 </p>
+<p>single-cell specialist                                                                                                   </p>
 <p>这个 specialist 的作用不是“另一个聊天机器人随便说”，而是带有单细胞分析 SOP。</p>
-<p>它会更偏向这样做：</p>
+<p>它会更偏向这样做：                                                                                                       </p>
+</li>
+</ul>
 <ol>
-<li>检查每个细胞的 gene count</li>
-<li>检查 mitochondrial percentage</li>
-<li>过滤低质量细胞</li>
-<li>normalize</li>
-<li>log transform</li>
-<li>找 highly variable genes</li>
-<li>PCA</li>
-<li>neighbors</li>
-<li>UMAP</li>
-<li>Leiden clustering</li>
-<li>marker gene annotation</li>
-<li>treatment/control comparison</li>
+<li>检查每个细胞的 gene count                                                                                             </li>
+<li>检查 mitochondrial percentage                                                                                         </li>
+<li>过滤低质量细胞                                                                                                        </li>
+<li>normalize                                                                                                             </li>
+<li>log transform                                                                                                         </li>
+<li>找 highly variable genes                                                                                              </li>
+<li>PCA                                                                                                                   </li>
+<li>neighbors                                                                                                             </li>
+<li>UMAP                                                                                                                  </li>
+<li>Leiden clustering                                                                                                    </li>
+<li>marker gene annotation                                                                                               </li>
+<li><p>treatment/control comparison                                                                                         </p>
+<p>如果是普通模型，可能会漏步骤。<br>Specialist 的价值是：                                                                                                    </p>
+<p>让任务按领域规范走，而不是临时发挥。                                                                                     </p>
+<p>———                                                                                                                      </p>
+<p>第 4 步：Tools / 本地执行开始干活                                                                                        </p>
+<p>接下来真正执行。                                                                                                         </p>
+<p>Claude Science 会在这个 Session 的 Workspace 里写代码，比如：                                                            </p>
+<p>workspace/<br>├── load_data.py<br>├── qc_analysis.py<br>├── cluster_cells.py<br>├── tcell_analysis.py<br>├── figures/<br>│   ├── umap_treatment_control.png<br>│   └── tcell_markers_heatmap.png<br>└── outputs/<br>├── marker_genes.csv<br>└── qc_summary.csv                                                                                                   </p>
+<p>然后它会在本机 Python kernel 里跑：                                                                                      </p>
+<p>import scanpy as sc                                                                                                      </p>
+<p>adata = sc.read_h5ad(“input/lung_cancer.h5ad”)<br>sc.pp.filter_cells(adata, min_genes=200)<br>sc.pp.normalize_total(adata)<br>sc.pp.log1p(adata)<br>sc.pp.highly_variable_genes(adata)<br>sc.tl.pca(adata)<br>sc.pp.neighbors(adata)<br>sc.tl.umap(adata)<br>sc.tl.leiden(adata)                                                                                                      </p>
+<p>这里它已经不是聊天了，而是在实际执行代码。                                                                               </p>
+<p>———                                                                                                                      </p>
+<p>第 5 步：如果需要查外部知识，调用 connector                                                                              </p>
+<p>比如它要确认 T 细胞 marker gene：                                                                                        </p>
+<p>CD3D<br>CD3E<br>TRAC<br>PDCD1<br>CTLA4<br>LAG3<br>HAVCR2<br>GZMB<br>IFNG                                                                                                                     </p>
+<p>它可能会调用公共数据库 connector：                                                                                       </p>
+<p>UniProt<br>Reactome<br>OpenAlex / PubMed<br>其他生命科学数据库                                                                                                       </p>
+<p>用途是：                                                                                                                 </p>
+<p>确认 marker gene 含义<br>补充 pathway 解释<br>查 exhaustion markers 的文献依据                                                                                         </p>
+<p>也就是说：                                                                                                               </p>
+<p>本地数据分析 + 外部知识查询                                                                                              </p>
+<p>结合起来。                                                                                                               </p>
+<p>———                                                                                                                      </p>
+<p>第 6 步：生成 Artifacts                                                                                                  </p>
+<p>跑完以后，它不会只说“分析完成”。                                                                                         </p>
+<p>它会保存几个正式结果对象：                                                                                               </p>
+<p>Artifact 1：UMAP 图<br>Artifact 2：T cell marker gene 表<br>Artifact 3：QC summary 表<br>Artifact 4：简短分析报告                                                                                                 </p>
+<p>这些 artifact 和普通文件的区别是：                                                                                       </p>
+<p>可以直接查看<br>有版本<br>知道是哪些代码生成的<br>知道运行环境<br>知道执行日志<br>可以被 reviewer 检查                                                                                                     </p>
+<p>比如 UMAP 图的 provenance 里可能有：                                                                                     </p>
+<p>生成它的用户请求<br>生成它的 Python 代码<br>运行日志<br>scanpy 版本<br>输入数据路径<br>生成时间<br>reviewer 检查结果                                                                                                        </p>
+<p>———                                                                                                                      </p>
+<p>第 7 步：Reviewer 检查                                                                                                   </p>
+<p>最后 reviewer 来检查 Claude 的结论。                                                                                     </p>
+<p>Claude 可能写：                                                                                                          </p>
+<p>治疗组 T 细胞显示更强的 exhaustion 特征，<br>PDCD1、CTLA4、LAG3 在治疗组中上调。                                                                                      </p>
+<p>Reviewer 会看：                                                                                                          </p>
+<p>代码是否真的做了 treatment vs control？<br>metadata 里是否真的有 treatment/control？<br>PDCD1、CTLA4、LAG3 是否真的上调？<br>p 值和 logFC 是否支持？<br>图表是否对应正确分组？<br>有没有代码报错？                                                                                                         </p>
+<p>如果发现问题，它可能指出：                                                                                               </p>
+<p>Warning:<br>结论中说 LAG3 显著上调，但 marker_genes.csv 中 adjusted p-value = 0.12，<br>不应称为显著上调。                                                                                                       </p>
+<p>这时候 Claude 应该改成：                                                                                                 </p>
+<p>PDCD1 和 CTLA4 在治疗组显著上调；<br>LAG3 有上调趋势，但未达到显著性。                                                                                        </p>
+<p>这就是 reviewer 的价值。<br>—————————————————-<br>用户：<br>帮我分析肺癌单细胞数据                                                                                                   </p>
+<p>↓<br>Coordinating Agent：<br>理解任务，制定计划，请求权限                                                                                             </p>
+<p>↓<br>Delegation：<br>如果任务复杂，它可能把任务拆成几条 track：<br>（把可上一层给他的可认为并发的任务拆出来）<br>拆成 QC、注释、差异分析、图表报告几条线                                                                                  </p>
+<p>↓<br>Specialist Agent：<br>↓<br>Specialist Agents 介入                                                                                          </p>
+<p>这时候 coordinating agent 可能会叫一个：<br>如果是普通模型，可能会漏步骤。<br>Specialist 的价值是：                                                                                                    </p>
+<p>让任务按领域规范走，而不是临时发挥。<br>Tools / Runtime：<br>在本地 workspace 里写 Python/R，跑 scanpy/Seurat</p>
+<p>↓<br>Connectors：<br>必要时查 marker gene、pathway、文献数据库</p>
+<p>↓<br>Artifacts：<br>保存 UMAP 图、marker 表、QC 报告、分析报告</p>
+<p>↓<br>Reviewer：<br>检查文字结论是否被代码、表格、图表和执行日志支持</p>
+<p>↓<br>用户：<br>查看结果、要求改图、继续追问</p>
+</li>
 </ol>
-<p>如果是普通模型，可能会漏步骤。<br />
-Specialist 的价值是：</p>
-<p>让任务按领域规范走，而不是临时发挥。</p>
-<p>———</p>
-<p>第 4 步：Tools / 本地执行开始干活</p>
-<p>接下来真正执行。</p>
-<p>Claude Science 会在这个 Session 的 Workspace 里写代码，比如：</p>
-<p>workspace/<br />
-├── load_data.py<br />
-├── qc_analysis.py<br />
-├── cluster_cells.py<br />
-├── tcell_analysis.py<br />
-├── figures/<br />
-│   ├── umap_treatment_control.png<br />
-│   └── tcell_markers_heatmap.png<br />
-└── outputs/<br />
-├── marker_genes.csv<br />
-└── qc_summary.csv</p>
-<p>然后它会在本机 Python kernel 里跑：</p>
-<p>import scanpy as sc</p>
-<p>adata = sc.read_h5ad(“input/lung_cancer.h5ad”)<br />
-sc.pp.filter_cells(adata, min_genes=200)<br />
-sc.pp.normalize_total(adata)<br />
-sc.pp.log1p(adata)<br />
-sc.pp.highly_variable_genes(adata)<br />
-sc.tl.pca(adata)<br />
-sc.pp.neighbors(adata)<br />
-sc.tl.umap(adata)<br />
-sc.tl.leiden(adata)</p>
-<p>这里它已经不是聊天了，而是在实际执行代码。</p>
-<p>———</p>
-<p>第 5 步：如果需要查外部知识，调用 connector</p>
-<p>比如它要确认 T 细胞 marker gene：</p>
-<p>CD3D<br />
-CD3E<br />
-TRAC<br />
-PDCD1<br />
-CTLA4<br />
-LAG3<br />
-HAVCR2<br />
-GZMB<br />
-IFNG</p>
-<p>它可能会调用公共数据库 connector：</p>
-<p>UniProt<br />
-Reactome<br />
-OpenAlex / PubMed<br />
-其他生命科学数据库</p>
-<p>用途是：</p>
-<p>确认 marker gene 含义<br />
-补充 pathway 解释<br />
-查 exhaustion markers 的文献依据</p>
-<p>也就是说：</p>
-<p>本地数据分析 + 外部知识查询</p>
-<p>结合起来。</p>
-<p>———</p>
-<p>第 6 步：生成 Artifacts</p>
-<p>跑完以后，它不会只说“分析完成”。</p>
-<p>它会保存几个正式结果对象：</p>
-<p>Artifact 1：UMAP 图<br />
-Artifact 2：T cell marker gene 表<br />
-Artifact 3：QC summary 表<br />
-Artifact 4：简短分析报告</p>
-<p>这些 artifact 和普通文件的区别是：</p>
-<p>可以直接查看<br />
-有版本<br />
-知道是哪些代码生成的<br />
-知道运行环境<br />
-知道执行日志<br />
-可以被 reviewer 检查</p>
-<p>比如 UMAP 图的 provenance 里可能有：</p>
-<p>生成它的用户请求<br />
-生成它的 Python 代码<br />
-运行日志<br />
-scanpy 版本<br />
-输入数据路径<br />
-生成时间<br />
-reviewer 检查结果</p>
-<p>———</p>
-<p>第 7 步：Reviewer 检查</p>
-<p>最后 reviewer 来检查 Claude 的结论。</p>
-<p>Claude 可能写：</p>
-<p>治疗组 T 细胞显示更强的 exhaustion 特征，<br />
-PDCD1、CTLA4、LAG3 在治疗组中上调。</p>
-<p>Reviewer 会看：</p>
-<p>代码是否真的做了 treatment vs control？<br />
-metadata 里是否真的有 treatment/control？<br />
-PDCD1、CTLA4、LAG3 是否真的上调？<br />
-p 值和 logFC 是否支持？<br />
-图表是否对应正确分组？<br />
-有没有代码报错？</p>
-<p>如果发现问题，它可能指出：</p>
-<p>Warning:<br />
-结论中说 LAG3 显著上调，但 marker_genes.csv 中 adjusted p-value = 0.12，<br />
-不应称为显著上调。</p>
-<p>这时候 Claude 应该改成：</p>
-<p>PDCD1 和 CTLA4 在治疗组显著上调；<br />
-LAG3 有上调趋势，但未达到显著性。</p>
-<p>这就是 reviewer 的价值。<br />
-————---------------------------<br />
-用户：<br />
-帮我分析肺癌单细胞数据</p>
-<p>↓<br />
-Coordinating Agent：<br />
-理解任务，制定计划，请求权限</p>
-<p>↓<br />
-Delegation：<br />
-如果任务复杂，它可能把任务拆成几条 track：<br />
-（把可上一层给他的可认为并发的任务拆出来）<br />
-拆成 QC、注释、差异分析、图表报告几条线</p>
-<p>↓<br />
-Specialist Agent：<br />
-↓<br />
-Specialist Agents 介入</p>
-<p>这时候 coordinating agent 可能会叫一个：<br />
-如果是普通模型，可能会漏步骤。<br />
-Specialist 的价值是：</p>
-<p>让任务按领域规范走，而不是临时发挥。<br />
-Tools / Runtime：<br />
-在本地 workspace 里写 Python/R，跑 scanpy/Seurat</p>
-<p>↓<br />
-Connectors：<br />
-必要时查 marker gene、pathway、文献数据库</p>
-<p>↓<br />
-Artifacts：<br />
-保存 UMAP 图、marker 表、QC 报告、分析报告</p>
-<p>↓<br />
-Reviewer：<br />
-检查文字结论是否被代码、表格、图表和执行日志支持</p>
-<p>↓<br />
-用户：<br />
-查看结果、要求改图、继续追问</p>
 
             
         </div>
@@ -569,23 +443,21 @@ Reviewer：<br />
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="c-题解模板"><a class="markdownIt-Anchor" href="#c-题解模板"></a> C++ 题解模板</h1>
-<h2 id="检查结果"><a class="markdownIt-Anchor" href="#检查结果"></a> 检查结果</h2>
-<pre class="highlight"><code class="cpp"><span class="hljs-comment">// code</span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+            <h1 id="C-题解模板"><a href="#C-题解模板" class="headerlink" title="C++ 题解模板"></a>C++ 题解模板</h1><h2 id="检查结果"><a href="#检查结果" class="headerlink" title="检查结果"></a>检查结果</h2><pre><code class="lang-cpp">// code
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
 
-<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">7</span>, M = <span class="hljs-number">998244353</span>;
+const int N = 1e5 + 7, M = 998244353;
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span> </span>&#123;
+void solve() &#123;
 &#125;
 
-<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
-    <span class="hljs-type">int</span> T = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">while</span> (T--) &#123;
-        <span class="hljs-built_in">solve</span>();
+signed main() &#123;
+    int T = 1;
+    while (T--) &#123;
+        solve();
     &#125;
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    return 0;
 &#125;
 </code></pre>
 
@@ -602,12 +474,12 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/C/" style="color: #00bcd4">C++</a>
+            <a href="/tags/C/" style="color: #ffa2c4">C++</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #ff7d73">题解模板</a>
+            <a href="/tags/%E9%A2%98%E8%A7%A3%E6%A8%A1%E6%9D%BF/" style="color: #03a9f4">题解模板</a>
         </span>
         
     </div>
@@ -632,9 +504,7 @@ Reviewer：<br />
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="a一道好题"><a class="markdownIt-Anchor" href="#a一道好题"></a> A：一道好题</h2>
-<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
-<p>有一个长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>、初始全为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 的序列 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span>，另有一个长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 的序列 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span>。目标是通过若干次操作将 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span> 变成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span>。</p>
+            <h2 id="A：一道好题"><a href="#A：一道好题" class="headerlink" title="A：一道好题"></a>A：一道好题</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>有一个长度为 $n$、初始全为 $0$ 的序列 $a$，另有一个长度为 $n$ 的序列 $b$。目标是通过若干次操作将 $a$ 变成 $b$。</p>
             
         </div>
     </div>
@@ -694,9 +564,7 @@ Reviewer：<br />
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="zjoi2010-数字计数"><a class="markdownIt-Anchor" href="#zjoi2010-数字计数"></a> [ZJOI2010] 数字计数</h2>
-<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
-<p>给定两个正整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span>，求在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[a,b]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">b</span><span class="mclose">]</span></span></span></span> 中的所有整数里，每个数码 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>∼</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">0\sim 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span></span></span></span> 分别出现了多少次。</p>
+            <h2 id="ZJOI2010-数字计数"><a href="#ZJOI2010-数字计数" class="headerlink" title="[ZJOI2010] 数字计数"></a>[ZJOI2010] 数字计数</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定两个正整数 $a$ 和 $b$，求在 $[a,b]$ 中的所有整数里，每个数码 $0\sim 9$ 分别出现了多少次。</p>
             
         </div>
     </div>
@@ -735,14 +603,11 @@ Reviewer：<br />
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="序列更新"><a class="markdownIt-Anchor" href="#序列更新"></a> 序列更新</h2>
-<p>给定两个长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 的序列：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo separator="true">,</mo><msub><mi>a</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>a</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_0,a_1,\cdots,a_{n-1}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span></span></p>
-<p>和</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>b</mi><mn>0</mn></msub><mo separator="true">,</mo><msub><mi>b</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>b</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">b_0,b_1,\cdots,b_{n-1}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span></span></p>
-<p>需要依次执行 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 次操作。每次操作给出一个整数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>，按下标关系维护序列更新。</p>
+            <h2 id="序列更新"><a href="#序列更新" class="headerlink" title="序列更新"></a>序列更新</h2><p>给定两个长度为 $n$ 的序列：</p>
+<script type="math/tex; mode=display">
+a_0,a_1,\cdots,a_{n-1}</script><p>和</p>
+<script type="math/tex; mode=display">
+b_0,b_1,\cdots,b_{n-1}</script><p>需要依次执行 $q$ 次操作。每次操作给出一个整数 $k$，按下标关系维护序列更新。</p>
             
         </div>
     </div>
@@ -756,17 +621,17 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #00bcd4">期望</a>
+            <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="color: #ffa2c4">期望</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #ffa2c4">概率论</a>
+            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="color: #ff7d73">概率论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #00a596">根号思想</a>
+            <a href="/tags/%E6%A0%B9%E5%8F%B7%E6%80%9D%E6%83%B3/" style="color: #ffa2c4">根号思想</a>
         </span>
         
     </div>
@@ -830,8 +695,7 @@ Reviewer：<br />
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="费马小定理"><a class="markdownIt-Anchor" href="#费马小定理"></a> 费马小定理</h2>
-<p>当 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span> 是质数，且 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span> 与 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span> 互质时，有：</p>
+            <h2 id="费马小定理"><a href="#费马小定理" class="headerlink" title="费马小定理"></a>费马小定理</h2><p>当 $p$ 是质数，且 $a$ 与 $p$ 互质时，有：</p>
             
         </div>
     </div>
@@ -845,17 +709,17 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #03a9f4">数论</a>
+            <a href="/tags/%E6%95%B0%E8%AE%BA/" style="color: #00a596">数论</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="color: #ffa2c4">欧拉定理</a>
+            <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="color: #ff7d73">欧拉定理</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #ff7d73">费马小定理</a>
+            <a href="/tags/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/" style="color: #00a596">费马小定理</a>
         </span>
         
     </div>
@@ -903,22 +767,22 @@ Reviewer：<br />
         
         <span class="tag">
             
-            <a href="/tags/dfs/" style="color: #00a596">dfs</a>
+            <a href="/tags/dfs/" style="color: #03a9f4">dfs</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #ffa2c4">强连通分量</a>
+            <a href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/" style="color: #00bcd4">强连通分量</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/tarjan/" style="color: #00a596">tarjan</a>
+            <a href="/tags/tarjan/" style="color: #03a9f4">tarjan</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ff7d73">拓扑</a>
+            <a href="/tags/%E6%8B%93%E6%89%91/" style="color: #ffa2c4">拓扑</a>
         </span>
         
     </div>
