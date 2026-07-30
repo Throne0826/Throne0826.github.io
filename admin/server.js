@@ -15,6 +15,7 @@ const vendorFiles = new Map([
   ["/vendor/purify.min.js", join(modulesDir, "dompurify", "dist", "purify.min.js")],
   ["/vendor/highlight.min.js", join(modulesDir, "@highlightjs", "cdn-assets", "highlight.min.js")],
   ["/vendor/highlight-github.min.css", join(modulesDir, "@highlightjs", "cdn-assets", "styles", "github.min.css")],
+  ["/vendor/highlight-github-dark.min.css", join(modulesDir, "@highlightjs", "cdn-assets", "styles", "github-dark.min.css")],
   ["/vendor/katex.min.js", join(modulesDir, "katex", "dist", "katex.min.js")],
   ["/vendor/katex-auto-render.min.js", join(modulesDir, "katex", "dist", "contrib", "auto-render.min.js")],
   ["/vendor/katex.min.css", join(modulesDir, "katex", "dist", "katex.min.css")],

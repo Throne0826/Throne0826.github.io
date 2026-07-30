@@ -1,5 +1,6 @@
 import { buildAiPrompt } from "./ai-prompt.js";
 import { cleanSummary, createNewPost, isDocumentVersionCurrent, preserveOuterWhitespace, sortPosts, splitMarkdown, upsertDescription } from "./editor-utils.js";
+import { createMarkdownEditor } from "./editor-bundle.js";
 
 const state = {
   token: localStorage.getItem("blog-admin-token") || "",
@@ -16,16 +17,17 @@ const state = {
   aiController: null,
   draftTimer: 0,
   previewTimer: 0,
-  undoStack: [],
-  redoStack: [],
   loadSequence: 0,
   deploySequence: 0,
   diffChanges: [],
   diffIndex: -1,
   syncScroll: localStorage.getItem("blog-admin-sync-scroll") !== "false",
   viewMode: localStorage.getItem("blog-admin-view") || "split",
+  theme: document.documentElement.dataset.theme || "light",
   syncingScroll: false
 };
+
+let markdownEditor = null;
 
 const els = {
   tokenInput: document.querySelector("#tokenInput"),
@@ -58,7 +60,7 @@ const els = {
   diffView: document.querySelector("#diffView"),
   workspace: document.querySelector(".workspace"),
   workspaceDivider: document.querySelector("#workspaceDivider"),
-  editorInput: document.querySelector("#editorInput"),
+  editorMount: document.querySelector("#editorMount"),
   imageFileInput: document.querySelector("#imageFileInput"),
   editorMeta: document.querySelector("#editorMeta"),
   preview: document.querySelector("#preview"),
@@ -68,7 +70,12 @@ const els = {
   publishStatus: document.querySelector("#publishStatus"),
   errorNotice: document.querySelector("#errorNotice"),
   errorNoticeText: document.querySelector("#errorNoticeText"),
-  closeErrorNotice: document.querySelector("#closeErrorNotice")
+  closeErrorNotice: document.querySelector("#closeErrorNotice"),
+  themeButton: document.querySelector("#themeButton"),
+  highlightLight: document.querySelector("#highlightLight"),
+  highlightDark: document.querySelector("#highlightDark"),
+  aiProgress: document.querySelector("#aiProgress"),
+  publishPipeline: document.querySelector("#publishPipeline")
 };
 
 els.tokenInput.value = state.token;
@@ -79,6 +86,8 @@ els.aiKeyInput.value = sessionStorage.getItem("blog-admin-ai-key") || "";
 function setStatus(message, isError = false) {
   els.status.textContent = message;
   els.status.classList.toggle("error", isError);
+  els.status.classList.remove("status-update");
+  requestAnimationFrame(() => els.status.classList.add("status-update"));
   if (isError) {
     els.errorNoticeText.textContent = message;
     els.errorNotice.hidden = false;
@@ -88,6 +97,14 @@ function setStatus(message, isError = false) {
 function setPublishStatus(message, tone = "") {
   els.publishStatus.lastChild.textContent = message;
   els.publishStatus.dataset.tone = tone;
+  let stage = "idle";
+  if (tone === "success") stage = "live";
+  else if (tone === "error") stage = "error";
+  else if (/尚未/.test(message)) stage = "idle";
+  else if (/提交/.test(message)) stage = "commit";
+  else if (/构建|等待/.test(message)) stage = "build";
+  else if (/发布|部署|上线/.test(message)) stage = "deploy";
+  els.publishPipeline.dataset.stage = stage;
 }
 
 function setDraftStatus(message, saving = false) {
@@ -112,13 +129,17 @@ function extractTitle(markdown) {
   return title || els.pathInput.value.split("/").pop()?.replace(/\.md$/i, "") || "未命名文章";
 }
 
+function editorValue() {
+  return markdownEditor?.getValue() || "";
+}
+
 function isDirty() {
-  return els.editorInput.value !== state.baselineContent || els.pathInput.value.trim() !== state.baselinePath;
+  return editorValue() !== state.baselineContent || els.pathInput.value.trim() !== state.baselinePath;
 }
 
 function updateDocumentState() {
   const dirty = isDirty();
-  els.documentTitle.textContent = extractTitle(els.editorInput.value);
+  els.documentTitle.textContent = extractTitle(editorValue());
   els.dirtyStatus.className = "state-badge";
   if (!state.currentSha) {
     els.dirtyStatus.textContent = dirty ? "未发布草稿" : "新草稿";
@@ -140,29 +161,11 @@ function setBaseline(content, path) {
   updateDocumentState();
 }
 
-function snapshot() {
-  return { text: els.editorInput.value, start: els.editorInput.selectionStart, end: els.editorInput.selectionEnd };
-}
-
-function recordUndo() {
-  const item = snapshot();
-  const last = state.undoStack[state.undoStack.length - 1];
-  if (last && last.text === item.text && last.start === item.start && last.end === item.end) return;
-  state.undoStack.push(item);
-  if (state.undoStack.length > 80) state.undoStack.shift();
-  state.redoStack = [];
-}
-
-function resetUndoHistory() {
-  state.undoStack = [];
-  state.redoStack = [];
-}
-
 function saveDraftSoon() {
   clearTimeout(state.draftTimer);
   setDraftStatus("正在保存本地草稿...", true);
   const draftPath = els.pathInput.value.trim();
-  const draftContent = els.editorInput.value;
+  const draftContent = editorValue();
   state.draftTimer = setTimeout(() => {
     localStorage.setItem(getDraftKey(draftPath), draftContent);
     setDraftStatus(`本地已保存 ${formatLocalTime(new Date()).slice(0, 5)}`);
@@ -170,40 +173,19 @@ function saveDraftSoon() {
 }
 
 function markDocumentChanged(options = {}) {
-  els.editorMeta.textContent = `${els.editorInput.value.length} 字符`;
+  els.editorMeta.textContent = `${editorValue().length} 字符`;
   updateDocumentState();
   schedulePreview();
   if (!options.skipDraft) saveDraftSoon();
 }
 
-function restoreSnapshot(item) {
-  if (!item) return;
-  els.editorInput.value = item.text;
-  els.editorInput.selectionStart = item.start;
-  els.editorInput.selectionEnd = item.end;
-  els.editorInput.focus();
-  markDocumentChanged();
-}
-
 function undoEdit() {
-  const previous = state.undoStack.pop();
-  if (!previous) {
-    setStatus("没有可撤销的工具栏或 AI 修改。");
-    return;
-  }
-  state.redoStack.push(snapshot());
-  restoreSnapshot(previous);
+  if (!markdownEditor?.undo()) return setStatus("没有可撤销的修改。");
   setStatus("已撤销上一次工具栏或 AI 修改。");
 }
 
 function redoEdit() {
-  const next = state.redoStack.pop();
-  if (!next) {
-    setStatus("没有可重做的修改。");
-    return;
-  }
-  state.undoStack.push(snapshot());
-  restoreSnapshot(next);
+  if (!markdownEditor?.redo()) return setStatus("没有可重做的修改。");
   setStatus("已重做修改。");
 }
 
@@ -287,7 +269,11 @@ function renderMarkdown(markdown) {
 
 function renderPreviewNow() {
   clearTimeout(state.previewTimer);
-  els.preview.innerHTML = renderMarkdown(els.editorInput.value);
+  const markdown = editorValue();
+  els.preview.innerHTML = markdownBody(markdown).trim()
+    ? renderMarkdown(markdown)
+    : `<div class="preview-empty"><div class="empty-illustration"><i data-lucide="notebook-pen"></i><i data-lucide="sparkles"></i></div><strong>等待正文</strong><span>这篇文章还没有内容。</span></div>`;
+  window.lucide?.createIcons({ attrs: { "stroke-width": 1.8 } });
   if (window.hljs) {
     els.preview.querySelectorAll("pre code").forEach((block) => window.hljs.highlightElement(block));
   }
@@ -331,21 +317,15 @@ function hideReview() {
 }
 
 function getSelection() {
-  return {
-    from: els.editorInput.selectionStart,
-    to: els.editorInput.selectionEnd,
-    text: els.editorInput.value.slice(els.editorInput.selectionStart, els.editorInput.selectionEnd)
-  };
+  return markdownEditor.getSelection();
 }
 
 function replaceRange(range, text, options = {}) {
-  if (!options.skipUndo) recordUndo();
   if (state.aiSuggestion && !options.fromAi) hideReview();
   const from = range ? range.from : 0;
-  const to = range ? range.to : els.editorInput.value.length;
-  els.editorInput.focus();
-  els.editorInput.setRangeText(text, from, to, "end");
-  markDocumentChanged();
+  const to = range ? range.to : editorValue().length;
+  markdownEditor.focus();
+  markdownEditor.replaceRange(from, to, text);
 }
 
 function insertAtSelection(before, after = "", placeholder = "") {
@@ -353,14 +333,13 @@ function insertAtSelection(before, after = "", placeholder = "") {
   const selected = text || placeholder;
   replaceRange({ from, to }, `${before}${selected}${after}`);
   if (to === from) {
-    els.editorInput.selectionStart = from + before.length;
-    els.editorInput.selectionEnd = from + before.length + selected.length;
+    markdownEditor.setSelection(from + before.length, from + before.length + selected.length);
   }
 }
 
 function insertBlock(block) {
   const { from, to } = getSelection();
-  const current = els.editorInput.value;
+  const current = editorValue();
   const prefix = from > 0 && current[from - 1] !== "\n" ? "\n\n" : "";
   const suffix = to < current.length && current[to] !== "\n" ? "\n" : "";
   replaceRange({ from, to }, `${prefix}${block}${suffix}`);
@@ -610,8 +589,16 @@ function renderPosts() {
   if (!posts.length) {
     const empty = document.createElement("div");
     empty.className = "post-list-empty";
-    empty.textContent = state.posts.length ? "没有匹配的文章" : "暂无文章，请检查连接设置";
+    const illustration = document.createElement("div");
+    illustration.className = "list-empty-illustration";
+    const icon = document.createElement("i");
+    icon.dataset.lucide = state.posts.length ? "search-x" : "files";
+    illustration.append(icon);
+    const message = document.createElement("strong");
+    message.textContent = state.posts.length ? "暂无匹配文章" : "文章列表为空";
+    empty.append(illustration, message);
     els.postList.append(empty);
+    window.lucide?.createIcons({ attrs: { "stroke-width": 1.8 } });
     return;
   }
   for (const post of posts) {
@@ -659,9 +646,8 @@ async function loadPost(path, options = {}) {
     const restore = window.confirm("检测到这篇文章的本地未发布草稿。\n\n确定：恢复草稿\n取消：使用 GitHub 版本");
     if (restore) content = draft;
   }
-  els.editorInput.value = content;
+  markdownEditor.setValue(content);
   setBaseline(data.content, data.path);
-  resetUndoHistory();
   hideReview();
   renderPreviewNow();
   els.editorMeta.textContent = `${content.length} 字符`;
@@ -679,9 +665,8 @@ function newPost(options = {}) {
   state.currentPath = "";
   state.currentSha = "";
   els.pathInput.value = path;
-  els.editorInput.value = content;
+  markdownEditor.setValue(content);
   setBaseline(content, path);
-  resetUndoHistory();
   hideReview();
   renderPreviewNow();
   els.editorMeta.textContent = `${content.length} 字符`;
@@ -689,7 +674,7 @@ function newPost(options = {}) {
   setPublishStatus("尚未发布");
   renderPosts();
   setStatus("已创建新草稿。");
-  els.editorInput.focus();
+  markdownEditor.focus();
 }
 
 function deployLabel(run) {
@@ -708,7 +693,12 @@ async function waitForDeployStatus(commitSha, commitUrl) {
     const sourceText = deployLabel(data.source);
     const pagesText = deployLabel(data.pages);
     setStatus(`发布进度：Hexo ${sourceText} · Pages ${pagesText}`);
-    setPublishStatus(data.pages?.status === "completed" && data.pages.conclusion === "success" ? "已上线" : "发布中", "progress");
+    const publishLabel = data.pages?.status === "completed" && data.pages.conclusion === "success"
+      ? "已上线"
+      : data.source?.status === "completed" && data.source.conclusion === "success"
+        ? "正在部署"
+        : "正在构建";
+    setPublishStatus(publishLabel, publishLabel === "已上线" ? "success" : "progress");
     if (data.source?.status === "completed" && data.source.conclusion !== "success") {
       setPublishStatus("构建失败", "error");
       throw new Error(`Hexo 构建失败。${data.source.url || commitUrl || ""}`);
@@ -732,11 +722,13 @@ function setAiRunning(running) {
   els.polishButton.disabled = running;
   els.modeSelect.disabled = running;
   els.cancelAiButton.hidden = !running;
+  els.aiProgress.hidden = !running;
+  document.body.classList.toggle("ai-running", running);
   if (!running) els.polishButton.lastChild.textContent = "AI 处理";
 }
 
 async function polish() {
-  const fullText = els.editorInput.value;
+  const fullText = editorValue();
   const pathAtStart = els.pathInput.value.trim();
   if (!fullText) throw new Error("当前文章是空的。");
   const selection = getSelection();
@@ -767,7 +759,7 @@ async function polish() {
       ? upsertDescription(fullText, await buildArticleSummary(fullText, controller.signal))
       : await processMarkdownChunks(mode, target.text, labels[mode] || "处理", controller.signal);
 
-    if (!isDocumentVersionCurrent(fullText, pathAtStart, els.editorInput.value, els.pathInput.value.trim())) {
+    if (!isDocumentVersionCurrent(fullText, pathAtStart, editorValue(), els.pathInput.value.trim())) {
       throw new Error("AI 处理期间正文发生了变化。为避免覆盖新内容，本次结果已丢弃，请重新执行。");
     }
     state.aiOriginal = target.text;
@@ -791,7 +783,7 @@ async function polish() {
 
 function applyAiSuggestion() {
   if (!state.aiSuggestion) throw new Error("当前没有可应用的 AI 建议。");
-  if (!isDocumentVersionCurrent(state.aiBaseContent, state.aiBasePath, els.editorInput.value, els.pathInput.value.trim())) {
+  if (!isDocumentVersionCurrent(state.aiBaseContent, state.aiBasePath, editorValue(), els.pathInput.value.trim())) {
     hideReview();
     throw new Error("正文已经变化，旧的 AI 建议不能再应用，请重新生成。");
   }
@@ -815,7 +807,7 @@ function discardAiSuggestion() {
 
 async function savePost() {
   const path = els.pathInput.value.trim();
-  const content = els.editorInput.value;
+  const content = editorValue();
   if (!path || !content.trim()) throw new Error("文件路径和文章内容不能为空。");
   const draftKey = getDraftKey(path);
   els.saveButton.disabled = true;
@@ -837,6 +829,8 @@ async function savePost() {
     setDraftStatus("已提交到 GitHub");
     setPublishStatus("等待构建", "progress");
     setStatus("文章已提交，正在等待 Hexo 和 GitHub Pages 部署。");
+    els.saveButton.classList.remove("success-pop");
+    requestAnimationFrame(() => els.saveButton.classList.add("success-pop"));
     await loadPosts({ quiet: true });
     waitForDeployStatus(data.commitSha, data.commit).catch(showError);
   } finally {
@@ -878,14 +872,60 @@ function setSyncScroll(enabled) {
   localStorage.setItem("blog-admin-sync-scroll", String(enabled));
 }
 
+function setTheme(theme) {
+  state.theme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = state.theme;
+  localStorage.setItem("blog-admin-theme", state.theme);
+  els.highlightLight.disabled = state.theme === "dark";
+  els.highlightDark.disabled = state.theme !== "dark";
+  markdownEditor?.setTheme(state.theme);
+
+  const nextTheme = state.theme === "dark" ? "浅色" : "深色";
+  els.themeButton.title = `切换${nextTheme}主题`;
+  els.themeButton.setAttribute("aria-label", `切换${nextTheme}主题`);
+  const icon = document.createElement("i");
+  icon.dataset.lucide = state.theme === "dark" ? "sun" : "moon";
+  els.themeButton.replaceChildren(icon);
+  window.lucide?.createIcons({ attrs: { "stroke-width": 1.8 } });
+}
+
 function syncScroll(source, target) {
   if (!state.syncScroll || state.syncingScroll) return;
-  const sourceRange = source.scrollHeight - source.clientHeight;
-  const targetRange = target.scrollHeight - target.clientHeight;
+  const sourceMetrics = source.getScrollMetrics
+    ? source.getScrollMetrics()
+    : { top: source.scrollTop, height: source.scrollHeight, client: source.clientHeight };
+  const targetMetrics = target.getScrollMetrics
+    ? target.getScrollMetrics()
+    : { top: target.scrollTop, height: target.scrollHeight, client: target.clientHeight };
+  const sourceRange = sourceMetrics.height - sourceMetrics.client;
+  const targetRange = targetMetrics.height - targetMetrics.client;
   if (sourceRange <= 0 || targetRange <= 0) return;
   state.syncingScroll = true;
-  target.scrollTop = (source.scrollTop / sourceRange) * targetRange;
+  const nextTop = (sourceMetrics.top / sourceRange) * targetRange;
+  if (target.setScrollTop) target.setScrollTop(nextTop);
+  else target.scrollTop = nextTop;
   requestAnimationFrame(() => { state.syncingScroll = false; });
+}
+
+function setupMarkdownEditor() {
+  markdownEditor = createMarkdownEditor({
+    parent: els.editorMount,
+    value: "",
+    theme: state.theme,
+    onChange() {
+      if (state.aiSuggestion) hideReview();
+      markDocumentChanged();
+    },
+    onSave() {
+      savePost().catch(showError);
+    },
+    onImage(file) {
+      uploadImageFile(file).catch(showError);
+    },
+    onScroll() {
+      syncScroll(markdownEditor, els.preview);
+    }
+  });
 }
 
 function setupDivider() {
@@ -965,31 +1005,8 @@ document.querySelectorAll("[data-tool]").forEach((button) => {
 });
 document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => setViewMode(button.dataset.view)));
 els.syncScrollButton.addEventListener("click", () => setSyncScroll(!state.syncScroll));
-els.editorInput.addEventListener("input", () => {
-  if (state.aiSuggestion) hideReview();
-  markDocumentChanged();
-});
-els.editorInput.addEventListener("paste", (event) => {
-  const file = Array.from(event.clipboardData?.files || []).find((item) => item.type.startsWith("image/"));
-  if (!file) return;
-  event.preventDefault();
-  uploadImageFile(file).catch(showError);
-});
-els.editorInput.addEventListener("dragover", (event) => event.preventDefault());
-els.editorInput.addEventListener("drop", (event) => {
-  const file = Array.from(event.dataTransfer?.files || []).find((item) => item.type.startsWith("image/"));
-  if (!file) return;
-  event.preventDefault();
-  uploadImageFile(file).catch(showError);
-});
-els.editorInput.addEventListener("keydown", (event) => {
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
-    event.preventDefault();
-    savePost().catch(showError);
-  }
-});
-els.editorInput.addEventListener("scroll", () => syncScroll(els.editorInput, els.preview));
-els.preview.addEventListener("scroll", () => syncScroll(els.preview, els.editorInput));
+els.themeButton.addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"));
+els.preview.addEventListener("scroll", () => syncScroll(els.preview, markdownEditor));
 window.addEventListener("beforeunload", (event) => {
   if (!isDirty()) return;
   event.preventDefault();
@@ -997,6 +1014,8 @@ window.addEventListener("beforeunload", (event) => {
 });
 
 async function initialize() {
+  setupMarkdownEditor();
+  setTheme(state.theme);
   window.lucide?.createIcons({ attrs: { "stroke-width": 1.8 } });
   setViewMode(state.viewMode);
   setSyncScroll(state.syncScroll);

@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog Admin</title>
+    <script src="/theme-init.js"></script>
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/vendor/highlight-github.min.css">
+    <link id="highlightLight" rel="stylesheet" href="/vendor/highlight-github.min.css">
+    <link id="highlightDark" rel="stylesheet" href="/vendor/highlight-github-dark.min.css" disabled>
     <link rel="stylesheet" href="/vendor/katex.min.css">
     <script defer src="/vendor/marked.min.js"></script>
     <script defer src="/vendor/purify.min.js"></script>
@@ -19,7 +21,7 @@
     <main class="shell">
       <aside class="sidebar">
         <div class="brand">
-          <div class="brand-mark">T</div>
+          <div class="brand-mark" aria-hidden="true"><i data-lucide="notebook-pen"></i></div>
           <div>
             <strong>Throne Blog</strong>
             <span>写作控制台</span>
@@ -99,6 +101,7 @@
             <button id="polishButton" type="button"><i data-lucide="sparkles"></i>AI 处理</button>
             <button id="cancelAiButton" type="button" class="danger-button" hidden><i data-lucide="square"></i>取消</button>
             <a class="button-link" href="https://lifexoryoung.cn/" target="_blank" rel="noopener noreferrer"><i data-lucide="external-link"></i>查看网站</a>
+            <button id="themeButton" class="icon-button" type="button" title="切换深色主题" aria-label="切换深色主题"><i data-lucide="moon"></i></button>
             <button id="saveButton" type="button"><i data-lucide="cloud-upload"></i>保存并发布</button>
           </div>
         </header>
@@ -110,10 +113,10 @@
             <button type="button" data-tool="h2" title="二级标题" aria-label="二级标题">H2</button>
             <button type="button" data-tool="bold" title="加粗选中文本" aria-label="加粗">B</button>
             <button type="button" data-tool="italic" title="斜体选中文本" aria-label="斜体">I</button>
-            <button type="button" data-tool="code" title="插入 fenced code block" aria-label="代码块">代码</button>
-            <button type="button" data-tool="link" title="插入 Markdown 链接" aria-label="链接">链接</button>
-            <button type="button" data-tool="image" title="上传并插入图片" aria-label="图片">图片</button>
-            <button type="button" data-tool="math-inline" title="插入 $...$ 行内公式" aria-label="行内公式">行内公式</button>
+            <button type="button" data-tool="code" title="插入代码块" aria-label="代码块"><i data-lucide="code-2"></i></button>
+            <button type="button" data-tool="link" title="插入 Markdown 链接" aria-label="链接"><i data-lucide="link-2"></i></button>
+            <button type="button" data-tool="image" title="上传并插入图片" aria-label="图片"><i data-lucide="image-plus"></i></button>
+            <button type="button" data-tool="math-inline" title="插入行内公式" aria-label="行内公式"><i data-lucide="sigma"></i></button>
           </div>
           <details class="more-tools">
             <summary title="更多 Markdown 工具">更多</summary>
@@ -143,8 +146,15 @@
           <div id="status" class="status" role="status" aria-live="polite">准备就绪</div>
           <div class="status-meta">
             <span id="draftStatus"><i data-lucide="hard-drive"></i>本地草稿待保存</span>
+            <div id="publishPipeline" class="publish-pipeline" data-stage="idle" aria-label="发布进度">
+              <span data-step="commit" title="提交到 GitHub"><i data-lucide="git-commit-horizontal"></i><b>提交</b></span>
+              <span data-step="build" title="Hexo 构建"><i data-lucide="hammer"></i><b>构建</b></span>
+              <span data-step="deploy" title="Pages 部署"><i data-lucide="server-cog"></i><b>部署</b></span>
+              <span data-step="live" title="网站上线"><i data-lucide="globe-2"></i><b>上线</b></span>
+            </div>
             <span id="publishStatus"><i data-lucide="circle-dot"></i>尚未发布</span>
           </div>
+          <div id="aiProgress" class="activity-track" hidden><span></span></div>
         </div>
 
         <section id="reviewPanel" class="review-panel" hidden>
@@ -176,7 +186,7 @@
               <span>Markdown 源文</span>
               <span id="editorMeta">0 字</span>
             </div>
-            <textarea id="editorInput" class="source-editor" spellcheck="false"></textarea>
+            <div id="editorMount" class="source-editor" aria-label="Markdown 源文"></div>
             <input id="imageFileInput" type="file" accept="image/*" hidden>
           </section>
           <div id="workspaceDivider" class="workspace-divider" role="separator" aria-label="调整编辑和预览宽度" aria-orientation="vertical" tabindex="0"></div>

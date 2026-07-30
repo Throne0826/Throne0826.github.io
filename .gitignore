@@ -8,6 +8,7 @@ node_modules/
 public/
 !admin/public/**
 !admin/public/
+admin/public/editor-bundle.js
 .deploy*/
 _multiconfig.yml
 sudo
