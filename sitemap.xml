@@ -20,33 +20,6 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/2024/06/10/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86-%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86-%E6%89%A9%E5%B1%95%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/</loc>
-    
-    <lastmod>2026-07-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/about/</loc>
-    
-    <lastmod>2026-07-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/categories/</loc>
-    
-    <lastmod>2026-07-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://lifexoryoung.cn/2024/09/15/%E8%A1%A5%E9%A2%98/</loc>
     
     <lastmod>2026-07-30</lastmod>
@@ -57,6 +30,15 @@
   
   <url>
     <loc>https://lifexoryoung.cn/2024/09/12/%E6%95%B0%E4%BD%8DDP/</loc>
+    
+    <lastmod>2026-07-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/2024/06/10/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86-%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86-%E6%89%A9%E5%B1%95%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/</loc>
     
     <lastmod>2026-07-30</lastmod>
     
@@ -93,6 +75,24 @@
   
   <url>
     <loc>https://lifexoryoung.cn/2024/03/19/%E7%89%9B%E5%AE%A2%E5%91%A8%E8%B5%9B37/</loc>
+    
+    <lastmod>2026-07-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/about/</loc>
+    
+    <lastmod>2026-07-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/categories/</loc>
     
     <lastmod>2026-07-30</lastmod>
     
@@ -455,20 +455,6 @@
   </url>
   
   <url>
-    <loc>https://lifexoryoung.cn/tags/%E6%95%B0%E8%AE%BA/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lifexoryoung.cn/tags/%E9%80%86%E5%85%83/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lifexoryoung.cn/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/</loc>
     <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -484,6 +470,20 @@
   
   <url>
     <loc>https://lifexoryoung.cn/tags/%E6%8B%93%E6%89%91/</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/%E6%95%B0%E8%AE%BA/</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lifexoryoung.cn/tags/%E9%80%86%E5%85%83/</loc>
     <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
