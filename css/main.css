@@ -1193,3 +1193,23 @@ ol li {
 .article .content pre.highlight .hljs-ln {
     width: auto;
 }
+
+/* Callouts inserted by the online Markdown editor. */
+.article .content .callout {
+    background: #eaf1fc;
+    border: 1px solid #cbd9ee;
+    border-left: 4px solid #2468c7;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin: 18px 0;
+    padding: 0 16px 12px;
+}
+.article .content .callout summary {
+    color: #174f9f;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 11px 0;
+}
+.article .content .callout p:last-child {
+    margin-bottom: 0;
+}
