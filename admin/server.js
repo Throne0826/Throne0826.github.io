@@ -1,11 +1,26 @@
 ﻿import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { extname, join, normalize } from "node:path";
+import { basename, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildAiPrompt } from "./public/ai-prompt.js";
+import { parsePostMetadata } from "./lib/post-metadata.js";
+import { selectDeployRuns } from "./lib/deploy-status.js";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 const publicDir = join(root, "public");
+const modulesDir = join(root, "node_modules");
+
+const vendorFiles = new Map([
+  ["/vendor/marked.min.js", join(modulesDir, "marked", "lib", "marked.umd.js")],
+  ["/vendor/purify.min.js", join(modulesDir, "dompurify", "dist", "purify.min.js")],
+  ["/vendor/highlight.min.js", join(modulesDir, "@highlightjs", "cdn-assets", "highlight.min.js")],
+  ["/vendor/highlight-github.min.css", join(modulesDir, "@highlightjs", "cdn-assets", "styles", "github.min.css")],
+  ["/vendor/katex.min.js", join(modulesDir, "katex", "dist", "katex.min.js")],
+  ["/vendor/katex-auto-render.min.js", join(modulesDir, "katex", "dist", "contrib", "auto-render.min.js")],
+  ["/vendor/katex.min.css", join(modulesDir, "katex", "dist", "katex.min.css")],
+  ["/vendor/lucide.min.js", join(modulesDir, "lucide", "dist", "umd", "lucide.min.js")],
+  ["/vendor/diff.min.js", join(modulesDir, "diff", "dist", "diff.min.js")]
+]);
 
 const config = {
   port: Number(process.env.PORT || 8787),
@@ -25,7 +40,18 @@ const mime = {
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
-  ".svg": "image/svg+xml"
+  ".svg": "image/svg+xml",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+  ".ttf": "font/ttf"
+};
+
+const securityHeaders = {
+  "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+  "referrer-policy": "no-referrer",
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "DENY",
+  "permissions-policy": "camera=(), microphone=(), geolocation=()"
 };
 
 function logApi(req, res, url) {
@@ -40,6 +66,7 @@ function logApi(req, res, url) {
 function sendJson(res, status, body) {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
+    ...securityHeaders,
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store"
   });
@@ -73,9 +100,14 @@ function requireGithubConfig(res) {
   return true;
 }
 
-async function readBody(req) {
+async function readBody(req, maxBytes = 8 * 1024 * 1024) {
   const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
+  let size = 0;
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > maxBytes) throw new Error("Request body is too large.");
+    chunks.push(chunk);
+  }
   if (!chunks.length) return {};
   return JSON.parse(Buffer.concat(chunks).toString("utf8"));
 }
@@ -135,17 +167,42 @@ async function githubFetch(path, options = {}) {
   }
 }
 
+const postMetadataCache = new Map();
+
+async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  async function worker() {
+    while (cursor < items.length) {
+      const index = cursor++;
+      results[index] = await mapper(items[index]);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, worker));
+  return results;
+}
+
 async function listPosts() {
   const tree = await githubFetch(`/git/trees/${encodeURIComponent(config.githubBranch)}?recursive=1`);
-  return tree.tree
+  const posts = tree.tree
     .filter((item) => item.type === "blob")
-    .filter((item) => item.path.startsWith("source/_posts/") && item.path.endsWith(".md"))
-    .map((item) => ({
-      path: item.path,
-      name: item.path.replace(/^source\/_posts\//, ""),
-      sha: item.sha
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"));
+    .filter((item) => item.path.startsWith("source/_posts/") && item.path.endsWith(".md"));
+
+  return mapWithConcurrency(posts, 6, async (item) => {
+    const name = item.path.replace(/^source\/_posts\//, "");
+    let metadata = postMetadataCache.get(item.sha);
+    if (!metadata) {
+      try {
+        const blob = await githubFetch(`/git/blobs/${encodeURIComponent(item.sha)}`);
+        metadata = parsePostMetadata(base64DecodeUtf8(blob.content || ""), name);
+      } catch (error) {
+        console.warn(`Unable to read metadata for ${item.path}: ${error.message || String(error)}`);
+        metadata = parsePostMetadata("", name);
+      }
+      postMetadataCache.set(item.sha, metadata);
+    }
+    return { path: item.path, name, sha: item.sha, ...metadata };
+  });
 }
 
 async function getPost(postPath) {
@@ -225,11 +282,10 @@ async function uploadImage({ name, type, data }) {
   };
 }
 
-async function getDeployStatus() {
-  const data = await githubFetch("/actions/runs?per_page=10");
+async function getDeployStatus(expectedSha = "") {
+  const data = await githubFetch("/actions/runs?per_page=30");
   const runs = data.workflow_runs || [];
-  const sourceDeploy = runs.find((run) => run.name === "Deploy Hexo");
-  const pagesDeploy = runs.find((run) => run.name === "pages build and deployment");
+  const { source: sourceDeploy, pages: pagesDeploy } = selectDeployRuns(runs, expectedSha);
 
   return {
     source: sourceDeploy ? {
@@ -239,6 +295,7 @@ async function getDeployStatus() {
       branch: sourceDeploy.head_branch,
       sha: sourceDeploy.head_sha,
       url: sourceDeploy.html_url,
+      createdAt: sourceDeploy.created_at,
       updatedAt: sourceDeploy.updated_at
     } : null,
     pages: pagesDeploy ? {
@@ -247,6 +304,7 @@ async function getDeployStatus() {
       branch: pagesDeploy.head_branch,
       sha: pagesDeploy.head_sha,
       url: pagesDeploy.html_url,
+      createdAt: pagesDeploy.created_at,
       updatedAt: pagesDeploy.updated_at
     } : null
   };
@@ -390,7 +448,9 @@ async function handleApi(req, res, url) {
     }
 
     if (req.method === "GET" && url.pathname === "/api/deploy-status") {
-      sendJson(res, 200, await getDeployStatus());
+      const expectedSha = String(url.searchParams.get("sha") || "").trim();
+      if (expectedSha && !/^[a-f0-9]{40}$/i.test(expectedSha)) throw new Error("Invalid commit SHA.");
+      sendJson(res, 200, await getDeployStatus(expectedSha));
       return;
     }
 
@@ -411,7 +471,8 @@ async function handleApi(req, res, url) {
       sendJson(res, 200, {
         path: result.content?.path,
         sha: result.content?.sha,
-        commit: result.commit?.html_url
+        commit: result.commit?.html_url,
+        commitSha: result.commit?.sha
       });
       return;
     }
@@ -441,19 +502,24 @@ async function handleApi(req, res, url) {
 
 async function serveStatic(req, res, url) {
   const route = url.pathname === "/" ? "/index.html" : url.pathname;
-  const filePath = join(publicDir, normalize(route).replace(/^(\.\.[/\\])+/, ""));
+  let filePath = vendorFiles.get(route);
+  if (!filePath && route.startsWith("/vendor/fonts/")) {
+    const fontName = basename(route);
+    if (/^[a-zA-Z0-9_.-]+$/.test(fontName)) filePath = join(modulesDir, "katex", "dist", "fonts", fontName);
+  }
+  if (!filePath) filePath = join(publicDir, normalize(route).replace(/^(\.\.[/\\])+/, ""));
 
   try {
     const content = await readFile(filePath);
     res.writeHead(200, {
+      ...securityHeaders,
       "content-type": mime[extname(filePath)] || "application/octet-stream",
       "cache-control": "no-store"
     });
     res.end(content);
   } catch {
-    const fallback = await readFile(join(publicDir, "index.html"));
-    res.writeHead(200, { "content-type": mime[".html"], "cache-control": "no-store" });
-    res.end(fallback);
+    res.writeHead(404, { ...securityHeaders, "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" });
+    res.end("Not found.");
   }
 }
 
