@@ -1,15 +1,20 @@
 ---
-title: 新文章
+title: ClaudeScience 笔记
 date: 2026-07-09 16:13:57
 mathjax: true
 tags:
-  - 
+  - "ClaudeScience"
+  - "AI Agent"
+  - "单细胞分析"
+  - "Scanpy"
+  - "科研工作流"
+  - "结果可追溯"
 categories:
-  - 
-description: "介绍ClaudeScience以项目、会话和工作区组织科研任务，由协调代理规划授权、委派专家，结合本地代码与外部数据库完成分析，生成可追溯成果，并由审查器核验结论与证据。"
+  - "人工智能"
+  - "生物信息学"
+description: "介绍ClaudeScience通过协调代理、专家代理、本地执行、数据库连接与审查机制，完成可追溯的单细胞科研分析工作流。"
 ---
 
-# ClaudeScience 笔记
 
 它的核心组成包括：
 
