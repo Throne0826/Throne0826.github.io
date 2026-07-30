@@ -81,10 +81,9 @@ GPU 3 梯度 ┘
       </tags>
   </entry>
   <entry>
-    <title>新文章</title>
+    <title>ClaudeScience 笔记</title>
     <url>/2026/07/09/2026-07-09ClaudeScience%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="claudescience-笔记"><a class="markdownIt-Anchor" href="#claudescience-笔记"></a> ClaudeScience 笔记</h1>
-<p>它的核心组成包括：</p>
+    <content><![CDATA[<p>它的核心组成包括：</p>
 <ul>
 <li>Claude 模型</li>
 <li>Agent 调度能力</li>
@@ -372,6 +371,18 @@ sc.tl.leiden(adata)
 <h3 id="用户-2"><a class="markdownIt-Anchor" href="#用户-2"></a> 用户</h3>
 <p>查看结果、要求修改图表，并继续追问。</p>
 ]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>生物信息学</category>
+      </categories>
+      <tags>
+        <tag>ClaudeScience</tag>
+        <tag>AI Agent</tag>
+        <tag>单细胞分析</tag>
+        <tag>Scanpy</tag>
+        <tag>科研工作流</tag>
+        <tag>结果可追溯</tag>
+      </tags>
   </entry>
   <entry>
     <title>C++ 题解模板</title>
