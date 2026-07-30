@@ -9,7 +9,7 @@
     <atom:link href="https://lifexoryoung.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>读一些无用的书，做一些无用的事，花一些无用的时间，都是为了在一切已知之外，保留一个超越自己的机会，人生中一些很了不起的变化，就是来自这种时刻。——梁文道</description>
-    <pubDate>Thu, 30 Jul 2026 05:49:58 GMT</pubDate>
+    <pubDate>Thu, 30 Jul 2026 05:52:58 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -18,13 +18,29 @@
       <guid>https://lifexoryoung.cn/2026/07/29/2026-07-29-AdaptiveReasoner%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E9%9A%BE%E5%BA%A6%E9%87%87%E6%A0%B7%E4%B8%8E%E5%A4%B1%E8%B4%A5%E5%9B%9E%E6%94%BE%E7%9A%84%E5%8F%AF%E9%AA%8C%E8%AF%81%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86%E5%90%8E%E8%AE%AD%E7%BB%83%E7%B3%BB%E7%BB%9F/</guid>
       <pubDate>Wed, 29 Jul 2026 06:45:31 GMT</pubDate>
       
-      <description>梳理GPU训练技术栈与Docker环境，介绍NCCL多卡通信操作，并解析DDP各Rank独立计算、AllReduce同步梯度及通信与反向计算重叠机制。</description>
+      <description>梳理GPU训练技术栈与Docker环境，介绍NCCL多卡通信，并解析DDP梯度同步及通信与反向计算重叠机制。</description>
       
       
       
       <content:encoded><![CDATA[<h1 id="新文章"><a class="markdownIt-Anchor" href="#新文章"></a> 新文章</h1><h2 id="基础知识"><a class="markdownIt-Anchor" href="#基础知识"></a> 基础知识</h2><pre class="highlight"><code class="text">训练代码 / PyTorch / verl          ↓NCCL：多张 GPU 之间通信          ↓CUDA Runtime：让程序调用 GPU          ↓NVIDIA 驱动：操作系统控制 GPU          ↓GPU 硬件Docker：把训练代码、PyTorch、CUDA Runtime、NCCL 等封装成运行环境</code></pre><h3 id="cuda"><a class="markdownIt-Anchor" href="#cuda"></a> CUDA</h3><p>CUDA 是 NVIDIA 提供的一套 GPU 计算平台。它让 PyTorch、TensorFlow 等程序能够把矩阵运算交给 GPU。</p><h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h3><p>Docker 可以理解为一个隔离的程序运行环境。</p><p>一个 Docker 镜像通常包含：</p><pre class="highlight"><code class="cpp">UbuntuPythonPyTorchCUDA RuntimeNCCLverl项目依赖</code></pre><p>Docker 本身不能直接使用 GPU，还需要宿主机安装 <strong>NVIDIA Container Toolkit</strong>。</p><h3 id="nccl"><a class="markdownIt-Anchor" href="#nccl"></a> NCCL</h3><p>NCCL 是 NVIDIA 的多 GPU 通信库，读作“Nickel”。</p><p>单张 GPU 训练不太需要 NCCL；多张 GPU 或多台服务器训练时，模型参数和梯度需要在 GPU 之间同步，这就是 NCCL 的工作。</p><h4 id="常见通信操作"><a class="markdownIt-Anchor" href="#常见通信操作"></a> 常见通信操作</h4><pre class="highlight"><code class="cpp">AllReduce：聚合所有 GPU 的梯度，再把结果发回所有 GPUAllGather：收集每张 GPU 上的数据ReduceScatter：先汇总，再把不同部分分给各 GPUBroadcast：从一张 GPU 向其他 GPU广播数据</code></pre><h2 id="ddp-训练时发生了什么"><a class="markdownIt-Anchor" href="#ddp-训练时发生了什么"></a> DDP 训练时发生了什么</h2><p>假设全局 Batch Size 为 128，共有 4 张 GPU，每张卡处理 32 条数据：</p><ul><li><strong>Rank 0</strong>：读取样本 0～31</li><li><strong>Rank 1</strong>：读取样本 32～63</li><li><strong>Rank 2</strong>：读取样本 64～95</li><li><strong>Rank 3</strong>：读取样本 96～127</li></ul><p>每个 Rank 独立执行：</p><ol><li>读取自己的数据；</li><li>前向传播；</li><li>计算自己的 Loss；</li><li>反向传播；</li><li>得到本卡梯度。</li></ol><p>反向传播过程中，DDP 会把梯度分成若干 Bucket。某个 Bucket 的梯度准备好后，立即触发 NCCL AllReduce：</p><pre class="highlight"><code class="text">GPU 0 梯度 ┐GPU 1 梯度 ├→ 求和并除以 WORLD_SIZE → 每张 GPU 获得相同平均梯度GPU 2 梯度 ┤GPU 3 梯度 ┘</code></pre><p>然后，每个进程独立执行：</p><p><code>optimizer.step()</code></p><p>因为所有进程最终拥有相同梯度，所以模型参数继续保持一致。</p><p>DDP 会尽量让<mark>梯度通信和后续反向计算重叠</mark>，这也是它通常比手工同步更高效的原因。</p>]]></content:encoded>
       
       
+      <category domain="https://lifexoryoung.cn/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83/">大模型训练</category>
+      
+      <category domain="https://lifexoryoung.cn/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97/">分布式计算</category>
+      
+      
+      <category domain="https://lifexoryoung.cn/tags/CUDA/">CUDA</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/Docker/">Docker</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/NCCL/">NCCL</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/PyTorch/">PyTorch</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/DDP/">DDP</category>
+      
+      <category domain="https://lifexoryoung.cn/tags/%E5%A4%9A%E5%8D%A1%E8%AE%AD%E7%BB%83/">多卡训练</category>
       
       
       <comments>https://lifexoryoung.cn/2026/07/29/2026-07-29-AdaptiveReasoner%EF%BC%9A%E5%9F%BA%E4%BA%8E%E5%8A%A8%E6%80%81%E9%9A%BE%E5%BA%A6%E9%87%87%E6%A0%B7%E4%B8%8E%E5%A4%B1%E8%B4%A5%E5%9B%9E%E6%94%BE%E7%9A%84%E5%8F%AF%E9%AA%8C%E8%AF%81%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86%E5%90%8E%E8%AE%AD%E7%BB%83%E7%B3%BB%E7%BB%9F/#disqus_thread</comments>
