@@ -3,10 +3,16 @@ title: 大模型项目基础知识补全
 date: 2026-07-29 14:45:31
 mathjax: true
 tags:
-  - 
+  - "CUDA"
+  - "Docker"
+  - "NCCL"
+  - "PyTorch"
+  - "DDP"
+  - "多卡训练"
 categories:
-  - 
-description: "梳理GPU训练技术栈与Docker环境，介绍NCCL多卡通信操作，并解析DDP各Rank独立计算、AllReduce同步梯度及通信与反向计算重叠机制。"
+  - "大模型训练"
+  - "分布式计算"
+description: "梳理GPU训练技术栈与Docker环境，介绍NCCL多卡通信，并解析DDP梯度同步及通信与反向计算重叠机制。"
 ---
 
 # 新文章
