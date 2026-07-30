@@ -6,7 +6,7 @@ tags:
   - 
 categories:
   - 
-description: "代码/PyTorch/verl→NCCL→CUDA运行时→驱动→GPU；Docker封装系统/框架/依赖，GPU宿主机须装英伟达容器工具包。NCCL支持全归约/全聚合/归约散射/广播；DDP各Rank"
+description: "梳理GPU训练技术栈与Docker环境，介绍NCCL多卡通信操作，并解析DDP各Rank独立计算、AllReduce同步梯度及通信与反向计算重叠机制。"
 ---
 
 # 新文章
