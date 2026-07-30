@@ -1,5 +1,5 @@
 ---
-title: 新文章
+title: 大模型项目基础知识补全
 date: 2026-07-29 14:45:31
 mathjax: true
 tags:
