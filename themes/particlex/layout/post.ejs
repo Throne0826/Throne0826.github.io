@@ -40,6 +40,15 @@
         </span>
         <% } %>
     </div>
+    <% if (typeof page.description !== "undefined" && String(page.description).trim()) { %>
+    <aside class="article-summary">
+        <div class="summary-label">
+            <i class="fa-solid fa-align-left fa-fw"></i>
+            <span>摘要</span>
+        </div>
+        <div class="summary-content" v-pre><%- markdown(page.description) %></div>
+    </aside>
+    <% } %>
     <% if (theme.crypto.enable && typeof page.secret !== "undefined") { %>
     <% const CryptoJS = getCryptoJS(); %>
     <input
