@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { cleanSummary, createNewPost, isDocumentVersionCurrent, preserveOuterWhitespace, sortPosts, splitMarkdown, upsertDescription } from "../public/editor-utils.js";
+import { cleanSummary, createNewPost, isDocumentVersionCurrent, parseArticleMetadata, preserveOuterWhitespace, sortPosts, splitMarkdown, upsertArticleMetadata, upsertDescription } from "../public/editor-utils.js";
 
 test("splitMarkdown never splits inside a fenced code block", () => {
   const markdown = `intro\n\n\`\`\`cpp\n${"x\n".repeat(20)}\`\`\`\n\nafter\n`;
@@ -27,6 +27,30 @@ test("upsertDescription updates front matter without changing the article body",
   assert.match(result, /tags:\n  - js/);
   assert.match(result, /# Body\n$/);
   assert.doesNotMatch(result, /description: old/);
+});
+
+test("parseArticleMetadata accepts fenced JSON and normalizes taxonomy", () => {
+  const result = parseArticleMetadata(`\`\`\`json
+{"description":"摘要：介绍多卡训练与梯度同步。","tags":["#C++","GPU","gpu","NCCL"],"categories":"人工智能，工程实践"}
+\`\`\``);
+  assert.equal(result.description, "介绍多卡训练与梯度同步。");
+  assert.deepEqual(result.tags, ["C++", "GPU", "NCCL"]);
+  assert.deepEqual(result.categories, ["人工智能", "工程实践"]);
+});
+
+test("upsertArticleMetadata replaces taxonomy and preserves unrelated front matter and body", () => {
+  const markdown = "---\ntitle: Test\ntags:\n  - old\ncategories:\n  - old-category\ndescription: old\nmathjax: true\n---\n\n# Body\n";
+  const result = upsertArticleMetadata(markdown, {
+    description: "新的文章摘要。",
+    tags: ["C++", "NCCL", "分布式训练"],
+    categories: ["人工智能"]
+  });
+  assert.match(result, /description: "新的文章摘要。"/);
+  assert.match(result, /tags:\n  - "C\+\+"\n  - "NCCL"\n  - "分布式训练"/);
+  assert.match(result, /categories:\n  - "人工智能"/);
+  assert.match(result, /mathjax: true/);
+  assert.match(result, /# Body\n$/);
+  assert.doesNotMatch(result, /old-category|  - old\n/);
 });
 
 test("createNewPost uses a timestamp to avoid same-day filename collisions", () => {

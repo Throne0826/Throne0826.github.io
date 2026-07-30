@@ -39,6 +39,80 @@ export function cleanSummary(value) {
   return sentenceEnd >= 50 ? shortened.slice(0, sentenceEnd + 1) : shortened;
 }
 
+function normalizeMetadataList(value, limit) {
+  const items = Array.isArray(value) ? value : String(value || "").split(/[,，、]/);
+  const normalized = [];
+  for (const item of items) {
+    const cleaned = String(item || "")
+      .replace(/^#+\s*/, "")
+      .replace(/[\r\n]+/g, " ")
+      .trim()
+      .slice(0, 40);
+    if (!cleaned || normalized.some((existing) => existing.toLowerCase() === cleaned.toLowerCase())) continue;
+    normalized.push(cleaned);
+    if (normalized.length >= limit) break;
+  }
+  return normalized;
+}
+
+export function parseArticleMetadata(value) {
+  const source = String(value || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  const start = source.indexOf("{");
+  const end = source.lastIndexOf("}");
+  if (start < 0 || end <= start) return { description: "", tags: [], categories: [] };
+
+  try {
+    const data = JSON.parse(source.slice(start, end + 1));
+    return {
+      description: cleanSummary(data.description ?? data.summary ?? data["摘要"]),
+      tags: normalizeMetadataList(data.tags ?? data["标签"], 6),
+      categories: normalizeMetadataList(data.categories ?? data.category ?? data["分类"], 2)
+    };
+  } catch {
+    return { description: "", tags: [], categories: [] };
+  }
+}
+
+function yamlQuoted(value) {
+  return JSON.stringify(String(value || ""));
+}
+
+function replaceFrontMatterField(lines, key, replacementLines) {
+  const fieldPattern = new RegExp(`^${key}\\s*:`);
+  const topLevelPattern = /^[A-Za-z_][A-Za-z0-9_-]*\s*:/;
+  const start = lines.findIndex((line) => fieldPattern.test(line));
+  if (start < 0) {
+    lines.push(...replacementLines);
+    return;
+  }
+
+  let end = start + 1;
+  while (end < lines.length && !topLevelPattern.test(lines[end])) end += 1;
+  lines.splice(start, end - start, ...replacementLines);
+}
+
+export function upsertArticleMetadata(markdown, metadata) {
+  const description = cleanSummary(metadata?.description);
+  const tags = normalizeMetadataList(metadata?.tags, 6);
+  const categories = normalizeMetadataList(metadata?.categories, 2);
+  const fields = [
+    [`description: ${yamlQuoted(description)}`],
+    ["tags:", ...tags.map((tag) => `  - ${yamlQuoted(tag)}`)],
+    ["categories:", ...categories.map((category) => `  - ${yamlQuoted(category)}`)]
+  ];
+  const frontMatter = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+
+  if (!frontMatter) {
+    return `---\n${fields.flat().join("\n")}\n---\n\n${markdown}`;
+  }
+
+  const lines = frontMatter[1].split(/\r?\n/);
+  replaceFrontMatterField(lines, "description", fields[0]);
+  replaceFrontMatterField(lines, "tags", fields[1]);
+  replaceFrontMatterField(lines, "categories", fields[2]);
+  return `---\n${lines.join("\n")}\n---${markdown.slice(frontMatter[0].length)}`;
+}
+
 export function upsertDescription(markdown, summary) {
   const escaped = summary.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
   const field = `description: "${escaped}"`;

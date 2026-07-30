@@ -1,5 +1,5 @@
 import { buildAiPrompt } from "./ai-prompt.js";
-import { cleanSummary, createNewPost, isDocumentVersionCurrent, preserveOuterWhitespace, sortPosts, splitMarkdown, upsertDescription } from "./editor-utils.js";
+import { createNewPost, isDocumentVersionCurrent, parseArticleMetadata, preserveOuterWhitespace, sortPosts, splitMarkdown, upsertArticleMetadata } from "./editor-utils.js";
 import { createMarkdownEditor } from "./editor-bundle.js";
 
 const state = {
@@ -465,13 +465,15 @@ async function processMarkdownChunks(mode, markdown, actionLabel, signal) {
   return results.join("");
 }
 
-async function buildArticleSummary(markdown, signal) {
-  setStatus(`AI 正在一次性阅读全文并生成摘要，共 ${markdown.length} 字符`);
-  els.polishButton.lastChild.textContent = "生成摘要...";
+async function buildArticleMetadata(markdown, signal) {
+  setStatus(`AI 正在一次性阅读全文并生成摘要、标签和分类，共 ${markdown.length} 字符`);
+  els.polishButton.lastChild.textContent = "生成元数据...";
   const result = await requestAi("summary", markdown, 0, 1, signal);
-  const summary = cleanSummary(result.content);
-  if (!summary) throw new Error("AI 没有生成有效摘要。");
-  return summary;
+  const metadata = parseArticleMetadata(result.content);
+  if (!metadata.description) throw new Error("AI 没有返回有效摘要，请重试。");
+  if (!metadata.tags.length) throw new Error("AI 没有返回有效标签，请重试。");
+  if (!metadata.categories.length) throw new Error("AI 没有返回有效分类，请重试。");
+  return metadata;
 }
 
 function fileToDataUrl(file) {
@@ -756,7 +758,7 @@ async function polish() {
     }
     els.polishButton.lastChild.textContent = "处理中...";
     const suggestion = mode === "summary"
-      ? upsertDescription(fullText, await buildArticleSummary(fullText, controller.signal))
+      ? upsertArticleMetadata(fullText, await buildArticleMetadata(fullText, controller.signal))
       : await processMarkdownChunks(mode, target.text, labels[mode] || "处理", controller.signal);
 
     if (!isDocumentVersionCurrent(fullText, pathAtStart, editorValue(), els.pathInput.value.trim())) {
